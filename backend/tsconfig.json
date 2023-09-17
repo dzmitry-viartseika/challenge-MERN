@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "noImplicitAny": true,
+        "lib": ["dom", "es2021", "scripthost"],
+        "module": "commonjs",
+        "target": "es2022",
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "downlevelIteration": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "preserveSymlinks": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "useUnknownInCatchVariables": false,
+        "baseUrl": ".",
+        "esModuleInterop": true
+    },
+    "include": ["scr"]
+}
