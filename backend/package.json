@@ -9,7 +9,7 @@
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
         "lint:fix": "eslint --fix ./*.ts",
-        "test": "jest --coverage",
+        "test": "jest --coverage"
     },
     "author": "Dzmitry Viartseika",
     "license": "ISC",
