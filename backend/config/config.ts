@@ -6,8 +6,6 @@ export const SERVER_URL = `http://${HOST}:${PORT}`
 
 export const MONGODB_URI = process.env.MONGODB_URL
 
-export const DATABASE_NAME = process.env.DATABASE_NAME ?? 'LearFull'
-
 export default {
     PORT,
     HOST,

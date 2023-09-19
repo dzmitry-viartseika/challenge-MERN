@@ -7,7 +7,7 @@ import cors from 'cors'
 const app = express()
 const server = http.createServer(app)
 
-const whitelist = ['http://localhost:3001']
+const whitelist = ['http://localhost:3000']
 const corsOptions = {
     origin: function (origin: any, callback: any) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -35,6 +35,6 @@ const startApp = async () => {
     }
 }
 
-startApp()
+startApp();
 
 export default app

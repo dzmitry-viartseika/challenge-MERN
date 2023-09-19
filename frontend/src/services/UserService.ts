@@ -18,15 +18,15 @@ interface UsersResponse {
 
 export default class UsersService {
   static createNewUser(data: any): Promise<AxiosResponse<any>> {
-    return $api.post<any>('/users', data);
+    return $api.post<any>('/clients', data);
   }
 
   static getUsers(page = 1): Promise<AxiosResponse<UsersResponse>> {
-    return $api.get(`/users?page=${page}`);
+    return $api.get(`/clients?page=${page}`);
   }
 
   static deleteUser(id: any): Promise<AxiosResponse<any>> {
     console.log('id', id);
-    return $api.delete(`/users/${id}`);
+    return $api.delete(`/clients/${id}`);
   }
 }
