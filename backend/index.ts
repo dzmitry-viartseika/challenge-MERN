@@ -6,6 +6,7 @@ import userRoutes from './routes/clientRoutes'
 import cors from 'cors'
 const app = express()
 const server = http.createServer(app)
+import logger from "./utils/logger";
 
 const whitelist = ['http://localhost:3000']
 const corsOptions = {
@@ -27,8 +28,8 @@ const startApp = async () => {
     try {
         await mongoose.connect(MONGODB_URI)
         server.listen(PORT, () => {
-            console.log(`Backend is running on the ${SERVER_URL}`)
-            console.log(`Mongodb is running on the ${MONGODB_URI}`)
+            logger.info(`Backend is running on the ${SERVER_URL}`);
+            logger.info(`Mongodb is running on the ${MONGODB_URI}`);
         })
     } catch (error) {
         console.error('Error connecting to MongoDB:', error)
