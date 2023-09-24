@@ -11,8 +11,10 @@ beforeEach(() => {
     res = httpMocks.createResponse();
 });
 
-describe('DELETE', () => {
-    it('has a deleteTodo method', () => {
-        expect(typeof ClientService.deleteClient).toBe("function");
+describe('ClientService', () => {
+    describe('deleteClient method', () => {
+        it('has a deleteClient method', () => {
+            expect(typeof ClientService.deleteClient).toBe("function");
+        })
     })
 })
