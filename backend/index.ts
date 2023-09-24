@@ -5,9 +5,9 @@ import { PORT, MONGODB_URI, SERVER_URL } from './config/config'
 import userRoutes from './routes/clientRoutes'
 import cors from 'cors'
 const app = express()
+import morgan from 'morgan'
 const server = http.createServer(app)
-import logger from "./utils/logger";
-
+const logger = morgan('combined')
 const whitelist = ['http://localhost:3000']
 const corsOptions = {
     origin: function (origin: any, callback: any) {
@@ -19,6 +19,8 @@ const corsOptions = {
     },
     credentials: true,
 }
+app.use(morgan('dev'));
+
 app.use(cors(corsOptions))
 
 app.use(express.json())
@@ -28,11 +30,11 @@ const startApp = async () => {
     try {
         await mongoose.connect(MONGODB_URI)
         server.listen(PORT, () => {
-            logger.info(`Backend is running on the ${SERVER_URL}`);
-            logger.info(`Mongodb is running on the ${MONGODB_URI}`);
+            console.log(`Backend is running on the ${SERVER_URL}`);
+            console.log(`Mongodb is running on the ${MONGODB_URI}`);
         })
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error)
+        console.log(`'Error connecting to MongoDB:', ${error}`)
     }
 }
 

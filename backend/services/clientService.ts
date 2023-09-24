@@ -8,7 +8,6 @@ class ClientService {
                 .skip((page - 1) * limit)
                 .exec()
             const count = await ClientModel.count()
-
             return {
                 clients,
                 totalCount: count,
