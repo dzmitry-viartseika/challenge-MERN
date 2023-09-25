@@ -3,6 +3,8 @@ import mongoose from 'mongoose'
 import http from 'http'
 import { PORT, MONGODB_URI, SERVER_URL } from './config/config'
 import userRoutes from './routes/clientRoutes'
+import swaggerUI from 'swagger-ui-express';
+import swaggerJSdoc from 'swagger-jsdoc';
 import cors from 'cors'
 const app = express()
 import morgan from 'morgan'
@@ -21,10 +23,32 @@ const corsOptions = {
 }
 app.use(morgan('dev'));
 
+const swaggerSpec = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Backend API',
+            version: '1.0.0',
+        },
+        servers: [
+            {
+                url: `http://localhost:${PORT}`,
+            }
+        ]
+    },
+    apis: ['./routes/*.ts'],
+}
+
 app.use(cors(corsOptions))
 
 app.use(express.json())
-app.use('/api', userRoutes)
+app.use('/api/v1', userRoutes)
+
+app.use(
+    '/api-docs',
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerJSdoc(swaggerSpec))
+)
 
 const startApp = async () => {
     try {
