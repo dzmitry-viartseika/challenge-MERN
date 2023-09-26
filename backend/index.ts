@@ -6,11 +6,23 @@ import userRoutes from './routes/clientRoutes'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
 import cors from 'cors'
+import winston, { format, createLogger, transports } from 'winston';
 const app = express()
-import morgan from 'morgan'
+import {ALLOWED_BASE_URLS} from "./constants/allowedBaseUrls";
 const server = http.createServer(app)
-const whitelist = ['http://localhost:3000', 'http://localhost:4000']
-app.use(morgan('dev'));
+const { combine, timestamp, label, prettyPrint } = format;
+const CATEGORY = "winston custom format";
+const logger = winston.createLogger({
+    level: "debug",
+    format: combine(
+        label({ label: CATEGORY }),
+        timestamp({
+            format: "MMM-DD-YYYY HH:mm:ss",
+        }),
+        prettyPrint(),
+    ),
+    transports: [new transports.Console()],
+});
 
 const swaggerSpec = {
     definition: {
@@ -32,7 +44,7 @@ app.use(cors({
     credentials: true,
     origin: (origin, callback) => {
         if(!origin) return callback(null, true);
-        if(whitelist.indexOf(origin) === -1){
+        if(ALLOWED_BASE_URLS.indexOf(origin) === -1){
             const message = 'The CORS policy for this site does not allow access from the specified Origin';
             return callback(new Error(message), false);
         }
@@ -53,11 +65,11 @@ const startApp = async () => {
     try {
         await mongoose.connect(MONGODB_URI)
         server.listen(PORT, () => {
-            console.log(`Backend is running on the ${SERVER_URL}`);
-            console.log(`Mongodb is running on the ${MONGODB_URI}`);
+            logger.info(`Backend is running on the ${SERVER_URL}`);
+            logger.info(`Mongodb is running on the ${MONGODB_URI}`);
         })
     } catch (error) {
-        console.log(`'Error connecting to MongoDB:', ${error}`)
+        logger.error(`'Error connecting to MongoDB:', ${error}`)
     }
 }
 

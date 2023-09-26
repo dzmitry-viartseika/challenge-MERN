@@ -2,43 +2,6 @@ import express from 'express'
 import ClientController from '../controllers/clientController'
 
 const router = express.Router()
-// /**
-//  * @swagger
-//  * components:
-//  *   schemas:
-//  *     Book:
-//  *       type: object
-//  *       required:
-//  *         - title
-//  *         - author
-//  *         - finished
-//  *       properties:
-//  *         firstName:
-//  *           type: string
-//  *           description: The firstName of the client
-//  *         lastName:
-//  *           type: string
-//  *           description: The lastName of the client
-//  *         email:
-//  *           type: string
-//  *           description: The email of the client
-//  *         phoneNumber:
-//  *           type: string
-//  *           description: The phoneNumber of the client
-//  *         birthDate:
-//  *           type: string
-//  *           description: The birthDate of the client
-//  *        role:
-//  *           type: string
-//  *           description: The roles of the client
-//  *       example:
-//  *         firstName: User
-//  *         lastName: Test
-//  *         email: test@gmail.com
-//  *         phoneNumber: 123456789
-//  *         birthday: 01.01.1990
-//  *         role: User
-//  */
 /**
  * @swagger
  * components:

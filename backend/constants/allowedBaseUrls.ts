@@ -1,0 +1,1 @@
+export const ALLOWED_BASE_URLS = ['http://localhost:3000', 'http://localhost:4000']
