@@ -9,18 +9,7 @@ import cors from 'cors'
 const app = express()
 import morgan from 'morgan'
 const server = http.createServer(app)
-const logger = morgan('combined')
-const whitelist = ['http://localhost:3000']
-const corsOptions = {
-    origin: function (origin: any, callback: any) {
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    },
-    credentials: true,
-}
+const whitelist = ['http://localhost:3000', 'http://localhost:4000']
 app.use(morgan('dev'));
 
 const swaggerSpec = {
@@ -39,15 +28,25 @@ const swaggerSpec = {
     apis: ['./routes/*.ts'],
 }
 
-app.use(cors(corsOptions))
+app.use(cors({
+    credentials: true,
+    origin: (origin, callback) => {
+        if(!origin) return callback(null, true);
+        if(whitelist.indexOf(origin) === -1){
+            const message = 'The CORS policy for this site does not allow access from the specified Origin';
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 app.use(express.json())
 app.use('/api/v1', userRoutes)
-
+//http://localhost:4000/api-docs/v1/
 app.use(
-    '/api-docs',
+    '/api-docs/v1',
     swaggerUI.serve,
-    swaggerUI.setup(swaggerJSdoc(swaggerSpec))
+    swaggerUI.setup(swaggerJSdoc(swaggerSpec), {})
 )
 
 const startApp = async () => {

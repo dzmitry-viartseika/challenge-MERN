@@ -19,23 +19,24 @@ class ClientService {
 
     async getClientById(id: string) {
         try {
-            const client = await ClientModel.find({ _id: id })
-
+            const client = await ClientModel.findById(id)
+            console.log('client', client)
             if (!client) {
                 return null
             }
 
-            return client
+            return {
+                client,
+            }
         } catch (error) {
             throw error
         }
     }
 
-    async updateClientById(data: any) {
-        const { id, firstName, lastName, email, birthDate, phoneNumber } = data
+    async updateClientById(data: any, id: string) {
+        const { firstName, lastName, email, birthDate, phoneNumber } = data
         try {
             const client = await ClientModel.findById(id)
-
             if (!client) {
                 return null
             }

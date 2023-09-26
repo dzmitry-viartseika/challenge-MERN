@@ -1,3 +1,4 @@
+import {Request, Response} from "express";
 import UserService from '../services/clientService'
 
 class ClientController {
@@ -6,8 +7,8 @@ class ClientController {
 
         try {
             const { clients, totalCount } = await UserService.getClients({
-                page: parseInt(page),
-                limit: parseInt(limit),
+                page,
+                limit,
             })
 
             response.status(200).json({
@@ -24,7 +25,7 @@ class ClientController {
         }
     }
 
-    deleteClient = async (request: any, response: any) => {
+    deleteClient = async (request: Request, response: Response) => {
         const { id } = request.params
         try {
             const result = await UserService.deleteClient(id)
@@ -47,7 +48,7 @@ class ClientController {
         }
     }
 
-    createClient = async (request: any, response: any) => {
+    createClient = async (request: Request, response: Response) => {
         const { firstName, lastName, email } = request.body
         try {
             if (!firstName || !lastName || !email) {
@@ -73,11 +74,11 @@ class ClientController {
         }
     }
 
-    getClientById = async (request: any, response: any) => {
+    getClientById = async (request: Request, response: Response) => {
         const { id } = request.params
         try {
             const result = await UserService.getClientById(id)
-
+            console.log('result', result)
             if (!result) {
                 response.status(400).send({
                     code: 400,
@@ -87,7 +88,7 @@ class ClientController {
 
             response.status(200).send({
                 code: 200,
-                client: response,
+                client: result.client,
             })
         } catch (error) {
             console.log(error.message)
@@ -98,7 +99,8 @@ class ClientController {
         }
     }
 
-    updateClientById = async (request: any, response: any) => {
+    updateClientById = async (request: Request, response: Response) => {
+        const { id } = request.params
         const { firstName, lastName, email } = request.body
 
         try {
@@ -109,7 +111,7 @@ class ClientController {
                 })
             }
 
-            const client = await UserService.updateClientById(request.body)
+            const client = await UserService.updateClientById(request.body, id)
 
             response.status(200).send({
                 code: 200,
