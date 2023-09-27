@@ -6,6 +6,8 @@ export const SERVER_URL = `http://${HOST}:${PORT}`
 
 export const MONGODB_URI = process.env.MONGODB_URL
 
+export const ALLOWED_BASE_URLS = ['http://localhost:3000', 'http://localhost:4000']
+
 export default {
     PORT,
     HOST,

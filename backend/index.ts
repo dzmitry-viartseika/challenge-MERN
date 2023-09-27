@@ -1,14 +1,13 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import http from 'http'
-import { PORT, MONGODB_URI, SERVER_URL } from './config/config'
+import { PORT, MONGODB_URI, SERVER_URL, ALLOWED_BASE_URLS } from './config/config'
 import userRoutes from './routes/clientRoutes'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
 import cors from 'cors'
 import winston, { format, createLogger, transports } from 'winston';
 const app = express()
-import {ALLOWED_BASE_URLS} from "./constants/allowedBaseUrls";
 const server = http.createServer(app)
 const { combine, timestamp, label, prettyPrint } = format;
 const CATEGORY = "winston custom format";
