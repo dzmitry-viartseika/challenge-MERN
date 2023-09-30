@@ -1,5 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import compression from 'compression'
+import helmet from 'helmet'
 import http from 'http'
 import { PORT, MONGODB_URI, SERVER_URL, ALLOWED_BASE_URLS } from './config/config'
 import userRoutes from './routes/clientRoutes'
@@ -50,7 +52,9 @@ app.use(cors({
         return callback(null, true);
     }
 }));
-
+app.use(compression())
+app.use(helmet())
+app.disable('x-powered-by')
 app.use(express.json())
 app.use('/api/v1', userRoutes)
 //http://localhost:4000/api-docs/v1/
