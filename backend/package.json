@@ -14,7 +14,7 @@
         "test:watch": "mocha --watch tests/*.test.ts",
         "coverage": "nyc --reporter=text npm test",
         "lint-staged": "lint-staged",
-        "type-check": "tsc --project tsconfig.json --pretty --noEmit && echo "
+        "type-check": "tsc --project tsconfig.json --pretty --noEmit && echo"
     },
     "author": "Dzmitry Viartseika",
     "license": "ISC",
