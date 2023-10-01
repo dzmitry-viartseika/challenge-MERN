@@ -13,8 +13,8 @@ import { helmetMiddleware } from "./middleware/security/helmetMiddleware";
 import { compressionMiddleware } from "./middleware/security/compressionMiddleware";
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({extended: true}))
+// app.use(bodyParser.json())
 
 const server = http.createServer(app)
 
