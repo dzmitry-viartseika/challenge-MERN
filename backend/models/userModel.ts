@@ -1,15 +1,26 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, mongoose } from 'mongoose'
 
 const userSchema = new Schema(
     {
         email: {
             type: String,
             required: true,
+            unique: true,
         },
         password: {
             type: String,
             required: true,
         },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        roles: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Role"
+            }
+        ],
         createdAt: Number,
         updatedAt: Number,
     },
@@ -18,6 +29,6 @@ const userSchema = new Schema(
     }
 )
 
-const UserSchema = model('UserSchema', userSchema)
+export const UserSchema = model('UserSchema', userSchema)
 
-export default UserSchema
+export const getUserByEmail = (email: string) => UserSchema.findOne({email})

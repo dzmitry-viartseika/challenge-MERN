@@ -1,12 +1,14 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import session from 'express-session'
+import cookieParser from 'cookie-parser'
 import http from 'http'
 import {PORT, MONGODB_URI, SERVER_URL, API_VERSION} from './config/config'
 import clientRoutes from './routes/clientRoutes'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
 import {logger} from "./logger/logger";
-import {connectToMongoDB} from "./database/database";
+import {connectToMongoDB} from "./config/database";
 import {swaggerSpec} from "./swagger/swaggerSpec";
 import corsMiddleware from "./middleware/cors/corsMiddleware";
 import { helmetMiddleware } from "./middleware/security/helmetMiddleware";
@@ -21,7 +23,8 @@ const server = http.createServer(app)
 app.use(corsMiddleware);
 app.use(helmetMiddleware);
 app.use(compressionMiddleware);
-
+app.use(cookieParser());
+app.use(session({secret: process.env.SESSION_SECRET_KEY}));
 
 app.disable('x-powered-by')
 app.use(express.json())

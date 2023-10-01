@@ -1,8 +1,9 @@
 import {Request, Response} from "express";
 import UserService from '../services/clientService'
+import {logger} from "../logger/logger";
 
 class ClientController {
-    getClients = async (request: any, response: any) => {
+    getClients = async (request: any, response: Response) => {
         const { page = 1, limit = 10 } = request.query
 
         try {
@@ -19,6 +20,7 @@ class ClientController {
                 pageSize: limit,
             })
         } catch (error) {
+            // logger.error(error, this, {operation: 'getClients'});
             response
                 .status(500)
                 .send({ code: 500, message: 'Internal Server Error' })
@@ -60,11 +62,13 @@ class ClientController {
 
             const client = await UserService.createClient(request.body)
 
-            response.status(200).send({
-                code: 200,
-                client,
-                message: 'The User has been created successfully',
-            })
+            if (client) {
+                response.status(200).send({
+                    code: 200,
+                    client,
+                    message: 'The User has been created successfully',
+                })
+            }
         } catch (error) {
             response.status(500).send({
                 code: 500,
@@ -77,7 +81,6 @@ class ClientController {
         const { id } = request.params
         try {
             const result = await UserService.getClientById(id)
-            console.log('result', result)
             if (!result) {
                 response.status(400).send({
                     code: 400,
