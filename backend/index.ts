@@ -24,7 +24,7 @@ app.use(corsMiddleware);
 app.use(helmetMiddleware);
 app.use(compressionMiddleware);
 app.use(cookieParser());
-app.use(session({secret: process.env.SESSION_SECRET_KEY}));
+app.use(session({secret: process.env.SESSION_SECRET_KEY || ''}));
 
 app.disable('x-powered-by')
 app.use(express.json())

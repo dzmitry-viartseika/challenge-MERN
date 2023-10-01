@@ -21,8 +21,14 @@ const userSchema = new Schema(
                 ref: "Role"
             }
         ],
-        createdAt: Number,
-        updatedAt: Number,
+        createdAt: {
+            type: Date,
+            default: new Date(),
+        },
+        updatedAt: {
+            type: Date,
+            default: new Date(),
+        },
     },
     {
         timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
