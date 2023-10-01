@@ -66,7 +66,6 @@ class ClientController {
                 message: 'The User has been created successfully',
             })
         } catch (error) {
-            console.log(error.message)
             response.status(500).send({
                 code: 500,
                 message: 'Internal Server Error',
@@ -88,10 +87,9 @@ class ClientController {
 
             response.status(200).send({
                 code: 200,
-                client: result.client,
+                client: result && result?.client,
             })
         } catch (error) {
-            console.log(error.message)
             response.status(500).send({
                 code: 500,
                 message: 'Internal Server Error',
@@ -119,7 +117,6 @@ class ClientController {
                 message: 'The User has been updated successfully',
             })
         } catch (error) {
-            console.log(error.message)
             response.status(500).send({
                 code: 500,
                 message: 'Internal Server Error',
