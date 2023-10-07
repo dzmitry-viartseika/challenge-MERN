@@ -1,5 +1,17 @@
 import request from 'supertest';
 import app from '../index'
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+
+const runTest = async () => {
+    const mongod = await MongoMemoryServer.create();
+    await mongod.start();
+    const uri = await mongod.getUri()
+    // Do your tests here
+    console.log('MongoDB URI:', uri)
+    await mongod.stop()
+}
+
 
 const STUB_CLIENT_RESPONSE = {
     firstName: 'Test',
@@ -8,7 +20,23 @@ const STUB_CLIENT_RESPONSE = {
 }
 
 describe('deleteClient method', () => {
+
+    let mongoServer: any = undefined;
+
+    beforeAll(async () => {
+        mongoServer = await MongoMemoryServer.create();
+        const mongoUri = await mongoServer.getUri();
+
+        await mongoose.connect(mongoUri);
+    });
+
+    afterAll(async () => {
+        await mongoose.disconnect();
+        await mongoServer.stop();
+    });
+
     it('has a deleteClient method', async () => {
+        // await runTest()
         const response = await request(app).get('/api/v1/clients');
         expect(response.statusCode).toBe(200)
     })
@@ -24,20 +52,25 @@ describe('deleteClient method', () => {
                 ...STUB_CLIENT_RESPONSE,
             }
         }
-        console.log('responseData', responseData)
+        // expect(response.body.userId).toBeDefined()
         expect(response.body).toMatchObject(responseData)
     })
 
-    it('tst', async () => {
+    it('should return a 500 status code', async () => {
         const ID = '1';
         const response = await request(app).delete(`/api/v1/clients/${ID}`)
         expect(response.statusCode).toBe(500)
     })
 
-    it.only('tst', async () => {
+    it('should return a 200 status code', async () => {
         const ID = '65132efa381b68d9612f9acd';
         const response = await request(app).delete(`/api/v1/clients/${ID}`)
         expect(response.statusCode).toBe(200)
+    })
+
+    it.only("should specify json as the content type in the http header", async () => {
+        const response = await request(app).post('/api/v1/clients').send(STUB_CLIENT_RESPONSE)
+        expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
     })
 
 

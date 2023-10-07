@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import {logger} from "../logger/logger";
 import UserModel from "../models/userModel";
 import UserService from "../services/clientService";
+import userService from "../services/userService";
 // const jwt = require('jsonwebtoken')
 // const bcrypt = require('bcrypt')
 // const saltRounds = 10 //required by bcrypt
@@ -47,7 +48,28 @@ class UserController {
 
     }
     LoginUser = async (request: Request, response: Response) => {
-        console.log('SignInUser')
+        console.log('LoginUser')
+        const { email } = request.body;
+        try {
+            const user =- await userService.loginUser(email);
+            if (user) {
+                response.status(200).send({
+                    code: 200,
+                    message: 'Email or password is not correct'
+                })
+            } else {
+                response.status(400).send({
+                    code: 200,
+                    user,
+                })
+            }
+        } catch (err) {
+            logger.error(err);
+            response.status(500).send({
+                code: 500,
+                message: 'Internal Server Error',
+            })
+        }
     }
 
     LogoutUser = async (request: Request, response: Response) => {

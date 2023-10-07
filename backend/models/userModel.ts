@@ -36,5 +36,3 @@ const userSchema = new Schema(
 )
 
 export const UserSchema = model('UserSchema', userSchema)
-
-export const getUserByEmail = (email: string) => UserSchema.findOne({email})
