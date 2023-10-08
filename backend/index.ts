@@ -2,7 +2,7 @@ import express from 'express'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import http from 'http'
-import {PORT, MONGODB_URI, SERVER_URL, API_VERSION} from './config/config'
+import {PORT, SERVER_URL, API_VERSION} from './config/config'
 import clientRoutes from './routes/clientRoutes'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
@@ -49,7 +49,7 @@ class App {
 
     public async start(): Promise<void> {
         try {
-            await this.dbAdapter.connect(); // Connect to the database using the adapter
+            await this.dbAdapter.connect();
 
             this.server.listen(PORT, () => {
                 loggerAdapter.info(`Backend is running on ${SERVER_URL}`);
