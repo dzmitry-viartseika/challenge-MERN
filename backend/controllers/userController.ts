@@ -7,7 +7,6 @@ class UserController {
         const { email, password } = request.body;
         try {
             const user = await UserService.login(email, password);
-            console.log('user', user)
             if (!user) {
                 response.status(401).send({
                     code: 401,
@@ -42,8 +41,9 @@ class UserController {
                 })
             }
             const userData = await UserService.registration(email, password);
+            console.log('userData', userData)
             if (!userData) {
-                response.status(400).send({
+                return response.status(400).send({
                     code: 400,
                     message: 'The user is not created',
                 })
