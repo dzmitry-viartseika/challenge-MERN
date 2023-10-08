@@ -2,7 +2,7 @@ import UserModel from "../models/userModel";
 import bcrypt from 'bcrypt'
 import {UserDto} from "../dto/userDto";
 import tokenService from "./tokenService";
-import Authentication from "../utils/Authentication";
+import Authentication from "../utils/auth/Authentication";
 
 interface IUserService {
     login(email: string, password: string): Promise<any>;
