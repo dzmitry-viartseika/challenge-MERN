@@ -2,7 +2,14 @@ import UserModel from "../models/userModel";
 import bcrypt from 'bcrypt'
 import {UserDto} from "../dto/userDto";
 import tokenService from "./tokenService";
-class UserService {
+
+interface IUserService {
+    login(email: string, password: string): Promise<any>;
+    registration(email: string, password: string,): Promise<any>;
+}
+
+
+class UserService implements IUserService {
     async login(email: string, password: string) {
         try {
             const user: any = await UserModel.findOne({email});

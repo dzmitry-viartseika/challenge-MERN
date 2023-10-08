@@ -1,13 +1,18 @@
 import jwt from "jsonwebtoken";
 import TokenModel from '../models/tokenModel'
-import {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET} from "../config/config";
-class TokenService {
+import {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_ACCESS_TOKEN_EXPIRES_IN, JWT_REFRESH_TOKEN_EXPIRES_IN} from "../config/config";
+
+interface ITokenService {
+    generateTokens(payload: string): any;
+    saveToken(payload: string, refreshToken: string): Promise<any>;
+}
+class TokenService implements ITokenService {
     generateTokens(payload: string): { accessToken: string; refreshToken: string } {
         const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, {
-            expiresIn: '15m'
+            expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN
         });
         const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
-            expiresIn: '30d'
+            expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN
         });
 
         return {

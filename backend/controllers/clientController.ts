@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
 import UserService from '../services/clientService'
-import {logger} from "../logger/logger";
 
 class ClientController {
     getClients = async (request: any, response: Response) => {

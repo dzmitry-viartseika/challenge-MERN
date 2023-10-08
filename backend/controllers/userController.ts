@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {logger} from "../logger/logger";
+import loggerAdapter from "../logger/logger";
 import UserService from "../services/userService";
 class UserController {
     LoginUser = async (request: Request, response: Response) => {
@@ -22,7 +22,7 @@ class UserController {
         } catch (err: unknown) {
             if (err instanceof Error) {
                 const errorMessage = err.message;
-                logger.error(`POST request to "http://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
                 code: 500,
@@ -48,7 +48,7 @@ class UserController {
                     message: 'The user is not created',
                 })
             }
-            logger.info('POST request to "http://localhost:4000/api/v1/register/". Response code: "200"');
+            loggerAdapter.info('POST request to "http://localhost:4000/api/v1/register/". Response code: "200"');
             response.status(200).send({
                 code: 200,
                 message: 'The user is created successfully',
@@ -57,7 +57,7 @@ class UserController {
         } catch (err: unknown) {
             if (err instanceof Error) {
                 const errorMessage = err.message;
-                logger.error(`POST request to "http://localhost:4000/api/v1/register/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/register/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
                 code: 500,

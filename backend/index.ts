@@ -1,5 +1,4 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import http from 'http'
@@ -7,49 +6,61 @@ import {PORT, MONGODB_URI, SERVER_URL, API_VERSION} from './config/config'
 import clientRoutes from './routes/clientRoutes'
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
-import {logger} from "./logger/logger";
-import {connectToMongoDB} from "./config/database";
+import loggerAdapter from "./logger/logger";
 import {swaggerSpec} from "./swagger/swaggerSpec";
 import corsMiddleware from "./middleware/cors/corsMiddleware";
 import { helmetMiddleware } from "./middleware/security/helmetMiddleware";
 import { compressionMiddleware } from "./middleware/security/compressionMiddleware";
 import authRoutes from "./routes/authRoutes";
-const app = express();
+import databaseAdapter, { DatabaseAdapter } from './config/database';
+class App {
+    private static instance: App | null = null;
+    private readonly expressApp: express.Application;
+    private server: http.Server;
+    private dbAdapter: DatabaseAdapter;
 
-// app.use(bodyParser.urlencoded({extended: true}))
-// app.use(bodyParser.json())
+    private constructor() {
+        this.expressApp = express();
+        this.server = http.createServer(this.expressApp);
+        this.dbAdapter = databaseAdapter;
+        this.expressApp.use(corsMiddleware);
+        this.expressApp.use(helmetMiddleware);
+        this.expressApp.use(compressionMiddleware);
+        this.expressApp.use(cookieParser());
+        this.expressApp.use(session({ secret: process.env.SESSION_SECRET_KEY || '' }));
+        this.expressApp.disable('x-powered-by');
+        this.expressApp.use(express.json());
+        this.expressApp.use(API_VERSION, authRoutes);
+        this.expressApp.use(API_VERSION, clientRoutes);
 
-const server = http.createServer(app)
+        this.expressApp.use(
+            '/api-docs/v1',
+            swaggerUI.serve,
+            swaggerUI.setup(swaggerJSdoc(swaggerSpec))
+        );
+    }
 
-app.use(corsMiddleware);
-app.use(helmetMiddleware);
-app.use(compressionMiddleware);
-app.use(cookieParser());
-app.use(session({secret: process.env.SESSION_SECRET_KEY || ''}));
+    public static getInstance(): App {
+        if (!App.instance) {
+            App.instance = new App();
+        }
+        return App.instance;
+    }
 
-app.disable('x-powered-by')
-app.use(express.json())
-app.use(API_VERSION, authRoutes);
-app.use(API_VERSION, clientRoutes)
+    public async start(): Promise<void> {
+        try {
+            await this.dbAdapter.connect(); // Connect to the database using the adapter
 
-app.use(
-    '/api-docs/v1',
-    swaggerUI.serve,
-    swaggerUI.setup(swaggerJSdoc(swaggerSpec))
-)
-
-const startApp = async () => {
-    try {
-        await connectToMongoDB();
-        server.listen(PORT, () => {
-            logger.info(`Backend is running on the ${SERVER_URL}`);
-            logger.info(`Mongodb is running on the ${MONGODB_URI}`);
-        })
-    } catch (error) {
-        logger.error(`'Error connecting to MongoDB:', ${error}`)
+            this.server.listen(PORT, () => {
+                loggerAdapter.info(`Backend is running on ${SERVER_URL}`);
+            });
+        } catch (error) {
+            loggerAdapter.error(`Error connecting to the database: ${error}`);
+        }
     }
 }
 
-startApp();
+const appInstance = App.getInstance();
+appInstance.start();
 
-export default app
+export default App;

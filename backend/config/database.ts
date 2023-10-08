@@ -1,16 +1,24 @@
 import mongoose from "mongoose";
 import {MONGODB_URI} from "./config";
-import {logger} from "../logger/logger";
+import loggerAdapter from "../logger/logger";
+export abstract class DatabaseAdapter {
+    abstract connect(): Promise<void>;
+}
 
-
-export const connectToMongoDB = async () => {
-    try {
-        if (!MONGODB_URI) {
-            throw new Error('MONGODB_URI is not defined');
+class MongoDBAdapter extends DatabaseAdapter {
+    async connect(): Promise<void> {
+        try {
+            if (!MONGODB_URI) {
+                throw new Error("MONGODB_URI is not defined");
+            }
+            await mongoose.connect(MONGODB_URI);
+            loggerAdapter.info(`Connected to MongoDB ${MONGODB_URI}`);
+        } catch (err) {
+            loggerAdapter.error(`Error connecting to MongoDB`);
         }
-        await mongoose.connect(MONGODB_URI);
-        logger.info(`Connected to MongoDB ${MONGODB_URI}`);
-    } catch (err) {
-        logger.error(`Error connecting to MongoDB`);
     }
-};
+}
+
+const databaseAdapter: DatabaseAdapter = new MongoDBAdapter();
+
+export default databaseAdapter;
