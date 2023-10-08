@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../index'
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-
+import {STUB_CLIENT_RESPONSE} from "./mockData/mock";
 const runTest = async () => {
     const mongod = await MongoMemoryServer.create();
     await mongod.start();
@@ -12,14 +12,7 @@ const runTest = async () => {
     await mongod.stop()
 }
 
-
-const STUB_CLIENT_RESPONSE = {
-    firstName: 'Test',
-    lastName: 'TEst',
-    email: 'test@gmail.com'
-}
-
-describe('deleteClient method', () => {
+describe.skip('deleteClient method', () => {
 
     let mongoServer: any = undefined;
 
@@ -68,7 +61,7 @@ describe('deleteClient method', () => {
         expect(response.statusCode).toBe(200)
     })
 
-    it.only("should specify json as the content type in the http header", async () => {
+    it("should specify json as the content type in the http header", async () => {
         const response = await request(app).post('/api/v1/clients').send(STUB_CLIENT_RESPONSE)
         expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
     })

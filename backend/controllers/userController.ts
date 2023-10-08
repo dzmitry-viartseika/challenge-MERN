@@ -1,70 +1,64 @@
 import {Request, Response} from "express";
 import {logger} from "../logger/logger";
-import UserModel from "../models/userModel";
-import UserService from "../services/clientService";
-import userService from "../services/userService";
-// const jwt = require('jsonwebtoken')
-// const bcrypt = require('bcrypt')
-// const saltRounds = 10 //required by bcrypt
-
+import UserService from "../services/userService";
 class UserController {
-    RegisterUser = async (request: Request, response: Response) => {
+    LoginUser = async (request: Request, response: Response) => {
+        console.log('LoginUser')
         const { email, password } = request.body;
-
         try {
-            if (!email || !password) {
+            const user = await UserService.login(email, password);
+            console.log('user', user)
+            if (!user) {
                 response.status(400).send({
                     code: 400,
-                    message: 'Fill in required fields',
+                    message: 'Email or password is not correct'
                 })
-            }
-
-            const user = 'test'
-
-            if (user) {
-                response.status(400).send({
-                    code: 400,
-                    message: 'User Already Exists! Login or choose another email',
-                })
-            }
-
-            const newUser = await UserService.createClient(request.body)
-
-            if (newUser) {
+            } else {
                 response.status(200).send({
                     code: 200,
-                    newUser,
-                    message: 'The User has been created successfully',
+                    user,
                 })
             }
-
-        } catch (err) {
-            logger.error(err);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                const errorMessage = err.message;
+                logger.error(`POST request to "http://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
+            }
             response.status(500).send({
                 code: 500,
                 message: 'Internal Server Error',
             })
         }
-
     }
-    LoginUser = async (request: Request, response: Response) => {
-        console.log('LoginUser')
-        const { email } = request.body;
+
+    async RegisterUser(request: Request, response: Response) {
         try {
-            const user =- await userService.loginUser(email);
-            if (user) {
-                response.status(200).send({
-                    code: 200,
-                    message: 'Email or password is not correct'
-                })
-            } else {
+            const { email, password } = request.body;
+
+            if (!email || !password) {
                 response.status(400).send({
-                    code: 200,
-                    user,
+                    code: 400,
+                    message: 'Fill in all required fields',
                 })
             }
-        } catch (err) {
-            logger.error(err);
+            const userData = await UserService.registration(email, password);
+            if (!userData) {
+                response.status(400).send({
+                    code: 400,
+                    message: 'The user is not created',
+                })
+            }
+            logger.info('POST request to "http://localhost:4000/api/v1/register/". Response code: "200"');
+            response.status(200).send({
+                code: 200,
+                message: 'The user is created successfully',
+                user: userData,
+            })
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                const errorMessage = err.message;
+                logger.error(`POST request to "http://localhost:4000/api/v1/register/" failed. Response code: "500", response message: ${errorMessage}`);
+            }
             response.status(500).send({
                 code: 500,
                 message: 'Internal Server Error',

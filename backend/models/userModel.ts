@@ -1,4 +1,5 @@
-import { Schema, model, mongoose } from 'mongoose'
+import { Schema, model } from 'mongoose'
+import TokenModel from "./tokenModel";
 
 const userSchema = new Schema(
     {
@@ -17,7 +18,7 @@ const userSchema = new Schema(
         },
         roles: [
             {
-                type: mongoose.Schema.Types.ObjectId,
+                type: Schema.Types.ObjectId,
                 ref: "Role"
             }
         ],
@@ -35,4 +36,6 @@ const userSchema = new Schema(
     }
 )
 
-export const UserSchema = model('UserSchema', userSchema)
+const UserModel = model('UserSchema', userSchema)
+
+export default UserModel

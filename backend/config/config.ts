@@ -10,10 +10,15 @@ export const ALLOWED_BASE_URLS = ['http://localhost:3000', 'http://localhost:400
 
 export const API_VERSION = '/api/v1'
 
+export const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || '';
+export const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || '';
+
 export default {
     PORT,
     HOST,
     SERVER_URL,
     MONGODB_URI,
     API_VERSION,
+    JWT_ACCESS_SECRET,
+    JWT_REFRESH_SECRET,
 }

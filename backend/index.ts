@@ -13,6 +13,7 @@ import {swaggerSpec} from "./swagger/swaggerSpec";
 import corsMiddleware from "./middleware/cors/corsMiddleware";
 import { helmetMiddleware } from "./middleware/security/helmetMiddleware";
 import { compressionMiddleware } from "./middleware/security/compressionMiddleware";
+import authRoutes from "./routes/authRoutes";
 const app = express();
 
 // app.use(bodyParser.urlencoded({extended: true}))
@@ -28,6 +29,7 @@ app.use(session({secret: process.env.SESSION_SECRET_KEY || ''}));
 
 app.disable('x-powered-by')
 app.use(express.json())
+app.use(API_VERSION, authRoutes);
 app.use(API_VERSION, clientRoutes)
 
 app.use(
