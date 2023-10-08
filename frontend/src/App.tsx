@@ -28,54 +28,40 @@ interface UsersResponse {
   users: User[];
 }
 function App() {
-  const [page] = useState(1);
-  const {
-    isLoading,
-    isError,
-    data: usersList,
-    isPreviousData,
-  } = useQuery({
-    queryKey: ['usersList', page],
-    queryFn: () => fetchProjects(page),
-    keepPreviousData: true,
-    staleTime: 5000,
-  });
-
-  async function fetchProjects(page = 1) {
-    const response: AxiosResponse<UsersResponse> = await UsersService.getUsers(page);
-    return response.data.users ?? [];
-  }
-
-  useEffect(() => {
-    if (!isPreviousData && usersList) {
-      queryClient.prefetchQuery({
-        queryKey: ['projects', page + 1],
-        queryFn: () => fetchProjects(page + 1),
-      });
-    }
-  }, [usersList, isPreviousData, page]);
-
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  // const [page] = useState(1);
+  // const {
+  //   isLoading,
+  //   isError,
+  //   data: usersList,
+  //   isPreviousData,
+  // } = useQuery({
+  //   queryKey: ['usersList', page],
+  //   queryFn: () => fetchProjects(page),
+  //   keepPreviousData: true,
+  //   staleTime: 5000,
+  // });
+  //
+  // async function fetchProjects(page = 1) {
+  //   const response: AxiosResponse<UsersResponse> = await UsersService.getUsers(page);
+  //   return response.data.users ?? [];
+  // }
+  //
+  // useEffect(() => {
+  //   if (!isPreviousData && usersList) {
+  //     queryClient.prefetchQuery({
+  //       queryKey: ['projects', page + 1],
+  //       queryFn: () => fetchProjects(page + 1),
+  //     });
+  //   }
+  // }, [usersList, isPreviousData, page]);
+  //
+  // if (isLoading) {
+  //   return <span>Loading...</span>;
+  // }
 
   return (
     <div>
-      {isLoading && <span>Loading...</span>}
-      {isError && <span>Error</span>}
-
-      <div>
-        <InputText type='text' placeholder='FirstName' />
-      </div>
-      <div>
-        <InputText type='text' placeholder='LastName' />
-      </div>
-      <div>
-        <InputText type='text' placeholder='phoneNumber' />
-      </div>
-      <div>
-        <InputText type='text' placeholder='email' />
-      </div>
+      App
     </div>
   );
 }
