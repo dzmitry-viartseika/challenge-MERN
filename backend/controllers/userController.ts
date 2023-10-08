@@ -9,9 +9,9 @@ class UserController {
             const user = await UserService.login(email, password);
             console.log('user', user)
             if (!user) {
-                response.status(400).send({
-                    code: 400,
-                    message: 'Email or password is not correct'
+                response.status(401).send({
+                    code: 401,
+                    message: 'Authentication failed'
                 })
             } else {
                 response.status(200).send({
