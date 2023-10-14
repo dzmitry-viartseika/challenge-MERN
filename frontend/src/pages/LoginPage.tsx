@@ -2,12 +2,14 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { InputText } from "primereact/inputtext";
 import {Button} from "primereact/button";
 import { useToast } from "../context/ToastContext";
+import {useLoginUser} from "../hooks/mutations/useLoginUser";
 
 interface IFormInput {
     email: string
     password: string
 }
 const LoginPage = () => {
+    const { loginUser } = useLoginUser();
     const toast = useToast(); // Use the useToast hook
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -29,6 +31,8 @@ const LoginPage = () => {
         const { email, password } = data;
         if (!email || !password) {
             showToastMessage()
+        } else {
+            loginUser(data as any)
         }
     }
 

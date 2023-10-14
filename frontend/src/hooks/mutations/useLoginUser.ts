@@ -1,25 +1,26 @@
-import {routes} from "constants/routes";
 import {useNavigate} from "react-router-dom";
-import UserService from "services/UserService";
+import UserService from "../../services/UserService";
+import {useMutation} from "@tanstack/react-query";
 
 interface IProps {
   // reset: UseFormReset<FutureTenderGroupSaveDto>;
 }
 
-export const useCreateFutureTender = () => {
+export const useLoginUser = () => {
   // const { showMessageTopLevel, showMessageBottomLevel } = useMessage();
 
   const navigate = useNavigate();
 
-  const mutationResult = useMutation<
-    NoticeViewDto[],
-    ApiError,
-    FutureTenderGroupSaveDto
-  >({
+
+  // NoticeViewDto[],
+  // ApiError,
+  // FutureTenderGroupSaveDto
+  const mutationResult = useMutation({
     mutationFn: (userData) =>
       UserService.loginUser(userData),
 
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
+      console.log('data', data)
       // showMessageTopLevel(
       //   Messages.createSuccessfulMessage(
       //     t('alertMessages.noticeSavedSuccessfully')
@@ -33,7 +34,7 @@ export const useCreateFutureTender = () => {
 
       navigate('/dashboard');
     },
-    onError: (error) => {
+    onError: (error: any) => {
       // if (futureTendersErrors.BUDGET_TITLES_NOT_UNIQUE === error.body?.code) {
       //   showMessageBottomLevel(
       //     Messages.createErrorMessage(t('alertMessages.notUniqueBudgetTitles'))

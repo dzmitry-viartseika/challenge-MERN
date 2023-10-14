@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 
 import {routes} from "../constants/routes";
 import {ToastProvider} from "../context/ToastContext";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const App = lazy(() => import('../App'));
 
@@ -14,6 +15,7 @@ const NoPermission = lazy(() => import('../layouts/Permissions/NoPermissionPage'
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const ErrorPage = lazy(() => import('../pages/ErrorPage'));
+const queryClient = new QueryClient();
 
 export const routerConfig: RouteObject[] = [
   {
@@ -35,9 +37,11 @@ export const routerConfig: RouteObject[] = [
   {
     path: routes.LOGIN,
     element: (
-        <ToastProvider>
-          <LoginPage />
-        </ToastProvider>
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <LoginPage />
+          </ToastProvider>
+        </QueryClientProvider>
     ),
   },
   {

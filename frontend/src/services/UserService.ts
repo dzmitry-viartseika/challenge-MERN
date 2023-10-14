@@ -17,15 +17,15 @@ import $api from '../api';
 // }
 
 export default class UserService {
-  static loginUser(data: any): Promise<AxiosResponse<any>> {
+  static loginUser(data: any): any {
     return $api.post<any>('/login', data);
   }
 
-  static registerUser(data): any {
+  static registerUser(data: any): any {
     return $api.post('/register', data);
   }
 
-  static logOutUser(): Promise<AxiosResponse<any>> {
+  static logOutUser(): any {
     // return $api.delete(`/clients/${id}`);
   }
 }
