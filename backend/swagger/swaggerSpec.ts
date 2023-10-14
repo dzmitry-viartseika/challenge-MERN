@@ -8,7 +8,7 @@ export const swaggerSpec = {
         },
         servers: [
             {
-                url: `http://localhost:$${PORT}`,
+                url: `http://localhost:${PORT}`,
             }
         ]
     },

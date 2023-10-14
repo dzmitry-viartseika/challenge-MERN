@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-const queryClient = new QueryClient();
-
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
-  </React.StrictMode>,
+import { StrictMode } from 'react';
+import Router from './router/router'
+import { BrowserRouter } from 'react-router-dom';
+import './index.css';
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+const root = ReactDOM.createRoot(
+    document.getElementById('root') as HTMLElement
 );
 
-reportWebVitals();
+root.render(
+    <StrictMode>
+        <BrowserRouter>
+            <Router />
+        </BrowserRouter>
+    </StrictMode>
+);

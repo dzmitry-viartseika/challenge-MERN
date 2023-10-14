@@ -1,32 +1,31 @@
 import { AxiosResponse } from 'axios';
 import $api from '../api';
 
-interface User {
+interface Client {
   firstName: string;
   lastName: string;
   email: string;
   birthday: string;
 }
 
-interface UsersResponse {
+interface ClientsResponse {
   currentPage: number;
   totalCount: number;
   pageSize: number;
   totalPage: number;
-  users: User[];
+  users: Client[];
 }
 
-export default class UsersService {
-  static createNewUser(data: any): Promise<AxiosResponse<any>> {
+export default class ClientService {
+  static createNewClient(data: any): Promise<AxiosResponse<any>> {
     return $api.post<any>('/clients', data);
   }
 
-  static getUsers(page = 1): Promise<AxiosResponse<UsersResponse>> {
+  static getClients(page = 1): any {
     return $api.get(`/clients?page=${page}`);
   }
 
-  static deleteUser(id: any): Promise<AxiosResponse<any>> {
-    console.log('id', id);
+  static deleteClient(id: any): Promise<AxiosResponse<any>> {
     return $api.delete(`/clients/${id}`);
   }
 }

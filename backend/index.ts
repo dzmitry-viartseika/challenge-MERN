@@ -30,13 +30,13 @@ class App {
         this.expressApp.use(session({ secret: process.env.SESSION_SECRET_KEY || '' }));
         this.expressApp.disable('x-powered-by');
         this.expressApp.use(express.json());
+        this.expressApp.use(API_VERSION, authRoutes);
+        this.expressApp.use(API_VERSION, clientRoutes);
         this.expressApp.use(
             '/api-docs/v1',
             swaggerUI.serve,
             swaggerUI.setup(swaggerJSdoc(swaggerSpec))
         );
-        this.expressApp.use(API_VERSION, authRoutes);
-        this.expressApp.use(API_VERSION, clientRoutes);
     }
 
     public static getInstance(): App {
