@@ -46,7 +46,13 @@ export const routerConfig: RouteObject[] = [
   },
   {
     path: routes.REGISTER,
-    element: <RegisterPage />,
+    element: (
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <RegisterPage />
+          </ToastProvider>
+        </QueryClientProvider>
+    ),
   },
   {
     path: routes.NOT_FOUND,
