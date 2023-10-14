@@ -21,14 +21,13 @@ const LoginPage = () => {
         toast.showToast({
             id: new Date().getTime(),
             severity: 'error',
-            summary: 'Fill in required fields',
+            summary: 'Email address and password are required fields',
         });
     };
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         const { email, password } = data;
         if (!email || !password) {
-            console.log('wertey')
             showToastMessage()
         }
     }
@@ -41,7 +40,14 @@ const LoginPage = () => {
                     <Controller
                         name="email"
                         control={control}
-                        render={({ field }) => <InputText {...field} placeholder="Text your email" />}
+                        render={({ field }) =>
+                            <>
+                                <InputText
+                                    autoFocus={true}
+                                    {...field}
+                                    placeholder="Text your email"
+                                />
+                            </>}
                     />
                 </div>
                 <div className="mb-4 w-full">

@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import loggerAdapter from "../logger/logger";
 import UserService from "../services/userService";
-import HttpError from "../helpers/httpError";
+// import HttpError from "../helpers/httpError";
 class UserController {
     LoginUser = async (request: Request, response: Response) => {
         console.log('LoginUser')
@@ -10,23 +10,23 @@ class UserController {
             const user = await UserService.login(email, password);
             if (!user) {
 
-                const error = new HttpError(
-                    'Fetching users failed, please try again later.',
-                    500
-                );
+                // const error = new HttpError(
+                //     'Fetching users failed, please try again later.',
+                //     500
+                // );
 
-                console.log('error', error)
-                response.redirect('/login');
+                // console.log('error', error)
                 response.status(401).send({
                     code: 401,
                     message: 'Authentication failed'
                 })
+                response.redirect('/login');
             } else {
-                response.redirect('/dashboard');
                 response.status(200).send({
                     code: 200,
                     user,
                 })
+                response.redirect('/dashboard');
             }
         } catch (err: unknown) {
             if (err instanceof Error) {
