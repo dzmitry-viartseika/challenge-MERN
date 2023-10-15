@@ -1,32 +1,39 @@
 import {Request, Response} from "express";
 import loggerAdapter from "../logger/logger";
 import UserService from "../services/userService";
-// import HttpError from "../helpers/httpError";
+import HttpError from "../helpers/httpError";
+import {ResponseStatus} from "../ts/enums/ResponseStatus";
 class UserController {
     LoginUser = async (request: Request, response: Response) => {
-        console.log('LoginUser')
         const { email, password } = request.body;
         try {
+
+            if (!email || !password) {
+                const error = new HttpError(
+                    'Fill in all required fields',
+                    ResponseStatus.BAD_REQUEST
+                );
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
+                response.status(error.code).send(error.message)
+                return
+            }
+
             const user = await UserService.login(email, password);
             if (!user) {
-
-                // const error = new HttpError(
-                //     'Fetching users failed, please try again later.',
-                //     500
-                // );
-
-                // console.log('error', error)
-                response.status(401).send({
-                    code: 401,
-                    message: 'Authentication failed'
-                })
-                response.redirect('/login');
+                const error = new HttpError(
+                    'The User is not registered',
+                    ResponseStatus.NOT_FOUND
+                );
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
+                response.status(error.code).send(error.message)
+                // return response.redirect('/login');
             } else {
-                response.status(200).send({
-                    code: 200,
+                response.status(ResponseStatus.SUCCESS).send({
+                    code: ResponseStatus.SUCCESS,
                     user,
                 })
-                response.redirect('/dashboard');
+                loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
+                // return  response.redirect('/dashboard');
             }
         } catch (err: unknown) {
             if (err instanceof Error) {
