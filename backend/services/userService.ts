@@ -31,9 +31,9 @@ class UserService implements IUserService {
 
             return {
                 ...tokens,
-                user,
+                user: userDto,
             }
-        } catch (error) {
+        } catch (error: unknown) {
             throw new Error('Internal Server Error')
         }
     }

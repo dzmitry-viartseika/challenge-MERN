@@ -20,7 +20,7 @@ class ClientService implements IClientService {
                 clients,
                 totalCount: count,
             }
-        } catch (error) {
+        } catch (error: unknown) {
             throw new Error('Internal Server Error')
         }
     }
@@ -28,7 +28,6 @@ class ClientService implements IClientService {
     async getClientById(id: string) {
         try {
             const client = await ClientModel.findById(id)
-            console.log('client', client)
             if (!client) {
                 return null
             }
@@ -36,7 +35,7 @@ class ClientService implements IClientService {
             return {
                 client,
             }
-        } catch (error) {
+        } catch (error: unknown) {
             throw error
         }
     }
@@ -60,7 +59,7 @@ class ClientService implements IClientService {
             return {
                 client,
             }
-        } catch (error) {
+        } catch (error: unknown) {
             throw error
         }
     }
@@ -68,7 +67,7 @@ class ClientService implements IClientService {
         try {
             const client = await ClientModel.create(data)
             return client
-        } catch (error) {
+        } catch (error: unknown) {
             throw error
         }
     }
@@ -81,7 +80,7 @@ class ClientService implements IClientService {
             }
             await client.deleteOne()
             return true
-        } catch (error) {
+        } catch (error: unknown) {
             throw error
         }
     }

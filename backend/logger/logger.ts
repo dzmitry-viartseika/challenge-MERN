@@ -1,7 +1,8 @@
 import winston, {format, transports} from "winston";
 const { combine, timestamp, label, prettyPrint } = format;
-const CUSTOM_LABEL_FORMAT = "winston logger custom format";
+const CUSTOM_LABEL_FORMAT = "Winston logger";
 const FORMAT_TIME_STAMP = 'MMM-DD-YYYY HH:mm:ss'
+const LEVEL = 'debug';
 abstract class LoggerAdapter {
     abstract info(message: string): void;
     abstract warn(message: string): void;
@@ -13,7 +14,7 @@ class WinstonLoggerAdapter extends LoggerAdapter {
     constructor() {
         super();
         this.logger = winston.createLogger({
-            level: "debug",
+            level: LEVEL,
             format: combine(
                 label({ label: CUSTOM_LABEL_FORMAT }),
                 timestamp({

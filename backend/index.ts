@@ -53,7 +53,7 @@ class App {
             this.server.listen(PORT, () => {
                 loggerAdapter.info(`Backend is running on ${SERVER_URL}`);
             });
-        } catch (error) {
+        } catch (error: unknown) {
             loggerAdapter.error(`Error connecting to the database: ${error}`);
         }
     }
