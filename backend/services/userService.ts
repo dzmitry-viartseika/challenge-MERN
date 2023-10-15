@@ -54,6 +54,11 @@ class UserService implements IUserService {
             user: userDto,
         }
     }
+
+    async logout(refreshToken: any) {
+        const token = await tokenService.removeToken(refreshToken);
+        return token;
+    }
 }
 
 export default new UserService()

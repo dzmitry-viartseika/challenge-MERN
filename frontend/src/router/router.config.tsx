@@ -14,6 +14,7 @@ const HomePageLayout = lazy(
 const NoPermission = lazy(() => import('../layouts/Permissions/NoPermissionPage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/RegisterPage'));
+const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const ErrorPage = lazy(() => import('../pages/ErrorPage'));
 const queryClient = new QueryClient();
 
@@ -27,6 +28,10 @@ export const routerConfig: RouteObject[] = [
         element: (
             <HomePageLayout />
         ),
+      },
+      {
+        path: routes.DASHBOARD,
+        element: <DashboardPage />,
       },
       {
         path: routes.NO_PERMISSION,

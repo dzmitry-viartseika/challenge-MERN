@@ -26,7 +26,7 @@ export const useGetQuery = <T>(
   queryFn: QueryFunction<T[]>,
   options = {
     retry: 2,
-    refetchOnMount: false,
+    refetchOnMount: true,
   } as TUseGetQueryOptions<T>
 ) => {
   const navigate = useNavigate();

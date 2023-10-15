@@ -11,7 +11,7 @@ interface IEmailOptions {
 }
 
 export class NodeMailerAdapter implements INodeMailerAdapter {
-    private transporter: nodemailer.Transporter;
+    private transporter: nodemailer.Transports;
 
     constructor() {
         super();

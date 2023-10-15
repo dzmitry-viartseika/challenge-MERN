@@ -78,11 +78,17 @@ class UserController {
 
     LogoutUser = async (request: Request, response: Response) => {
         console.log('LogoutUser')
-        // req.session.destroy(function(){
-        //     console.log("user logged out.")
-        // });
-        // res.redirect('/login');
+        const { refreshToken } =  request.cookies;
+        const token = await UserService.logout(refreshToken);
+        // request.clearCookie('refreshToken');
+        // request.clearCookie('accessToken');
+        response.status(200).send({
+            message: 'The user is logout successfully',
+            token,
+        })
     }
+
+
 }
 
 export default new UserController()

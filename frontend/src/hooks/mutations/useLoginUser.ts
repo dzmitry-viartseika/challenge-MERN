@@ -19,19 +19,9 @@ export const useLoginUser = () => {
     mutationFn: (userData) =>
       UserService.loginUser(userData),
 
-    onSuccess: (data: any) => {
-      console.log('data', data)
-      // showMessageTopLevel(
-      //   Messages.createSuccessfulMessage(
-      //     t('alertMessages.noticeSavedSuccessfully')
-      //   )
-      // );
-      //
-      // navigate(
-      //   `${routes.DATA_ENRICHMENT}/future-tender/${data[0].organizationId}?mode=${displayModeNotice.VIEW}`
-      // );
-      // reset();
-
+    onSuccess: ({data}) => {
+      const { accessToken } = data.user;
+      localStorage.setItem('token', accessToken);
       navigate('/dashboard');
     },
     onError: (error: any) => {

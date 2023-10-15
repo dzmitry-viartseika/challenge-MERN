@@ -13,6 +13,8 @@ class ClientController {
                 limit,
             })
 
+            loggerAdapter.info(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: OK`);
+
             response.status(200).json({
                 clients,
                 totalPage: Math.ceil(totalCount / limit),
@@ -44,6 +46,7 @@ class ClientController {
                 })
             }
 
+            loggerAdapter.info(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has deleted successfully ID=${id}`);
             response.status(200).send({
                 code: 200,
                 message: 'The User has deleted successfully',
@@ -73,7 +76,7 @@ class ClientController {
             const client = await UserService.createClient(request.body)
 
             if (client) {
-                loggerAdapter.error('POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
+                loggerAdapter.info('POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
                 response.status(200).send({
                     code: 200,
                     client,
@@ -103,7 +106,7 @@ class ClientController {
                     message: 'The User is not found',
                 })
             }
-            loggerAdapter.error('GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
+            loggerAdapter.info('GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
             response.status(200).send({
                 code: 200,
                 client: result && result?.client,
@@ -134,7 +137,7 @@ class ClientController {
             }
 
             const client = await UserService.updateClientById(request.body, id)
-            loggerAdapter.error(`PUT request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been updated successfully ID=${id}`);
+            loggerAdapter.info(`PUT request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been updated successfully ID=${id}`);
             response.status(200).send({
                 code: 200,
                 client,

@@ -31,6 +31,11 @@ class TokenService implements ITokenService {
         const token = await TokenModel.create({ user: userId, refreshToken });
         return token;
     }
+
+    async removeToken(refreshToken: any) {
+        const tokenData = await TokenModel.deleteOne({ refreshToken });
+        return tokenData;
+    }
 }
 
 export default new TokenService();
