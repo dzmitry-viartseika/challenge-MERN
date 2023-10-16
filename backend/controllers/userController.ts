@@ -3,6 +3,7 @@ import loggerAdapter from "../logger/logger";
 import UserService from "../services/userService";
 import HttpError from "../helpers/httpError";
 import {ResponseStatus} from "../ts/enums/ResponseStatus";
+import request from "supertest";
 class UserController {
     LoginUser = async (request: Request, response: Response) => {
         const { email, password } = request.body;
@@ -84,18 +85,67 @@ class UserController {
     }
 
     LogoutUser = async (request: Request, response: Response) => {
-        console.log('LogoutUser')
         const { refreshToken } =  request.cookies;
         const token = await UserService.logout(refreshToken);
-        // request.clearCookie('refreshToken');
-        // request.clearCookie('accessToken');
         response.status(200).send({
             message: 'The user is logout successfully',
             token,
         })
     }
 
+    RefreshToken = async (request: Request, response: Response) => {
+        try {
+            const { refreshToken } = request.cookies;
+            const userData = await UserService.refresh(refreshToken);
+            // request.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            // return request.json(userData);
+        } catch (e) {
+            // next(e);
+        }
+    }
 
+    ActivateUser = async (request: Request, response: Response) => {
+        try {
+            const activationLink = request.params.link;
+            await UserService.activate(activationLink);
+            // TODO: env route
+            // return res.redirect('http://localhost:8080/crm/dashboard');
+        } catch (e) {
+            // next(e);
+            console.log(e);
+        }
+    }
+
+    ResetUserPassword = async (request: Request, response: Response) => {
+        try {
+            const resetLink = request.params.link;
+            await UserService.refreshPassword(resetLink);
+            // return request.redirect(process.env.CLIENT_RESET_PASSWORD_URL)
+        } catch (e) {
+            // next(e);
+            console.log(e);
+        }
+    }
+
+    ForgotUserPassword = async (request: Request, response: Response) => {
+        try {
+            await UserService.forgotPassword(request);
+            // res.json({message: 'Проверьте почту'})
+        } catch (e) {
+            // next(e);
+            console.log(e);
+        }
+    }
+
+    ChangeUserPassword = async (request: Request, response: Response) => {
+        try {
+            const user = await UserService.changePassword(req);
+            // return res.json(user);
+        } catch (e) {
+            // next(e);
+            console.log(e);
+        }
+    }
 }
 
 export default new UserController()

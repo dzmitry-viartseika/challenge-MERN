@@ -59,6 +59,66 @@ class UserService implements IUserService {
         const token = await tokenService.removeToken(refreshToken);
         return token;
     }
+
+    async forgotPassword(req, res, next) {
+        const { email } = req.body;
+
+        UserModel.findOne({ email }, async (err, user) => {
+            if(err || !user) {
+                // throw ApiError.badRequest('Пользователь с таким email не найден')
+            }
+
+            const token = jwt.sign(
+                {_id: user._id},
+                process.env.API_URL,
+                {
+                    expiresIn: "15m",
+                }
+            );
+            const resetLink = uuid.v4();
+            user.resetLink = resetLink;
+            user.save();
+            const link = `${process.env.API_URL}/api/forgot-password/${resetLink}`;
+            await mailService.sendForgotMail(email, link);
+        });
+    }
+
+    async changePassword(req, res, next) {
+        const { email, newPassword } = req.body;
+
+        UserModel.findOne({ email }, async (err, user) => {
+            if(err || !user) {
+                throw ApiError.badRequest('Пользователь с таким email не найден')
+            }
+
+            const token = jwt.sign(
+                {_id: user._id},
+                process.env.API_URL,
+                {
+                    expiresIn: "15m",
+                }
+            );
+            const hashPassword = await bcrypt.hash(newPassword, 3);
+            user.password = hashPassword;
+            user.save();
+        });
+    }
+
+    async activate(activationLink) {
+        const user = await UserModel.findOne({ activationLink });
+        if(!user) {
+            throw ApiError.badRequest('Некорректная активация ссылки')
+        }
+        user.isActivated = true;
+        await user.save();
+    }
+
+    async refreshPassword(resetLink) {
+        const user = await UserModel.findOne({ resetLink });
+        if(!user) {
+            throw ApiError.badRequest('Некорректная активация ссылки')
+        }
+    }
 }
 
 export default new UserService()
