@@ -10,7 +10,7 @@ interface IFormInput {
 }
 const LoginPage = () => {
     const { loginUser } = useLoginUser();
-    const toast = useToast(); // Use the useToast hook
+    const toast = useToast();
     const { control, handleSubmit } = useForm({
         defaultValues: {
             email: "",
