@@ -29,7 +29,7 @@ export class NodeMailerAdapter implements INodeMailerAdapter {
         });
     }
 
-    async sendEmail(options: IEmailOptions): Promise<void> {
+    async sendForgotMail(options: IEmailOptions): Promise<void> {
         const mailOptions = {
             from: process.env.SMTP_USER,
             to: options.to,
@@ -45,6 +45,21 @@ export class NodeMailerAdapter implements INodeMailerAdapter {
             console.error('Error sending email:', error);
             throw error;
         }
+    }
+
+    async sendActivationMail(to, link) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: `Активация аккаунта ${process.env.API_URL}`,
+            text: '',
+            html: `
+                <div>
+                    <h1>Для активации перейдите по ссылке</h1>
+                    <a href="${link}">${link}</a>
+                </div>
+            `
+        })
     }
 }
 

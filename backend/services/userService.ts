@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import {UserDto} from "../dto/userDto";
 import tokenService from "./tokenService";
 import Authentication from "../utils/auth/Authentication";
+import jwt from "jsonwebtoken";
 
 interface IUserService {
     login(email: string, password: string): Promise<any>;
@@ -60,7 +61,7 @@ class UserService implements IUserService {
         return token;
     }
 
-    async forgotPassword(req, res, next) {
+    async forgotPassword(req) {
         const { email } = req.body;
 
         UserModel.findOne({ email }, async (err, user) => {
