@@ -23,6 +23,7 @@
         "@babel/preset-env": "^7.22.15",
         "@types/compression": "^1.7.3",
         "@types/nodemailer": "^6.4.11",
+        "@types/uuid": "^9.0.5",
         "and": "^0.0.3",
         "axios": "^1.4.0",
         "babel-jest": "^29.6.4",
@@ -47,6 +48,7 @@
         "swagger-ui-express": "^5.0.0",
         "ts-node": "^10.9.1",
         "typescript": "^5.2.2",
+        "uuid": "^9.0.1",
         "winston": "^3.10.0"
     },
     "devDependencies": {

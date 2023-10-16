@@ -1,9 +1,9 @@
 import UserModel from "../models/userModel";
-import bcrypt from 'bcrypt'
 import {UserDto} from "../dto/userDto";
 import tokenService from "./tokenService";
 import Authentication from "../utils/auth/Authentication";
-import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from 'uuid';
+import mailService from "./mailService";
 
 interface IUserService {
     login(email: string, password: string): Promise<any>;
@@ -44,8 +44,10 @@ class UserService implements IUserService {
         if (candidate) {
             return null
         }
+        const activationLink = uuidv4();
         const hashPassword = await Authentication.passwordHash(password);
-        const user: any = await UserModel.create({ email, password: hashPassword });
+        await mailService.sendActivationMail(email, `http://localhost:4000/api/v1/activate/${activationLink}`);
+        const user: any = await UserModel.create({ email, password: hashPassword, activationLink });
         const userDto = new UserDto(user);
         const token: any = tokenService.generateTokens({...user});
         await tokenService.saveToken(user._id, token.refreshToken);
@@ -61,65 +63,66 @@ class UserService implements IUserService {
         return token;
     }
 
-    async forgotPassword(req) {
-        const { email } = req.body;
+    // async forgotPassword(req) {
+    //     const { email } = req.body;
+    //
+    //     UserModel.findOne({ email }, async (err, user) => {
+    //         if(err || !user) {
+    //             // throw ApiError.badRequest('Пользователь с таким email не найден')
+    //         }
+    //
+    //         const token = jwt.sign(
+    //             {_id: user._id},
+    //             process.env.API_URL,
+    //             {
+    //                 expiresIn: "15m",
+    //             }
+    //         );
+    //         const resetLink = uuid.v4();
+    //         user.resetLink = resetLink;
+    //         user.save();
+    //         const link = `${process.env.API_URL}/api/forgot-password/${resetLink}`;
+    //         await mailService.sendForgotMail(email, link);
+    //     });
+    // }
 
-        UserModel.findOne({ email }, async (err, user) => {
-            if(err || !user) {
-                // throw ApiError.badRequest('Пользователь с таким email не найден')
-            }
+    // async changePassword(req, res, next) {
+    //     const { email, newPassword } = req.body;
+    //
+    //     UserModel.findOne({ email }, async (err, user) => {
+    //         if(err || !user) {
+    //             throw ApiError.badRequest('Пользователь с таким email не найден')
+    //         }
+    //
+    //         const token = jwt.sign(
+    //             {_id: user._id},
+    //             process.env.API_URL,
+    //             {
+    //                 expiresIn: "15m",
+    //             }
+    //         );
+    //         const hashPassword = await bcrypt.hash(newPassword, 3);
+    //         user.password = hashPassword;
+    //         user.save();
+    //     });
+    // }
 
-            const token = jwt.sign(
-                {_id: user._id},
-                process.env.API_URL,
-                {
-                    expiresIn: "15m",
-                }
-            );
-            const resetLink = uuid.v4();
-            user.resetLink = resetLink;
-            user.save();
-            const link = `${process.env.API_URL}/api/forgot-password/${resetLink}`;
-            await mailService.sendForgotMail(email, link);
-        });
-    }
-
-    async changePassword(req, res, next) {
-        const { email, newPassword } = req.body;
-
-        UserModel.findOne({ email }, async (err, user) => {
-            if(err || !user) {
-                throw ApiError.badRequest('Пользователь с таким email не найден')
-            }
-
-            const token = jwt.sign(
-                {_id: user._id},
-                process.env.API_URL,
-                {
-                    expiresIn: "15m",
-                }
-            );
-            const hashPassword = await bcrypt.hash(newPassword, 3);
-            user.password = hashPassword;
-            user.save();
-        });
-    }
-
-    async activate(activationLink) {
-        const user = await UserModel.findOne({ activationLink });
+    async activate(activationLink: string) {
+        const user: any = await UserModel.findOne({ activationLink });
+        console.log('user', user)
         if(!user) {
-            throw ApiError.badRequest('Некорректная активация ссылки')
+            // throw ApiError.badRequest('Некорректная активация ссылки')
         }
-        user.isActivated = true;
+        user.isVerified = true;
         await user.save();
     }
 
-    async refreshPassword(resetLink) {
-        const user = await UserModel.findOne({ resetLink });
-        if(!user) {
-            throw ApiError.badRequest('Некорректная активация ссылки')
-        }
-    }
+    // async refreshPassword(resetLink) {
+    //     const user = await UserModel.findOne({ resetLink });
+    //     if(!user) {
+    //         throw ApiError.badRequest('Некорректная активация ссылки')
+    //     }
+    // }
 }
 
 export default new UserService()

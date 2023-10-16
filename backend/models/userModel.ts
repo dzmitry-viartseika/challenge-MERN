@@ -16,6 +16,12 @@ const userSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        activationLink: {
+          type: String,
+        },
+        resetLink: {
+            type: String,
+        },
         roles: [
             {
                 type: Schema.Types.ObjectId,

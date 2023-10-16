@@ -143,6 +143,7 @@ const router = express.Router()
  */
 router.post('/login', userController.LoginUser)
 router.post('/register', userController.RegisterUser)
+router.get('/activate/:link', userController.ActivateUser);
 router.get('/logout')
 
 export default router

@@ -59,7 +59,6 @@ class UserController {
                 })
             }
             const userData = await UserService.registration(email, password);
-            console.log('userData', userData)
             if (!userData) {
                 return response.status(400).send({
                     code: 400,
@@ -93,16 +92,16 @@ class UserController {
         })
     }
 
-    RefreshToken = async (request: Request, response: Response) => {
-        try {
-            const { refreshToken } = request.cookies;
-            const userData = await UserService.refresh(refreshToken);
-            // request.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            // return request.json(userData);
-        } catch (e) {
-            // next(e);
-        }
-    }
+    // RefreshToken = async (request: Request, response: Response) => {
+    //     try {
+    //         const { refreshToken } = request.cookies;
+    //         const userData = await UserService.refresh(refreshToken);
+    //         // request.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+    //         // return request.json(userData);
+    //     } catch (e) {
+    //         // next(e);
+    //     }
+    // }
 
     ActivateUser = async (request: Request, response: Response) => {
         try {
@@ -116,36 +115,36 @@ class UserController {
         }
     }
 
-    ResetUserPassword = async (request: Request, response: Response) => {
-        try {
-            const resetLink = request.params.link;
-            await UserService.refreshPassword(resetLink);
-            // return request.redirect(process.env.CLIENT_RESET_PASSWORD_URL)
-        } catch (e) {
-            // next(e);
-            console.log(e);
-        }
-    }
+    // ResetUserPassword = async (request: Request, response: Response) => {
+    //     try {
+    //         const resetLink = request.params.link;
+    //         await UserService.refreshPassword(resetLink);
+    //         // return request.redirect(process.env.CLIENT_RESET_PASSWORD_URL)
+    //     } catch (e) {
+    //         // next(e);
+    //         console.log(e);
+    //     }
+    // }
 
-    ForgotUserPassword = async (request: Request, response: Response) => {
-        try {
-            await UserService.forgotPassword(request);
-            // res.json({message: 'Проверьте почту'})
-        } catch (e) {
-            // next(e);
-            console.log(e);
-        }
-    }
+    // ForgotUserPassword = async (request: Request, response: Response) => {
+    //     try {
+    //         await UserService.forgotPassword(request);
+    //         // res.json({message: 'Проверьте почту'})
+    //     } catch (e) {
+    //         // next(e);
+    //         console.log(e);
+    //     }
+    // }
 
-    ChangeUserPassword = async (request: Request, response: Response) => {
-        try {
-            const user = await UserService.changePassword(req);
-            // return res.json(user);
-        } catch (e) {
-            // next(e);
-            console.log(e);
-        }
-    }
+    // ChangeUserPassword = async (request: Request, response: Response) => {
+    //     try {
+    //         const user = await UserService.changePassword(req);
+    //         // return res.json(user);
+    //     } catch (e) {
+    //         // next(e);
+    //         console.log(e);
+    //     }
+    // }
 }
 
 export default new UserController()
