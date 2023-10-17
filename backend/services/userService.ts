@@ -4,6 +4,7 @@ import tokenService from "./tokenService";
 import Authentication from "../utils/auth/Authentication";
 import { v4 as uuidv4 } from 'uuid';
 import mailService from "./mailService";
+import jwt from "jsonwebtoken";
 
 interface IUserService {
     login(email: string, password: string): Promise<any>;
@@ -58,33 +59,33 @@ class UserService implements IUserService {
         }
     }
 
-    async logout(refreshToken: any) {
+    async logout(refreshToken: string) {
         const token = await tokenService.removeToken(refreshToken);
         return token;
     }
 
-    // async forgotPassword(req) {
-    //     const { email } = req.body;
-    //
-    //     UserModel.findOne({ email }, async (err, user) => {
-    //         if(err || !user) {
-    //             // throw ApiError.badRequest('Пользователь с таким email не найден')
-    //         }
-    //
-    //         const token = jwt.sign(
-    //             {_id: user._id},
-    //             process.env.API_URL,
-    //             {
-    //                 expiresIn: "15m",
-    //             }
-    //         );
-    //         const resetLink = uuid.v4();
-    //         user.resetLink = resetLink;
-    //         user.save();
-    //         const link = `${process.env.API_URL}/api/forgot-password/${resetLink}`;
-    //         await mailService.sendForgotMail(email, link);
-    //     });
-    // }
+    async forgotPassword(request: Request) {
+        const { email }: any = request.body;
+
+        UserModel.findOne({ email }, async (err: any, user: any) => {
+            if(err || !user) {
+                // throw ApiError.badRequest('Пользователь с таким email не найден')
+            }
+
+            // const token = jwt.sign(
+            //     {_id: user._id},
+            //     process.env.API_URL,
+            //     {
+            //         expiresIn: "15m",
+            //     }
+            // );
+            const resetLink = uuidv4();
+            user.resetLink = resetLink;
+            user.save();
+            const link = `${process.env.API_URL}/api/forgot-password/${resetLink}`;
+            return await mailService.sendForgotMail(email, link);
+        });
+    }
 
     // async changePassword(req, res, next) {
     //     const { email, newPassword } = req.body;

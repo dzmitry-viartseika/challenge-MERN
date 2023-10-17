@@ -126,15 +126,15 @@ class UserController {
     //     }
     // }
 
-    // ForgotUserPassword = async (request: Request, response: Response) => {
-    //     try {
-    //         await UserService.forgotPassword(request);
-    //         // res.json({message: 'Проверьте почту'})
-    //     } catch (e) {
-    //         // next(e);
-    //         console.log(e);
-    //     }
-    // }
+    ForgotUserPassword = async (request: any, response: Response) => {
+        try {
+            console.log('ForgotUserPassword')
+            await UserService.forgotPassword(request);
+            return response.json({message: 'Проверьте почту'})
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     // ChangeUserPassword = async (request: Request, response: Response) => {
     //     try {

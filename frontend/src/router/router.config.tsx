@@ -4,6 +4,7 @@ import { RouteObject } from 'react-router-dom';
 import {routes} from "../constants/routes";
 import {ToastProvider} from "../context/ToastContext";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ForgetPasswordPage from "../pages/ForgetPasswordPage";
 
 const App = lazy(() => import('../App'));
 
@@ -55,6 +56,16 @@ export const routerConfig: RouteObject[] = [
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <RegisterPage />
+          </ToastProvider>
+        </QueryClientProvider>
+    ),
+  },
+  {
+    path: routes.FORGET_PASSWORD,
+    element: (
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <ForgetPasswordPage />
           </ToastProvider>
         </QueryClientProvider>
     ),

@@ -39,6 +39,17 @@ class MailService implements IMailService {
       `,
         });
     }
+
+    async sendForgotMail(to: string, link: string) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            text: '',
+            subject: 'Password reset link',
+            html: `<h2>Please click on given link to reset password</h2>
+                    <a href="${link}">${link}</a>`
+        })
+    }
 }
 
 export default new MailService();

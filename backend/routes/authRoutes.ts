@@ -1,5 +1,6 @@
 import express from 'express'
 import userController from "../controllers/userController";
+import {use} from "chai";
 
 const router = express.Router()
 /**
@@ -144,6 +145,7 @@ const router = express.Router()
 router.post('/login', userController.LoginUser)
 router.post('/register', userController.RegisterUser)
 router.get('/activate/:link', userController.ActivateUser);
-router.get('/logout')
+router.get('/logout', userController.LogoutUser)
+router.post('/forgot-password', userController.ForgotUserPassword)
 
 export default router
