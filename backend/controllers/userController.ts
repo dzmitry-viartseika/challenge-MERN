@@ -129,8 +129,14 @@ class UserController {
     ForgotUserPassword = async (request: any, response: Response) => {
         try {
             console.log('ForgotUserPassword')
-            await UserService.forgotPassword(request);
-            return response.json({message: 'Проверьте почту'})
+            const result = await UserService.forgotPassword(request);
+            console.log('result', result)
+            if (result) {
+                response.status(200).send({
+                    message: 'Проверьте почту',
+                })
+            }
+
         } catch (e) {
             console.log(e);
         }

@@ -42,7 +42,7 @@ class MailService implements IMailService {
 
     async sendForgotMail(to: string, link: string) {
         await this.transporter.sendMail({
-            from: process.env.SMTP_USER,
+            from: `"Contact Support" <${process.env.SMTP_USER}>`,
             to,
             text: '',
             subject: 'Password reset link',

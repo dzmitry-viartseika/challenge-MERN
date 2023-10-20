@@ -17,6 +17,7 @@ const LoginPage = lazy(() => import('../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const ErrorPage = lazy(() => import('../pages/ErrorPage'));
+const ResetPasswordPage = lazy(() => import('../pages/ResetPasswordPage'));
 const queryClient = new QueryClient();
 
 export const routerConfig: RouteObject[] = [
@@ -66,6 +67,16 @@ export const routerConfig: RouteObject[] = [
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <ForgetPasswordPage />
+          </ToastProvider>
+        </QueryClientProvider>
+    ),
+  },
+  {
+    path: routes.RESET,
+    element: (
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <ResetPasswordPage />
           </ToastProvider>
         </QueryClientProvider>
     ),
