@@ -13,6 +13,8 @@ import { helmetMiddleware } from "./middleware/security/helmetMiddleware";
 import { compressionMiddleware } from "./middleware/security/compressionMiddleware";
 import authRoutes from "./routes/authRoutes";
 import databaseAdapter, { DatabaseAdapter } from './config/database';
+import passport from "passport";
+import passportStrategoRoutes from "./routes/passportStrategyRoutes";
 class App {
     private static instance: App | null = null;
     private readonly expressApp: express.Application;
@@ -32,6 +34,8 @@ class App {
         this.expressApp.use(express.json());
         this.expressApp.use(API_VERSION, authRoutes);
         this.expressApp.use(API_VERSION, clientRoutes);
+        this.expressApp.use(passportStrategoRoutes);
+        this.expressApp.use(passport.initialize());
         this.expressApp.use(
             '/api-docs/v1',
             swaggerUI.serve,
