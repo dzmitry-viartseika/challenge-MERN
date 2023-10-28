@@ -3,6 +3,8 @@ import { InputText } from "primereact/inputtext";
 import {Button} from "primereact/button";
 import { useToast } from "../context/ToastContext";
 import {useRegisterUser} from "../hooks/mutations/useRegisterUser";
+import {Link} from "react-router-dom";
+import {routes} from "../constants/routes";
 
 interface IFormInput {
     email: string
@@ -60,6 +62,9 @@ const RegisterPage = () => {
                         control={control}
                         render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
                     />
+                </div>
+                <div>
+                    Already have an account? <Link to={routes.LOGIN} className="mb-2 text-center">Login in</Link>
                 </div>
                 <Button type="submit" label="Register"/>
             </form>

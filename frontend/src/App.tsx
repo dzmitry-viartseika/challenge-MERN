@@ -2,8 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PrimeReactProvider } from 'primereact/api';
-import "primereact/resources/primereact.min.css";
-import "primereact/resources/themes/vela-blue/theme.css";
 import { ToastProvider } from './context/ToastContext';
 
 
@@ -13,7 +11,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
           <PrimeReactProvider>
               <ToastProvider>
-                  <main>
+                  <main className="flex">
                       <Outlet />
                   </main>
               </ToastProvider>

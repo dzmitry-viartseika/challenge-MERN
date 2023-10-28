@@ -1,11 +1,13 @@
 import {useGetClients} from "../hooks/queries/useGetClients";
 
 const DashboardPage = () => {
-    const { clientList, isLoading } = useGetClients();
-    console.log('clientList', clientList)
+    // const { clientList, isLoading } = useGetClients();
+    // console.log('clientList', clientList)
     return (
         <div>
-            DashboardPage
+            <div className="text-3xl font-bold underline">
+                Hello world!
+            </div>
         </div>
     )
 };

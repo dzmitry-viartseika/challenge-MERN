@@ -56,6 +56,7 @@ const LoginPage = () => {
                             </>}
                     />
                 </div>
+                <Link to={routes.FORGET_PASSWORD} className="mb-2 text-center">Forgot your password?</Link>
                 <div className="mb-4 w-full">
                     <Controller
                         name="password"
@@ -63,8 +64,10 @@ const LoginPage = () => {
                         render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
                     />
                 </div>
-                <Link to={routes.FORGET_PASSWORD}>reset password?</Link>
-                <Button type="submit" label="Login"/>
+                <div>
+                    Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
+                </div>
+                <Button type="submit" label="Login" severity="info"/>
             </form>
         </div>
     )

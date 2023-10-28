@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useRef, useContext, useState, RefObject } from 'react';
+import React, { createContext, ReactNode, useRef, useContext, useState } from 'react';
 import { Toast } from 'primereact/toast';
 interface ToastData {
     id: number;
@@ -50,7 +50,6 @@ function ToastProvider({ children }: ToastProviderProps) {
 
 function useToast() {
     const context = useContext(ToastContext);
-    console.log('context', context)
     if (context === undefined) {
         throw new Error('useToast must be used within a ToastProvider');
     }
