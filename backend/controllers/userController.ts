@@ -8,33 +8,34 @@ class UserController {
     LoginUser = async (request: Request, response: Response) => {
         const { email, password } = request.body;
         try {
-
             if (!email || !password) {
                 const error = new HttpError(
                     'Fill in all required fields',
                     ResponseStatus.BAD_REQUEST
                 );
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                response.status(error.code).send(error.message)
-                return
+                response.status(error.code).send(error.message);
+                return;
             }
 
-            const user = await UserService.login(email, password);
-            if (!user) {
+            const loginResult: any = await UserService.login(email, password);
+
+            if (loginResult === null) {
                 const error = new HttpError(
                     'The User is not registered',
                     ResponseStatus.NOT_FOUND
                 );
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                response.status(error.code).send(error.message)
-                // return response.redirect('/login');
+                response.status(error.code).send(error.message);
+            } else if (loginResult.code === 400) {
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
+                response.status(loginResult.code).send(loginResult.message);
             } else {
                 response.status(ResponseStatus.SUCCESS).send({
                     code: ResponseStatus.SUCCESS,
-                    user,
-                })
+                    user: loginResult.user,
+                });
                 loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
-                // return  response.redirect('/dashboard');
             }
         } catch (err: unknown) {
             if (err instanceof Error) {
@@ -44,7 +45,7 @@ class UserController {
             response.status(500).send({
                 code: 500,
                 message: 'Internal Server Error',
-            })
+            });
         }
     }
 
@@ -115,21 +116,10 @@ class UserController {
         }
     }
 
-    // ResetUserPassword = async (request: Request, response: Response) => {
-    //     try {
-    //         const resetLink = request.params.link;
-    //         await UserService.refreshPassword(resetLink);
-    //         // return request.redirect(process.env.CLIENT_RESET_PASSWORD_URL)
-    //     } catch (e) {
-    //         // next(e);
-    //         console.log(e);
-    //     }
-    // }
-
-    ForgotUserPassword = async (request: any, response: Response) => {
+    ForgotUserPassword = async (request: Request, response: Response) => {
+        const { email } = request.body;
         try {
-            console.log('ForgotUserPassword')
-            const result = await UserService.forgotPassword(request);
+            const result = await UserService.forgotPassword(email);
             console.log('result', result)
             if (result) {
                 response.status(200).send({
@@ -142,15 +132,56 @@ class UserController {
         }
     }
 
-    // ChangeUserPassword = async (request: Request, response: Response) => {
-    //     try {
-    //         const user = await UserService.changePassword(req);
-    //         // return res.json(user);
-    //     } catch (e) {
-    //         // next(e);
-    //         console.log(e);
-    //     }
-    // }
+    ResetUserPassword = async (request: Request, response: Response) => {
+        const resetLink = request.params.link;
+        if (resetLink) {
+            try {
+                const clientResetPasswordUrl = process.env.CLIENT_RESET_PASSWORD_URL
+                await UserService.refreshPassword(resetLink);
+                if (clientResetPasswordUrl) {
+                    return response.redirect(clientResetPasswordUrl)
+                }
+
+                // if (result) {
+                //     const clientResetPasswordUrl = process.env.CLIENT_RESET_PASSWORD_URL;
+                //     console.log('clientResetPasswordUrl', clientResetPasswordUrl)
+                //     if (clientResetPasswordUrl) {
+                //         return response.redirect(clientResetPasswordUrl);
+                //     } else {
+                //         return {
+                //             code: 500,
+                //             message: 'CLIENT_RESET_PASSWORD_URL is not defined in the environment.'
+                //         };
+                //     }
+                // } else {
+                //     return {
+                //         code: 400,
+                //         message: 'Некорректная активация ссылки'
+                //     };
+                // }
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            // Handle the case where resetLink is undefined, for example, return an error response or redirect to an error page.
+        }
+    }
+
+    ChangeUserPassword = async (request: Request, response: Response) => {
+        const { email, password } = request.body;
+        try {
+            const user = await UserService.changePassword(email, password);
+            // return res.json(user);
+            response.status(200).send({
+                code: 200,
+                message: 'The password is changed successfully',
+                // user: userData, // return userDTO
+            })
+        } catch (e) {
+            // next(e);
+            console.log(e);
+        }
+    }
 }
 
 export default new UserController()

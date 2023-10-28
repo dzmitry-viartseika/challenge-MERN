@@ -147,5 +147,8 @@ router.post('/register', userController.RegisterUser)
 router.get('/activate/:link', userController.ActivateUser);
 router.get('/logout', userController.LogoutUser)
 router.post('/forgot-password', userController.ForgotUserPassword)
+router.get('/forgot-password/:link', userController.ResetUserPassword)
+router.post('/change-password/', userController.ChangeUserPassword);
+
 
 export default router

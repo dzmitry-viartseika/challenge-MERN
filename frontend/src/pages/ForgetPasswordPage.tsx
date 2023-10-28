@@ -54,7 +54,7 @@ const ForgetPasswordPage = () => {
                             </>}
                     />
                 </div>
-                <Button type="submit" label="Reset password"/>
+                <Button type="submit" label="Reset password" severity="info"/>
             </form>
         </div>
     )

@@ -67,7 +67,7 @@ const LoginPage = () => {
                 <div>
                     Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
                 </div>
-                <Button type="submit" label="Login" severity="info"/>
+                <Button type="submit" label="Login" severity="info" />
             </form>
         </div>
     )

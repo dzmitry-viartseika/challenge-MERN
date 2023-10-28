@@ -18,7 +18,6 @@ const ResetPasswordPage = () => {
     const { control, handleSubmit } = useForm({
         defaultValues: {
             email: "",
-            resetPassword: "",
             password: "",
         },
     })
@@ -65,14 +64,7 @@ const ResetPasswordPage = () => {
                         render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
                     />
                 </div>
-                <div className="mb-4 w-full">
-                    <Controller
-                        name="repeatPassword"
-                        control={control}
-                        render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
-                    />
-                </div>
-                <Button type="submit" label="Reset Password"/>
+                <Button type="submit" label="Reset Password" severity="info"/>
             </form>
         </div>
     )
