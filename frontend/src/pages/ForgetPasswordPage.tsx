@@ -3,18 +3,18 @@ import { InputText } from "primereact/inputtext";
 import {Button} from "primereact/button";
 import { useToast } from "../context/ToastContext";
 import {useRegisterUser} from "../hooks/mutations/useRegisterUser";
+import {useForgotPassword} from "../hooks/mutations/useForgotPassword";
 
 interface IFormInput {
     email: string
     password: string
 }
 const ForgetPasswordPage = () => {
-    const { registerUser } = useRegisterUser();
+    const { forgotPassword } = useForgotPassword();
     const toast = useToast(); // Use the useToast hook
     const { control, handleSubmit } = useForm({
         defaultValues: {
             email: "",
-            password: "",
         },
     })
 
@@ -23,16 +23,16 @@ const ForgetPasswordPage = () => {
         toast.showToast({
             id: new Date().getTime(),
             severity: 'error',
-            summary: 'Email address and password are required fields',
+            summary: 'Email address is required field',
         });
     };
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        const { email, password } = data;
-        if (!email || !password) {
+        if (!data.email) {
             showToastMessage()
+            return ''
         } else {
-            registerUser(data as any)
+            forgotPassword(data)
         }
     }
 

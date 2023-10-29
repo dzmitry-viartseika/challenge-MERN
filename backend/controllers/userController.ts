@@ -118,6 +118,7 @@ class UserController {
 
     ForgotUserPassword = async (request: Request, response: Response) => {
         const { email } = request.body;
+        console.log('email', email)
         try {
             const result = await UserService.forgotPassword(email);
             console.log('result', result)

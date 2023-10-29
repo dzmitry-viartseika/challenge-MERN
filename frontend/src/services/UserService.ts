@@ -25,6 +25,16 @@ export default class UserService {
     return $api.post('/register', data);
   }
 
+  static resetUserPassword(data: any): any {
+    console.log('data', data)
+    return $api.post('/forgot-password', data);
+  }
+
+  static changeUserPassword(data: any): any {
+    console.log('data', data)
+    return $api.post('/change-password', data);
+  }
+
   static logOutUser(): any {
     // return $api.delete(`/clients/${id}`);
   }

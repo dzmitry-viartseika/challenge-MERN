@@ -6,14 +6,14 @@ import {useRegisterUser} from "../hooks/mutations/useRegisterUser";
 import {Link} from "react-router-dom";
 import {routes} from "../constants/routes";
 import {useLoginUser} from "../hooks/mutations/useLoginUser";
+import {useResetPassword} from "../hooks/mutations/useResetPassword";
 
 interface IFormInput {
     email: string
     password: string
-    repeatPassword: string
 }
 const ResetPasswordPage = () => {
-    const { loginUser } = useLoginUser();
+    const { resetPassword } = useResetPassword();
     const toast = useToast();
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -24,11 +24,11 @@ const ResetPasswordPage = () => {
 
     const showToastMessage = () => {
         console.log('showToastMessage')
-        // toast.showToast({
-        //     id: new Date().getTime(),
-        //     severity: 'error',
-        //     summary: 'Email address and password are required fields',
-        // });
+        toast.showToast({
+            id: new Date().getTime(),
+            severity: 'error',
+            summary: 'Email address and password are required fields',
+        });
     };
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
         if (!email || !password) {
             showToastMessage()
         } else {
-            // loginUser(data as any)
+            resetPassword(data)
         }
     }
     return (

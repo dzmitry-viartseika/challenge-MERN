@@ -5,6 +5,7 @@ import { useToast } from "../context/ToastContext";
 import {useLoginUser} from "../hooks/mutations/useLoginUser";
 import {routes} from "../constants/routes";
 import {Link} from "react-router-dom";
+import GoogleLogin from "../components/LoginStrategy/GoogleLogin/GoogleLogin";
 
 interface IFormInput {
     email: string
@@ -63,6 +64,9 @@ const LoginPage = () => {
                         control={control}
                         render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
                     />
+                </div>
+                <div>
+                    <GoogleLogin />
                 </div>
                 <div>
                     Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
