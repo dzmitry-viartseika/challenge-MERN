@@ -4,8 +4,10 @@ import tokenService from "./tokenService";
 import Authentication from "../utils/auth/Authentication";
 import { v4 as uuidv4 } from 'uuid';
 import mailService from "./mailService";
-import {API_VERSION, SERVER_URL} from "../config/config";
+import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL} from "../config/config";
 import bcrypt from "bcrypt";
+import TokenModel from "../models/tokenModel";
+import jwt from "jsonwebtoken";
 interface IUserService {
     login(email: string, password: string): Promise<any>;
     registration(email: string, password: string,): Promise<any>;
@@ -117,6 +119,30 @@ class UserService implements IUserService {
         console.log('user', user);
         console.log('resetLink', resetLink);
         return true;
+    }
+
+    async getCurrentUser(token: string) {
+
+        // if (!token || !token.startsWith('Bearer ')) {
+        //     return res.status(401).json({ message: 'Invalid token format' });
+        // }
+
+        // Extract the token without the "Bearer " prefix
+        // const tokenValue = token.split(' ')[1];
+
+        try {
+            // Verify and decode the token using your secret key
+            const decoded: any = jwt.verify(token, JWT_ACCESS_SECRET);
+            console.log('decoded', decoded)
+            // The current user is available in the decoded payload
+            const currentUser = decoded._doc
+            console.log('currentUser', currentUser)
+            const userDto: any = new UserDto(decoded._doc);
+            return userDto
+        } catch (error) {
+            // If the token is invalid or has expired, catch the error here
+            // res.status(401).json({ message: 'Invalid token' });
+        }
     }
 }
 

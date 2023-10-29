@@ -142,24 +142,6 @@ class UserController {
                 if (clientResetPasswordUrl) {
                     return response.redirect(clientResetPasswordUrl)
                 }
-
-                // if (result) {
-                //     const clientResetPasswordUrl = process.env.CLIENT_RESET_PASSWORD_URL;
-                //     console.log('clientResetPasswordUrl', clientResetPasswordUrl)
-                //     if (clientResetPasswordUrl) {
-                //         return response.redirect(clientResetPasswordUrl);
-                //     } else {
-                //         return {
-                //             code: 500,
-                //             message: 'CLIENT_RESET_PASSWORD_URL is not defined in the environment.'
-                //         };
-                //     }
-                // } else {
-                //     return {
-                //         code: 400,
-                //         message: 'Некорректная активация ссылки'
-                //     };
-                // }
             } catch (e) {
                 console.log(e);
             }
@@ -176,11 +158,23 @@ class UserController {
             response.status(200).send({
                 code: 200,
                 message: 'The password is changed successfully',
+                user: user,
                 // user: userData, // return userDTO
             })
         } catch (e) {
             // next(e);
             console.log(e);
+        }
+    }
+
+    CurrentUser = async (request: Request, response: Response) => {
+        if (request.headers && request.headers.authorization) {
+            const token = request.headers.authorization.split(' ')[1];
+            console.log('token', token)
+            const userData = await UserService.getCurrentUser(token);
+            response.status(200).send({
+                user: userData,
+            });
         }
     }
 }

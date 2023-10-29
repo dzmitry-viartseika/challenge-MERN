@@ -149,6 +149,7 @@ router.get('/logout', userController.LogoutUser)
 router.post('/forgot-password', userController.ForgotUserPassword)
 router.get('/forgot-password/:link', userController.ResetUserPassword)
 router.post('/change-password/', userController.ChangeUserPassword);
+router.get('/me', userController.CurrentUser);
 
 
 export default router
