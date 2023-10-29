@@ -20,17 +20,14 @@ export const useResetPassword = () => {
     mutationFn: (data: any) =>
       UserService.changeUserPassword(data),
 
-    // onSuccess: ({data}) => {
-    //   console.log('wertey')
-    //   toast.showToast({
-    //     id: new Date().getTime(),
-    //     severity: 'success',
-    //     summary: 'You are logged in successfully',
-    //   });
-    //   const { accessToken } = data.user;
-    //   localStorage.setItem('token', accessToken);
-    //   navigate('/dashboard');
-    // },
+    onSuccess: () => {
+      toast.showToast({
+        id: new Date().getTime(),
+        severity: 'success',
+        summary: 'You have already changed password successfully',
+      });
+      navigate('/login');
+    },
     // onError: (error: any) => {
     //   toast.showToast({
     //     id: new Date().getTime(),
