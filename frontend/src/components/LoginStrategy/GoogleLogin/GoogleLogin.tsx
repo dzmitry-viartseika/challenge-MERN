@@ -1,6 +1,10 @@
+import {useGoogleLogin} from "../../../hooks/mutations/useGoogleLogin";
+
 const GoogleLogin = () => {
+    const { googleLogin } = useGoogleLogin();
     const onGoogleLogin = () => {
-        console.log('onGoogleLogin')
+        console.log('onGoogleLogin');
+        googleLogin()
     }
     return (
         <div className="py-10" onClick={onGoogleLogin}>

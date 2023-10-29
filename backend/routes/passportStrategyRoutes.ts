@@ -1,17 +1,22 @@
-// import userController from "../controllers/userController";
 import express from "express";
+import passport from "passport";
 
 const router = express.Router()
 
-// router.post('/login', userController.LoginUser)
-// router.post('/register', userController.RegisterUser)
-// router.get('/activate/:link', userController.ActivateUser);
-// router.get('/logout', userController.LogoutUser)
-// router.post('/forgot-password', userController.ForgotUserPassword)
-// router.get('/forgot-password/:link', userController.ResetUserPassword)
-// router.post('/change-password/', userController.ChangeUserPassword);
+router.get(
+    "/google",
+    passport.authenticate('google', {
+        scope: ["profile", "email"]
+    }));
+router.get("/auth/google/callback", passport.authenticate("google"));
+router.get('/api/logout', (req, res)=> {
+    // req.logout();
+    //proves that they are signed out as undefined or no content
+    res.send(req.user)
+})
 
-router.get('/auth/google');
-router.get('/auth/google/callback');
+router.get('/api/current_user', (req, res)=> {
+    res.send(req.user)
+})
 
 export default router
