@@ -32,7 +32,6 @@ class UserController {
                 response.status(loginResult.code).send(loginResult.message);
             } else {
                 response.status(ResponseStatus.SUCCESS).send({
-                    code: ResponseStatus.SUCCESS,
                     user: loginResult.user,
                 });
                 loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
@@ -43,7 +42,6 @@ class UserController {
                 loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
-                code: 500,
                 message: 'Internal Server Error',
             });
         }
@@ -55,20 +53,17 @@ class UserController {
 
             if (!email || !password) {
                 response.status(400).send({
-                    code: 400,
                     message: 'Fill in all required fields',
                 })
             }
             const userData = await UserService.registration(email, password);
             if (!userData) {
                 return response.status(400).send({
-                    code: 400,
                     message: 'The user is not created',
                 })
             }
             loggerAdapter.info('POST request to "http://localhost:4000/api/v1/register/". Response code: "200"');
             response.status(200).send({
-                code: 200,
                 message: 'The user is created successfully',
                 user: userData,
             })
@@ -78,7 +73,6 @@ class UserController {
                 loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/register/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
-                code: 500,
                 message: 'Internal Server Error',
             })
         }
@@ -118,10 +112,8 @@ class UserController {
 
     ForgotUserPassword = async (request: Request, response: Response) => {
         const { email } = request.body;
-        console.log('email', email)
         try {
             const result = await UserService.forgotPassword(email);
-            console.log('result', result)
             if (result) {
                 response.status(200).send({
                     message: 'Проверьте почту',
@@ -156,7 +148,6 @@ class UserController {
             const user = await UserService.changePassword(email, password);
             // return res.json(user);
             response.status(200).send({
-                code: 200,
                 message: 'The password is changed successfully',
                 user: user,
                 // user: userData, // return userDTO
@@ -170,7 +161,6 @@ class UserController {
     CurrentUser = async (request: Request, response: Response) => {
         if (request.headers && request.headers.authorization) {
             const token = request.headers.authorization.split(' ')[1];
-            console.log('token', token)
             const userData = await UserService.getCurrentUser(token);
             response.status(200).send({
                 user: userData,

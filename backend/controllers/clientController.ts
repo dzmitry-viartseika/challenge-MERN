@@ -29,7 +29,7 @@ class ClientController {
             }
             response
                 .status(500)
-                .send({ code: 500, message: 'Internal Server Error' })
+                .send({message: 'Internal Server Error' })
         }
     }
 
@@ -41,14 +41,12 @@ class ClientController {
             if (!result) {
                 loggerAdapter.error(`DELETE request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: The User is not found ID=${id}`);
                 response.status(400).send({
-                    code: 400,
                     message: 'The User is not found',
                 })
             }
 
             loggerAdapter.info(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has deleted successfully ID=${id}`);
             response.status(200).send({
-                code: 200,
                 message: 'The User has deleted successfully',
             })
         } catch (error: unknown) {
@@ -58,7 +56,7 @@ class ClientController {
             }
             response
                 .status(500)
-                .send({ code: 500, message: 'Internal Server Error' })
+                .send({ message: 'Internal Server Error' })
         }
     }
 
@@ -68,7 +66,6 @@ class ClientController {
             if (!firstName || !lastName || !email) {
                 loggerAdapter.error('POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: Fill in required fields');
                 response.status(400).send({
-                    code: 400,
                     message: 'Fill in required fields',
                 })
             }
@@ -78,7 +75,6 @@ class ClientController {
             if (client) {
                 loggerAdapter.info('POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
                 response.status(200).send({
-                    code: 200,
                     client,
                     message: 'The User has been created successfully',
                 })
@@ -89,7 +85,6 @@ class ClientController {
                 loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
-                code: 500,
                 message: 'Internal Server Error',
             })
         }
@@ -102,13 +97,11 @@ class ClientController {
             if (!result) {
                 loggerAdapter.error(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: The User is not found ID=${id}`);
                 response.status(400).send({
-                    code: 400,
                     message: 'The User is not found',
                 })
             }
             loggerAdapter.info('GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
             response.status(200).send({
-                code: 200,
                 client: result && result?.client,
             })
         } catch (error: unknown) {
@@ -117,7 +110,6 @@ class ClientController {
                 loggerAdapter.error(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
             }
             response.status(500).send({
-                code: 500,
                 message: 'Internal Server Error',
             })
         }
@@ -131,7 +123,6 @@ class ClientController {
             if (!firstName || !lastName || !email) {
                 loggerAdapter.error(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: Fill in required fields ID=${id}`);
                 response.status(400).send({
-                    code: 400,
                     message: 'Fill in required fields',
                 })
             }
@@ -139,7 +130,6 @@ class ClientController {
             const client = await UserService.updateClientById(request.body, id)
             loggerAdapter.info(`PUT request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been updated successfully ID=${id}`);
             response.status(200).send({
-                code: 200,
                 client,
                 message: 'The User has been updated successfully',
             })
@@ -149,7 +139,6 @@ class ClientController {
                 loggerAdapter.error(`PUT request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
             }
             response.status(500).send({
-                code: 500,
                 message: 'Internal Server Error',
             })
         }
