@@ -19,7 +19,7 @@ class UserController {
             }
 
             const loginResult: any = await UserService.login(email, password);
-
+            console.log('loginResult', loginResult)
             if (loginResult === null) {
                 const error = new HttpError(
                     'The User is not registered',
@@ -31,9 +31,7 @@ class UserController {
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
                 response.status(loginResult.code).send(loginResult.message);
             } else {
-                response.status(ResponseStatus.SUCCESS).send({
-                    user: loginResult.user,
-                });
+                response.status(ResponseStatus.SUCCESS).send(loginResult);
                 loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
             }
         } catch (err: unknown) {

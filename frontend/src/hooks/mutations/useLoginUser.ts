@@ -21,13 +21,12 @@ export const useLoginUser = () => {
       UserService.loginUser(userData),
 
     onSuccess: ({data}) => {
-      console.log('wertey')
       toast.showToast({
         id: new Date().getTime(),
         severity: 'success',
         summary: 'You are logged in successfully',
       });
-      const { accessToken } = data.user;
+      const { accessToken } = data;
       localStorage.setItem('token', accessToken);
       navigate('/dashboard');
     },
