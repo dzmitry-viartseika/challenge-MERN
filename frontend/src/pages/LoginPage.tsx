@@ -42,6 +42,7 @@ const LoginPage = () => {
     return (
         <div className="flex justify-center items-center h-screen">
             <form onSubmit={handleSubmit(onSubmit)} className="min-w-1/4 flex flex-col border border-gray-200 rounded-sm p-4">
+                {/*LOGO*/}
                 <h1 className="text-center mb-4">Login</h1>
                 <div className="mb-4 w-full">
                     <Controller

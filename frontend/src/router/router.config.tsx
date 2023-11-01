@@ -18,6 +18,7 @@ const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const ErrorPage = lazy(() => import('../pages/ErrorPage'));
 const ResetPasswordPage = lazy(() => import('../pages/ResetPasswordPage'));
+const LandingPage = lazy(() => import('../pages/LandingPage'));
 const queryClient = new QueryClient();
 
 export const routerConfig: RouteObject[] = [
@@ -81,6 +82,10 @@ export const routerConfig: RouteObject[] = [
         </QueryClientProvider>
     ),
   },
+    {
+        path: routes.LANDING,
+        element: <LandingPage  />,
+    },
   {
     path: routes.NOT_FOUND,
     element: <ErrorPage  />,
