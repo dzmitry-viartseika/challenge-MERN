@@ -1,30 +1,30 @@
 import React, { createContext, ReactNode, useRef, useContext, useState } from 'react';
 import { Toast } from 'primereact/toast';
-interface ToastData {
+interface IToastData {
     id: number;
     severity: string;
     summary: string;
 }
 
-interface ToastContextType {
+interface IToastContextType {
     showToast: (toastData: any) => void;
     removeToast: (id: number) => void;
 }
 
-interface ToastProviderProps {
+interface IToastProviderProps {
     children: ReactNode;
 }
 
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
+const ToastContext = createContext<IToastContextType | undefined>(undefined);
 
 function validateSeverity(severity: string): "success" | "info" | "warn" | "error" | undefined {
     return ['success', 'info', 'warn', 'error'].includes(severity) ? severity as "success" | "info" | "warn" | "error" : undefined;
 }
 
-function ToastProvider({ children }: ToastProviderProps) {
-    const [toasts, setToasts] = useState<ToastData[]>([]);
+function ToastProvider({ children }: IToastProviderProps) {
+    const [toasts, setToasts] = useState<IToastData[]>([]);
     const toast = useRef<Toast>(null);
-    const showToast = (toastData: ToastData) => {
+    const showToast = (toastData: IToastData) => {
         setToasts([...toasts, toastData]);
         toast.current?.show({    severity: validateSeverity(toastData.severity)
             , summary: toastData.summary, detail:'Message Content', life: 3000});

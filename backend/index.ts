@@ -15,6 +15,8 @@ import { helmetMiddleware } from './middleware/security/helmetMiddleware';
 import { compressionMiddleware } from './middleware/security/compressionMiddleware';
 import authRoutes from './routes/authRoutes';
 import databaseAdapter, { DatabaseAdapter } from './config/database';
+import notFoundMiddleWare from "./middleware/notFound";
+import errorHandlerMiddleWare from "./middleware/errorHandlerMiddleWare";
 const GitHubStrategy = require('passport-github2').Strategy;
 const MongoStore = require('connect-mongo')
 
@@ -62,6 +64,8 @@ class App {
         this.expressApp.use(express.json());
         this.expressApp.use(API_VERSION, authRoutes);
         this.expressApp.use(API_VERSION, clientRoutes);
+        this.expressApp.use(notFoundMiddleWare);
+        this.expressApp.use(errorHandlerMiddleWare);
 
         this.expressApp.use(
             '/api-docs/v1',
