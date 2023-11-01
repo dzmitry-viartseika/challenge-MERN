@@ -7,13 +7,14 @@ interface IProps {
   // reset: UseFormReset<FutureTenderGroupSaveDto>;
 }
 
-export const useGoogleLogin = () => {
+export const useGithubLogin = () => {
   const mutationResult = useMutation({
     mutationFn: () =>
-      UserService.googleLogin(),
+      UserService.githubLogin(),
 
     onSuccess: ({data}) => {
-      console.log('data', data)
+      console.log('useGithubLogin', data.user)
+      // localStorage.setItem('user', data.user);
       // console.log('wertey')
       // toast.showToast({
       //   id: new Date().getTime(),
@@ -35,7 +36,7 @@ export const useGoogleLogin = () => {
       // navigate('/login');
     },
   });
-  const { mutate: googleLogin } = mutationResult;
+  const { mutate: githubLogin } = mutationResult;
 
-  return { googleLogin };
+  return { githubLogin };
 };

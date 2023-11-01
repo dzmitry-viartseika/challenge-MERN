@@ -4,8 +4,9 @@ import {Link} from "react-router-dom";
 const ErrorPage = () => {
     return (
         <div>
-            <h1>404 page</h1>
-            <Link to={routes.DASHBOARD}>Proceed to Home page</Link>
+            <h3>Ohh! page not found</h3>
+            <p>We can't seem to find the page you're looking for</p>
+            <Link to={routes.DASHBOARD}>Back to Home page</Link>
         </div>
     )
 };

@@ -1,6 +1,26 @@
 import express from 'express'
 import userController from "../controllers/userController";
-import {use} from "chai";
+import passport from "passport";
+const GitHubStrategy = require('passport-github2').Strategy;
+
+
+passport.use(new GitHubStrategy({
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
+    },
+    function (accessToken: any, refreshToken: any, profile: any, done: any) {
+        return done(null, profile);
+    }
+));
+
+passport.serializeUser(function (user: any, done: any) {
+    done(null, user);
+});
+
+passport.deserializeUser(function (user: any, done: any) {
+    done(null, user);
+});
 
 const router = express.Router()
 /**
@@ -150,6 +170,10 @@ router.post('/forgot-password', userController.ForgotUserPassword)
 router.get('/forgot-password/:link', userController.ResetUserPassword)
 router.post('/change-password/', userController.ChangeUserPassword);
 router.get('/me', userController.CurrentUser);
+router.get('/auth/github', passport.authenticate('github'));
+
+router.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login', successRedirect: 'http://localhost:3000/dashboard' }))
 
 
 export default router

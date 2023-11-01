@@ -36,8 +36,8 @@ export default class UserService {
     return $api.post(`${API_VERSION}/change-password`, data);
   }
 
-  static googleLogin(): any {
-    return $api.get('/google');
+  static githubLogin(): any {
+    return $api.get(`${API_VERSION}/auth/github`);
   }
 
   static logOutUser(): any {
