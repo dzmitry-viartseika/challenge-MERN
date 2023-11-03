@@ -23,13 +23,13 @@ const queryClient = new QueryClient();
 
 export const routerConfig: RouteObject[] = [
   {
-    path: routes.ROOT,
+    path: routes.LANDING,
     element: <App />,
     children: [
       {
-        path: routes.ROOT,
+        path: routes.LANDING,
         element: (
-            <HomePageLayout />
+            <LandingPage />
         ),
       },
       {
