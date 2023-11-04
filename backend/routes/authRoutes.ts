@@ -171,9 +171,31 @@ router.get('/forgot-password/:link', userController.ResetUserPassword)
 router.post('/change-password/', userController.ChangeUserPassword);
 router.get('/me', userController.CurrentUser);
 router.get('/auth/github', passport.authenticate('github'));
+router.get('/auth/facebook',
+    passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages'] }));
 
 router.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login', successRedirect: 'http://localhost:3000/dashboard' }))
 
+router.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login', successRedirect: 'http://localhost:3000/dashboard' }));
+
+router.get('/github/user', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ user: req.user });
+    } else {
+        // If the user is not authenticated, send an appropriate response
+        res.status(401).json({ message: 'Not authenticated' });
+    }
+});
+
+router.get('/facebook/user', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ user: req.user });
+    } else {
+        // If the user is not authenticated, send an appropriate response
+        res.status(401).json({ message: 'Not authenticated' });
+    }
+});
 
 export default router

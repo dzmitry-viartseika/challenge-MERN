@@ -40,6 +40,10 @@ export default class UserService {
     return $api.get(`${API_VERSION}/auth/github`);
   }
 
+  static instagramLogin(): any {
+    return $api.get(`${API_VERSION}/auth/instagram`);
+  }
+
   static logOutUser(): any {
     // return $api.delete(`/clients/${id}`);
   }

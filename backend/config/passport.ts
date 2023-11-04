@@ -1,5 +1,6 @@
 import passport from 'passport';
 const GitHubStrategy = require('passport-github2').Strategy;
+const InstagramStrategy = require('passport-instagram').Strategy;
 //
 // passport.serializeUser(function(user, done) {
 //     done(null, user);
@@ -39,6 +40,19 @@ passport.use(new GitHubStrategy({
         callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
     },
     function (accessToken, refreshToken, profile, done) {
+        return done(null, profile);
+    }
+));
+
+passport.use(new InstagramStrategy({
+        clientID: process.env.INSTAGRAM_CLIENT_ID,
+        clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
+        callbackURL: 'http://localhost:4000/api/v1/auth/instagram/callback'
+    },
+    function(accessToken, refreshToken, profile, done) {
+        // User.findOrCreate({ instagramId: profile.id }, function (err, user) {
+        //     return done(err, user);
+        // });
         return done(null, profile);
     }
 ));
