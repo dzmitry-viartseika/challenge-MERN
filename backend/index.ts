@@ -45,13 +45,13 @@ class App {
         this.expressApp.use(passport.session());
 
         // GitHub Passport strategy configuration
-        passport.use(new GitHubStrategy({
-            clientID: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
-        }, (accessToken: any, refreshToken: any, profile: any, done: any) => {
-            return done(null, profile);
-        }));
+        // passport.use(new GitHubStrategy({
+        //     clientID: process.env.GITHUB_CLIENT_ID,
+        //     clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        //     callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
+        // }, (accessToken: any, refreshToken: any, profile: any, done: any) => {
+        //     return done(null, profile);
+        // }));
 
         this.server = http.createServer(this.expressApp);
         this.dbAdapter = databaseAdapter;

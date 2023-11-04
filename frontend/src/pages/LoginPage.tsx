@@ -6,6 +6,7 @@ import {useLoginUser} from "../hooks/mutations/useLoginUser";
 import {routes} from "../constants/routes";
 import {Link} from "react-router-dom";
 import GithubLogin from "../components/LoginStrategy/GithubLogin/GithubLogin";
+import GoogleLogin from "../components/LoginStrategy/GoogleLogin/GoogleLogin";
 
 interface IFormInput {
     email: string
@@ -68,6 +69,7 @@ const LoginPage = () => {
                 </div>
                 <div>
                     <GithubLogin />
+                    <GoogleLogin />
                 </div>
                 <div>
                     Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
