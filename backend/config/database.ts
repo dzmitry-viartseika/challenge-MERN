@@ -6,7 +6,7 @@ export abstract class DatabaseAdapter {
 }
 
 class MongoDBAdapter extends DatabaseAdapter {
-    async connect(): Promise<void> {
+    async  connect(): Promise<void> {
         try {
             if (!MONGODB_URI) {
                 throw new Error("MONGODB_URI is not defined");
