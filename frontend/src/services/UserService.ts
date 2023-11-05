@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import $api from '../api';
 import {API_VERSION} from "../api/api";
 
@@ -16,6 +16,10 @@ import {API_VERSION} from "../api/api";
 //   totalPage: number;
 //   users: Client[];
 // }
+
+interface AnyObject {
+  [key: string]: unknown;
+}
 
 export default class UserService {
   static loginUser(data: any): any {
@@ -36,7 +40,7 @@ export default class UserService {
     return $api.post(`${API_VERSION}/change-password`, data);
   }
 
-  static githubLogin(): any {
+  static githubLogin():  Promise<axios.AxiosResponse<AnyObject>> {
     return $api.get(`${API_VERSION}/auth/github`);
   }
 
