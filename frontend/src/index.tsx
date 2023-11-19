@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+import {ErrorBoundary} from "react-error-boundary";
+import ErrorPage from "./pages/ErrorPage";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -13,8 +15,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <StrictMode>
-        <BrowserRouter>
-            <Router />
-        </BrowserRouter>
+        <ErrorBoundary fallback={<p>Something went wrong. Try again later.</p>} FallbackComponent={ErrorPage}>
+            <BrowserRouter>
+                <Router />
+            </BrowserRouter>
+        </ErrorBoundary>
     </StrictMode>
 );
