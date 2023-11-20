@@ -17,11 +17,13 @@ import authRoutes from './routes/authRoutes';
 import databaseAdapter, { DatabaseAdapter } from './config/database';
 import notFoundMiddleWare from "./middleware/notFound";
 import errorHandlerMiddleWare from "./middleware/errorHandlerMiddleWare";
+import { rateLimit } from 'express-rate-limit'
 const GitHubStrategy = require('passport-github2').Strategy;
-const MongoStore = require('connect-mongo')
+const MongoStore = require('connect-mongo');
 
 const key = fs.readFileSync('./config/key.pem');
 const cert = fs.readFileSync('./config/cert.pem');
+
 class App {
     private static instance: App | null = null;
     private readonly expressApp: express.Application;

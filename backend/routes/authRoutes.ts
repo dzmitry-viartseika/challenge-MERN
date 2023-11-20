@@ -1,7 +1,16 @@
 import express from 'express'
 import userController from "../controllers/userController";
 import passport from "passport";
+import {rateLimit} from "express-rate-limit";
 const GitHubStrategy = require('passport-github2').Strategy;
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 10,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: 'Too many requests from this IP address, please try again after 15 minutes!'
+})
 
 
 passport.use(new GitHubStrategy({
@@ -163,7 +172,7 @@ const router = express.Router()
  *         description: Internal Server Error
  */
 router.post('/login', userController.LoginUser)
-router.post('/register', userController.RegisterUser)
+router.post('/register',limiter, userController.RegisterUser)
 router.get('/activate/:link', userController.ActivateUser);
 router.get('/logout', userController.LogoutUser)
 router.post('/forgot-password', userController.ForgotUserPassword)
