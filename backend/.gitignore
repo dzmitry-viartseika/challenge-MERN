@@ -14,6 +14,10 @@ lerna-debug.log*
 # Env
 .env
 
+# Keys
+
+*.pem
+
 # OS
 .DS_Store
 
