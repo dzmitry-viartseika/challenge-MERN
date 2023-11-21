@@ -7,6 +7,8 @@ import {routes} from "../constants/routes";
 import {Link} from "react-router-dom";
 import GithubLogin from "../components/LoginStrategy/GithubLogin/GithubLogin";
 import GoogleLogin from "../components/LoginStrategy/GoogleLogin/GoogleLogin";
+import ButtonBase from "../components/Buttons/ButtonBase";
+import ButtonIcon from "../components/Buttons/ButtonIcon";
 
 interface IFormInput {
     email: string
@@ -75,6 +77,8 @@ const LoginPage = () => {
                     Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
                 </div>
                 <Button type="submit" label="Login" severity="info" />
+                <ButtonBase text="Wertey" severity="success" />
+                <ButtonIcon text="DDDDD" severity="success" iconClass="pi pi-check"/>
             </form>
         </div>
     )
