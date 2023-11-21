@@ -5,6 +5,7 @@ import {routes} from "../constants/routes";
 import {ToastProvider} from "../context/ToastContext";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ForgetPasswordPage from "../pages/ForgetPasswordPage";
+import {UserProvider} from "../context/userContext";
 
 const App = lazy(() => import('../App'));
 
@@ -34,7 +35,9 @@ export const routerConfig: RouteObject[] = [
       },
       {
         path: routes.DASHBOARD,
-        element: <DashboardPage />,
+        element: (<UserProvider>
+            <DashboardPage />
+        </UserProvider>),
       },
       {
         path: routes.NO_PERMISSION,

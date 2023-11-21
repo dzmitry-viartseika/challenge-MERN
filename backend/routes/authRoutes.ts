@@ -1,16 +1,10 @@
 import express from 'express'
 import userController from "../controllers/userController";
 import passport from "passport";
-import {rateLimit} from "express-rate-limit";
+import {limiter} from "../middleware/security/rateLimitMiddleWare";
 const GitHubStrategy = require('passport-github2').Strategy;
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    limit: 10,
-    standardHeaders: 'draft-7',
-    legacyHeaders: false,
-    message: 'Too many requests from this IP address, please try again after 15 minutes!'
-})
+
 
 
 passport.use(new GitHubStrategy({
@@ -173,11 +167,11 @@ const router = express.Router()
  */
 router.post('/login', userController.LoginUser)
 router.post('/register',limiter, userController.RegisterUser)
-router.get('/activate/:link', userController.ActivateUser);
+router.get('/activate/:link',limiter, userController.ActivateUser);
 router.get('/logout', userController.LogoutUser)
-router.post('/forgot-password', userController.ForgotUserPassword)
-router.get('/forgot-password/:link', userController.ResetUserPassword)
-router.post('/change-password/', userController.ChangeUserPassword);
+router.post('/forgot-password',limiter, userController.ForgotUserPassword)
+router.get('/forgot-password/:link',limiter, userController.ResetUserPassword)
+router.post('/change-password/',limiter, userController.ChangeUserPassword);
 router.get('/me', userController.CurrentUser);
 router.get('/auth/github', passport.authenticate('github'));
 router.get('/auth/google',
