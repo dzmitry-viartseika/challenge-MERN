@@ -3,7 +3,7 @@ import {useGithubLogin} from "../../../hooks/mutations/useGithubLogin";
 const GithubLogin = () => {
     const { githubLogin } = useGithubLogin();
     const onGithubLogin = () => {
-        window.open("http://localhost:4000/api/v1/auth/github", "_self");
+        window.open("https://localhost:4000/api/v1/auth/github", "_self");
     }
     return (
         <div className="py-10">

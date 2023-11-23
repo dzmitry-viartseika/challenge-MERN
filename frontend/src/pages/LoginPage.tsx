@@ -77,8 +77,8 @@ const LoginPage = () => {
                     Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
                 </div>
                 <Button type="submit" label="Login" severity="info" />
-                <ButtonBase text="Wertey" severity="success" />
-                <ButtonIcon text="DDDDD" severity="success" iconClass="pi pi-check"/>
+                {/*<ButtonBase text="Wertey" severity="success" />*/}
+                {/*<ButtonIcon text="DDDDD" severity="success" iconClass="pi pi-check"/>*/}
             </form>
         </div>
     )

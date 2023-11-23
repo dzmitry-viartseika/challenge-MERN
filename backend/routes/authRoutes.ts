@@ -178,10 +178,10 @@ router.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] }));
 
 router.get('/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/login', successRedirect: 'http://localhost:3000/dashboard' }))
+    passport.authenticate('github', { failureRedirect: '/login', successRedirect: 'https://localhost:3000/dashboard' }))
 
 router.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login', successRedirect: 'http://localhost:3000/dashboard' }),
+    passport.authenticate('google', { failureRedirect: '/login', successRedirect: 'https://localhost:3000/dashboard' }),
     function(req, res) {
         res.redirect('/');
     });
