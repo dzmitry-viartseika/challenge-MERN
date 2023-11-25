@@ -2,7 +2,6 @@ import express from 'express';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import https from 'https';
-// import http from 'http';
 import fs from 'fs';
 import passport from 'passport';
 import { PORT, SERVER_URL, API_VERSION } from './config/config';
@@ -18,8 +17,7 @@ import authRoutes from './routes/authRoutes';
 import databaseAdapter, { DatabaseAdapter } from './config/database';
 import notFoundMiddleWare from "./middleware/notFound";
 import errorHandlerMiddleWare from "./middleware/errorHandlerMiddleWare";
-import { rateLimit } from 'express-rate-limit'
-const GitHubStrategy = require('passport-github2').Strategy;
+import passportRoutes from "./routes/passportRoutes";
 const MongoStore = require('connect-mongo');
 
 const key = fs.readFileSync('./config/key.pem');
@@ -29,7 +27,6 @@ class App {
     private static instance: App | null = null;
     private readonly expressApp: express.Application;
     private server: https.Server;
-    // private server: http.Server;
     private dbAdapter: DatabaseAdapter;
 
     private constructor() {
@@ -46,21 +43,10 @@ class App {
             })
         );
 
-        // Initialize Passport and Passport sessions after express-session
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());
 
-        // GitHub Passport strategy configuration
-        // passport.use(new GitHubStrategy({
-        //     clientID: process.env.GITHUB_CLIENT_ID,
-        //     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        //     callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
-        // }, (accessToken: any, refreshToken: any, profile: any, done: any) => {
-        //     return done(null, profile);
-        // }));
-
         this.server = https.createServer({key: key, cert: cert }, this.expressApp);
-        // this.server = http.createServer(this.expressApp);
         this.dbAdapter = databaseAdapter;
         this.expressApp.use(corsMiddleware);
         this.expressApp.use(helmetMiddleware);
@@ -69,6 +55,7 @@ class App {
         this.expressApp.disable('x-powered-by');
         this.expressApp.use(express.json());
         this.expressApp.use(API_VERSION, authRoutes);
+        this.expressApp.use(API_VERSION, passportRoutes);
         this.expressApp.use(API_VERSION, clientRoutes);
         this.expressApp.use(notFoundMiddleWare);
         this.expressApp.use(errorHandlerMiddleWare);
