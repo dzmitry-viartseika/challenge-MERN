@@ -5,8 +5,6 @@ export const HOST = process.env.HOST ?? 'localhost'
 export const SERVER_URL = `https://${HOST}:${PORT}`
 
 export const MONGODB_URI = process.env.MONGODB_URL
-
-// export const ALLOWED_BASE_URLS = ['https://localhost:3000', 'https://localhost:4000']
 export const ALLOWED_BASE_URLS = ['http://localhost:3000', 'http://localhost:4000', 'https://localhost:3000', 'https://localhost:4000']
 
 export const API_VERSION = '/api/v1';

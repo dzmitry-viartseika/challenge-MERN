@@ -2,11 +2,10 @@ import { Schema, model } from 'mongoose'
 
 const GithubUserSchema = new Schema(
     {
-        nodeId: String,
-        email: {
-            type: String,
-            required: true,
-        },
+        githubId: { type: String, unique: true },
+        provider: String,
+        avatarUrl: String,
+        displayName: String,
     },
 )
 

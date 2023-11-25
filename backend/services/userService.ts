@@ -50,7 +50,7 @@ class UserService implements IUserService {
         }
         const activationLink = uuidv4();
         const hashPassword = await Authentication.passwordHash(password);
-        await mailService.sendActivationMail(email, `http://localhost:4000/api/v1/activate/${activationLink}`);
+        await mailService.sendActivationMail(email, `https://localhost:4000/api/v1/activate/${activationLink}`);
         const user: any = await UserModel.create({ email, password: hashPassword, activationLink });
         const userDto = new UserDto(user);
         const token: any = tokenService.generateTokens({...user});
@@ -83,9 +83,6 @@ class UserService implements IUserService {
     }
 
     async changePassword(email: string, password: string) {
-        console.log('email', email)
-        console.log('password', password)
-
         const user: any = await UserModel.findOne({ email });
         if (!user) {
             return false
@@ -116,8 +113,6 @@ class UserService implements IUserService {
             return null;
             // throw ApiError.badRequest('Некорректная активация ссылки')
         }
-        console.log('user', user);
-        console.log('resetLink', resetLink);
         return true;
     }
 

@@ -3,7 +3,6 @@ import loggerAdapter from "../logger/logger";
 import UserService from "../services/userService";
 import HttpError from "../helpers/httpError";
 import {ResponseStatus} from "../ts/enums/ResponseStatus";
-import request from "supertest";
 class UserController {
     LoginUser = async (request: Request, response: Response) => {
         const { email, password } = request.body;

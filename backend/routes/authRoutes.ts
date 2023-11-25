@@ -2,16 +2,8 @@ import express from 'express'
 import userController from "../controllers/userController";
 import { limiter } from "../middleware/security/rateLimitMiddleWare";
 
+
 const router = express.Router()
-router.post('/login', userController.LoginUser)
-router.post('/register',limiter, userController.RegisterUser)
-router.get('/activate/:link',limiter, userController.ActivateUser);
-router.get('/logout', userController.LogoutUser)
-router.post('/forgot-password',limiter, userController.ForgotUserPassword)
-router.get('/forgot-password/:link',limiter, userController.ResetUserPassword)
-router.post('/change-password/',limiter, userController.ChangeUserPassword);
-router.get('/me', userController.CurrentUser);
-export default router;
 
 
 /**
@@ -153,3 +145,12 @@ export default router;
  *       500:
  *         description: Internal Server Error
  */
+router.post('/login', userController.LoginUser)
+router.post('/register',limiter, userController.RegisterUser)
+router.get('/activate/:link',limiter, userController.ActivateUser);
+router.get('/logout', userController.LogoutUser)
+router.post('/forgot-password',limiter, userController.ForgotUserPassword)
+router.get('/forgot-password/:link',limiter, userController.ResetUserPassword)
+router.post('/change-password/',limiter, userController.ChangeUserPassword);
+router.get('/me', userController.CurrentUser);
+export default router;
