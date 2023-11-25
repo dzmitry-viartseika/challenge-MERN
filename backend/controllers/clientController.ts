@@ -13,7 +13,7 @@ class ClientController {
                 limit,
             })
 
-            loggerAdapter.info(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: OK`);
+            loggerAdapter.info(`GET request to "https://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: OK`);
 
             response.status(200).json({
                 clients,
@@ -25,7 +25,7 @@ class ClientController {
         } catch (error: unknown) {
             if (error instanceof Error) {
                 const errorMessage = error.message;
-                loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response
                 .status(500)
@@ -39,20 +39,20 @@ class ClientController {
             const result = await UserService.deleteClient(id)
 
             if (!result) {
-                loggerAdapter.error(`DELETE request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: The User is not found ID=${id}`);
+                loggerAdapter.error(`DELETE request to "https://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: The User is not found ID=${id}`);
                 response.status(400).send({
                     message: 'The User is not found',
                 })
             }
 
-            loggerAdapter.info(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has deleted successfully ID=${id}`);
+            loggerAdapter.info(`GET request to "https://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has deleted successfully ID=${id}`);
             response.status(200).send({
                 message: 'The User has deleted successfully',
             })
         } catch (error: unknown) {
             if (error instanceof Error) {
                 const errorMessage = error.message;
-                loggerAdapter.error(`DELETE request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
+                loggerAdapter.error(`DELETE request to "https://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
             }
             response
                 .status(500)
@@ -64,7 +64,7 @@ class ClientController {
         const { firstName, lastName, email } = request.body
         try {
             if (!firstName || !lastName || !email) {
-                loggerAdapter.error('POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: Fill in required fields');
+                loggerAdapter.error('POST request to "https://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: Fill in required fields');
                 response.status(400).send({
                     message: 'Fill in required fields',
                 })
@@ -73,7 +73,7 @@ class ClientController {
             const client = await UserService.createClient(request.body)
 
             if (client) {
-                loggerAdapter.info('POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
+                loggerAdapter.info('POST request to "https://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
                 response.status(200).send({
                     client,
                     message: 'The User has been created successfully',
@@ -82,7 +82,7 @@ class ClientController {
         } catch (error: unknown) {
             if (error instanceof Error) {
                 const errorMessage = error.message;
-                loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
                 message: 'Internal Server Error',
@@ -95,19 +95,19 @@ class ClientController {
         try {
             const result = await UserService.getClientById(id)
             if (!result) {
-                loggerAdapter.error(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: The User is not found ID=${id}`);
+                loggerAdapter.error(`GET request to "https://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: The User is not found ID=${id}`);
                 response.status(400).send({
                     message: 'The User is not found',
                 })
             }
-            loggerAdapter.info('GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
+            loggerAdapter.info('GET request to "https://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been created successfully');
             response.status(200).send({
                 client: result && result?.client,
             })
         } catch (error: unknown) {
             if (error instanceof Error) {
                 const errorMessage = error.message;
-                loggerAdapter.error(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
+                loggerAdapter.error(`GET request to "https://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
             }
             response.status(500).send({
                 message: 'Internal Server Error',
@@ -121,14 +121,14 @@ class ClientController {
 
         try {
             if (!firstName || !lastName || !email) {
-                loggerAdapter.error(`GET request to "http://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: Fill in required fields ID=${id}`);
+                loggerAdapter.error(`GET request to "https://localhost:4000/api/v1/clients/" failed. Response code: "400", response message: Fill in required fields ID=${id}`);
                 response.status(400).send({
                     message: 'Fill in required fields',
                 })
             }
 
             const client = await UserService.updateClientById(request.body, id)
-            loggerAdapter.info(`PUT request to "http://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been updated successfully ID=${id}`);
+            loggerAdapter.info(`PUT request to "https://localhost:4000/api/v1/clients/" failed. Response code: "200", response message: The User has been updated successfully ID=${id}`);
             response.status(200).send({
                 client,
                 message: 'The User has been updated successfully',
@@ -136,7 +136,7 @@ class ClientController {
         } catch (error: unknown) {
             if (error instanceof Error) {
                 const errorMessage = error.message;
-                loggerAdapter.error(`PUT request to "http://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
+                loggerAdapter.error(`PUT request to "https://localhost:4000/api/v1/clients/" failed. Response code: "500", response message: ${errorMessage} ID=${id}`);
             }
             response.status(500).send({
                 message: 'Internal Server Error',

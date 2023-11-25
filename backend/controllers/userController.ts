@@ -36,7 +36,7 @@ class UserController {
         } catch (err: unknown) {
             if (err instanceof Error) {
                 const errorMessage = err.message;
-                loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
                 message: 'Internal Server Error',
@@ -59,7 +59,7 @@ class UserController {
                     message: 'The user is not created',
                 })
             }
-            loggerAdapter.info('POST request to "http://localhost:4000/api/v1/register/". Response code: "200"');
+            loggerAdapter.info('POST request to "https://localhost:4000/api/v1/register/". Response code: "200"');
             response.status(200).send({
                 message: 'The user is created successfully',
                 user: userData,
@@ -67,7 +67,7 @@ class UserController {
         } catch (err: unknown) {
             if (err instanceof Error) {
                 const errorMessage = err.message;
-                loggerAdapter.error(`POST request to "http://localhost:4000/api/v1/register/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/register/" failed. Response code: "500", response message: ${errorMessage}`);
             }
             response.status(500).send({
                 message: 'Internal Server Error',
