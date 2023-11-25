@@ -11,13 +11,11 @@ const queryClient = new QueryClient();
 const App = () => {
     return (
       <QueryClientProvider client={queryClient}>
-          <PrimeReactProvider>
               <ToastProvider>
                   <main className="flex">
                       <Outlet />
                   </main>
               </ToastProvider>
-          </PrimeReactProvider>
 
               <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>

@@ -9,6 +9,7 @@ import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import {ErrorBoundary} from "react-error-boundary";
 import ErrorPage from "./pages/ErrorPage";
+import {PrimeReactProvider} from "primereact/api";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -18,7 +19,9 @@ root.render(
     <StrictMode>
         <ErrorBoundary fallback={<p>Something went wrong. Try again later.</p>} FallbackComponent={ErrorPage}>
             <BrowserRouter>
-                <Router />
+                <PrimeReactProvider>
+                    <Router />
+                </PrimeReactProvider>
             </BrowserRouter>
         </ErrorBoundary>
     </StrictMode>
