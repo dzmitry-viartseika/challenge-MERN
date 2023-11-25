@@ -54,8 +54,6 @@
         "passport": "^0.6.0",
         "passport-github2": "^0.1.12",
         "passport-google-oauth20": "^2.0.0",
-        "passport-google-oidc": "^0.1.0",
-        "passport-instagram": "^1.0.0",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.0",
         "ts-node": "^10.9.1",
