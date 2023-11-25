@@ -1,6 +1,5 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { InputText } from "primereact/inputtext";
-import {Button} from "primereact/button";
 import { useToast } from "../context/ToastContext";
 import {useLoginUser} from "../hooks/mutations/useLoginUser";
 import {routes} from "../constants/routes";
@@ -8,7 +7,7 @@ import {Link} from "react-router-dom";
 import GithubLogin from "../components/LoginStrategy/GithubLogin/GithubLogin";
 import GoogleLogin from "../components/LoginStrategy/GoogleLogin/GoogleLogin";
 import ButtonBase from "../components/Buttons/ButtonBase";
-import ButtonIcon from "../components/Buttons/ButtonIcon";
+import {Password} from "primereact/password";
 
 interface IFormInput {
     email: string
@@ -54,6 +53,7 @@ const LoginPage = () => {
                         render={({ field }) =>
                             <>
                                 <InputText
+                                    tabIndex={1}
                                     autoFocus={true}
                                     {...field}
                                     placeholder="Text your email"
@@ -66,7 +66,7 @@ const LoginPage = () => {
                     <Controller
                         name="password"
                         control={control}
-                        render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
+                        render={({ field }) => <Password {...field}  placeholder="Text your password" toggleMask feedback={false} tabIndex={2}/>}
                     />
                 </div>
                 <div>
@@ -76,9 +76,7 @@ const LoginPage = () => {
                 <div>
                     Don't have an account yet? <Link to={routes.REGISTER} className="mb-2 text-center">Register</Link>
                 </div>
-                <Button type="submit" label="Login" severity="info" />
-                {/*<ButtonBase text="Wertey" severity="success" />*/}
-                {/*<ButtonIcon text="DDDDD" severity="success" iconClass="pi pi-check"/>*/}
+                <ButtonBase text="Login" severity="info" />
             </form>
         </div>
     )

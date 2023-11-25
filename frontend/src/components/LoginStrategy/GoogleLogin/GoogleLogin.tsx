@@ -1,7 +1,7 @@
 
 const GoogleLogin = () => {
     const onGoogleLogin = () => {
-        window.open("http://localhost:4000/api/v1/auth/google", "_self");
+        window.open("https://localhost:4000/api/v1/auth/google", "_self");
     }
     return (
         <div className="py-10">

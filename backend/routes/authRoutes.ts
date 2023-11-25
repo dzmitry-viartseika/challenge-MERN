@@ -3,7 +3,7 @@ import userController from "../controllers/userController";
 import passport from "passport";
 import {limiter} from "../middleware/security/rateLimitMiddleWare";
 const GitHubStrategy = require('passport-github2').Strategy;
-
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 
 
@@ -16,6 +16,21 @@ passport.use(new GitHubStrategy({
         return done(null, profile);
     }
 ));
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.OAUTH2_GOOGLE_CLIENT_ID,
+    clientSecret: process.env.OAUTH2_GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost:4000/api/v1/auth/google/callback',
+    scope: ['profile'],
+    },
+        function (accessToken: any, refreshToken: any, profile: any, done: any) {
+            console.log('profile', profile)
+            // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            //     return cb(err, user);
+            // });
+            return done(null, profile);
+    }
+))
 
 passport.serializeUser(function (user: any, done: any) {
     done(null, user);
@@ -178,15 +193,26 @@ router.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] }));
 
 router.get('/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/login', successRedirect: 'https://localhost:3000/dashboard' }))
+    passport.authenticate('github', { failureRedirect: 'https://localhost:3000/login', successRedirect: 'https://localhost:3000/dashboard' }))
 
 router.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login', successRedirect: 'https://localhost:3000/dashboard' }),
+    passport.authenticate('google', { failureRedirect: 'https://localhost:3000/login', successRedirect: 'https://localhost:3000/dashboard' }),
     function(req, res) {
         res.redirect('/');
     });
 
 router.get('/github/user', (req, res) => {
+    console.log('req', req)
+    if (req.isAuthenticated()) {
+        res.json({ user: req.user });
+    } else {
+        // If the user is not authenticated, send an appropriate response
+        res.status(401).json({ message: 'Not authenticated' });
+    }
+});
+
+router.get('/google/user', (req, res) => {
+    console.log('XXXXXwertey', res)
     if (req.isAuthenticated()) {
         res.json({ user: req.user });
     } else {

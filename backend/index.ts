@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import https from 'https';
+// import http from 'http';
 import fs from 'fs';
 import passport from 'passport';
 import { PORT, SERVER_URL, API_VERSION } from './config/config';
@@ -28,6 +29,7 @@ class App {
     private static instance: App | null = null;
     private readonly expressApp: express.Application;
     private server: https.Server;
+    // private server: http.Server;
     private dbAdapter: DatabaseAdapter;
 
     private constructor() {
@@ -58,6 +60,7 @@ class App {
         // }));
 
         this.server = https.createServer({key: key, cert: cert }, this.expressApp);
+        // this.server = http.createServer(this.expressApp);
         this.dbAdapter = databaseAdapter;
         this.expressApp.use(corsMiddleware);
         this.expressApp.use(helmetMiddleware);
