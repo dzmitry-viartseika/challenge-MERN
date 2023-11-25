@@ -1,6 +1,7 @@
 import express from 'express'
 import ClientController from '../controllers/clientController'
 import {authenticateToken} from "../middleware/auth/authenticateToken";
+import cache from "../config/cache";
 
 const router = express.Router()
 /**
@@ -142,7 +143,7 @@ const router = express.Router()
  *       500:
  *         description: Internal Server Error
  */
-router.post('/clients', authenticateToken, ClientController.createClient)
+router.post('/clients', cache.route(), authenticateToken, ClientController.createClient)
 router.put('/clients/:id', authenticateToken, ClientController.updateClientById)
 router.delete('/clients/:id', authenticateToken, ClientController.deleteClient)
 router.get('/clients/:id', authenticateToken, ClientController.getClientById)
