@@ -42,11 +42,11 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <form onSubmit={handleSubmit(onSubmit)} className="min-w-1/4 flex flex-col border border-gray-200 rounded-sm p-4">
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <form onSubmit={handleSubmit(onSubmit)} className="col-3 d-flex flex-column border border-secondary rounded-sm p-4">
                 {/*LOGO*/}
                 <h1 className="text-center mb-4">Login</h1>
-                <div className="mb-4 w-full">
+                <div className="mb-4 w-100">
                     <Controller
                         name="email"
                         control={control}
@@ -56,17 +56,19 @@ const LoginPage = () => {
                                     tabIndex={1}
                                     autoFocus={true}
                                     {...field}
+                                    className="w-100"
                                     placeholder="Text your email"
                                 />
                             </>}
                     />
                 </div>
                 <Link to={routes.FORGET_PASSWORD} className="mb-2 text-center">Forgot your password?</Link>
-                <div className="mb-4 w-full">
+                <div className="mb-4 w-100">
                     <Controller
                         name="password"
                         control={control}
-                        render={({ field }) => <Password {...field}  placeholder="Text your password" toggleMask feedback={false} tabIndex={2}/>}
+                        render={({ field }) => <Password {...field}                                     className="w-100"
+                                                         placeholder="Text your password" toggleMask feedback={false} tabIndex={2}/>}
                     />
                 </div>
                 <div>
