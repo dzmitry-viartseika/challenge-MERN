@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import {Roles} from "../ts/enums/Roles";
 
 const GoogleUserSchema = new Schema(
     {
@@ -8,7 +9,10 @@ const GoogleUserSchema = new Schema(
         givenName: String,
         displayName: String,
         avatarUrl: String,
-        roles: [],
+            role: {
+                    type: String,
+                    default: Roles.CLIENT
+            },
     },
 )
 

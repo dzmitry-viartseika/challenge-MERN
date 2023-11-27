@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import {Roles} from "../ts/enums/Roles";
 
 const GithubUserSchema = new Schema(
     {
@@ -6,7 +7,10 @@ const GithubUserSchema = new Schema(
         provider: String,
         avatarUrl: String,
         displayName: String,
-        roles: [],
+        role: {
+                type: String,
+                default: Roles.CLIENT
+        },
     },
 )
 
