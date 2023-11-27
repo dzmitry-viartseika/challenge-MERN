@@ -50,7 +50,9 @@ export const routerConfig: RouteObject[] = [
     element: (
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
-            <LoginPage />
+            <UserProvider>
+                <LoginPage />
+            </UserProvider>
           </ToastProvider>
         </QueryClientProvider>
     ),
@@ -60,7 +62,9 @@ export const routerConfig: RouteObject[] = [
     element: (
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
-            <RegisterPage />
+              <UserProvider>
+                  <RegisterPage />
+              </UserProvider>
           </ToastProvider>
         </QueryClientProvider>
     ),

@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const UserContext = createContext();
+const UserContext = createContext<any | undefined>(undefined);
 
-export const UserProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     const updateUser = (newUserData) => {
+        console.log('newUserData', newUserData)
         setUser(newUserData);
     };
 
@@ -28,3 +29,5 @@ const useUser = () => {
     }
     return context;
 };
+
+export { UserProvider, useUser };

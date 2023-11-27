@@ -8,9 +8,10 @@ const GoogleUserSchema = new Schema(
         givenName: String,
         displayName: String,
         avatarUrl: String,
+        roles: [],
     },
 )
 
 const GoogleUserModel = model('GoogleUserModel', GoogleUserSchema)
 
-export default GoogleUserModel
+export default GoogleUserModel;

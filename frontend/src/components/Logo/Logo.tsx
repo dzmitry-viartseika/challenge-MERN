@@ -9,7 +9,7 @@ const Logo = () => {
         navigate(routes.LANDING)
     }
     return (
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center m-2">
             <Avatar image={LOGO_URL} onClick={onProceedToHome} className="flex align-items-center justify-content-center mr-2" size="xlarge" />
         </div>
 )

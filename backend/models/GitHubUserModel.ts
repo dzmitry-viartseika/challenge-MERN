@@ -6,6 +6,7 @@ const GithubUserSchema = new Schema(
         provider: String,
         avatarUrl: String,
         displayName: String,
+        roles: [],
     },
 )
 

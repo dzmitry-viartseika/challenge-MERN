@@ -1,7 +1,10 @@
 import {useState, useEffect} from "react";
+import NavBar from "../components/NavBar/NavBar";
+import {useUser} from "../context/userContext";
 
 const DashboardPage = () => {
     const [userData, setUserData] = useState(null);
+    const userContext = useUser();
 
     useEffect(() => {
         // Make a GET request to the /api/v1/userdata endpoint on your server
@@ -40,7 +43,8 @@ const DashboardPage = () => {
             })
             .then((data) => {
                 console.log('data', data)
-                setUserData(data.user);
+                userContext.updateUser(data);
+                setUserData(data.user.user);
             })
             .catch((error) => {
                 console.error('Error fetching user data:', error);
@@ -50,6 +54,7 @@ const DashboardPage = () => {
 
     return (
         <div>
+            <NavBar />
             <h1 className="text-3xl font-bold underline">
                 Hello world!
             </h1>
