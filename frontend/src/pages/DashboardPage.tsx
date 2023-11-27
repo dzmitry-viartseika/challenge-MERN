@@ -1,9 +1,12 @@
 import {useState, useEffect} from "react";
 import NavBar from "../components/NavBar/NavBar";
 import {useUser} from "../context/userContext";
+import {useGetClients} from "../hooks/queries/useGetClients";
 
 const DashboardPage = () => {
     const [userData, setUserData] = useState(null);
+    const {clientList = []} = useGetClients();
+    console.log('clientList', clientList)
     const userContext = useUser();
 
     useEffect(() => {
@@ -28,27 +31,27 @@ const DashboardPage = () => {
         //         console.error('Error fetching user data:', error);
         //     });
 
-        fetch('https://localhost:4000/api/v1/google/user', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // Include credentials (cookies) for sessions
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log('data', data)
-                userContext.updateUser(data);
-                setUserData(data.user.user);
-            })
-            .catch((error) => {
-                console.error('Error fetching user data:', error);
-            });
+        // fetch('https://localhost:4000/api/v1/google/user', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     credentials: 'include', // Include credentials (cookies) for sessions
+        // })
+        //     .then((response) => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then((data) => {
+        //         console.log('data', data)
+        //         userContext.updateUser(data);
+        //         setUserData(data.user.user);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error fetching user data:', error);
+        //     });
     }, []);
 
 

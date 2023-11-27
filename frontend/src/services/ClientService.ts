@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import $api from '../api';
+import {API_VERSION} from "../api/api";
 
 interface Client {
   firstName: string;
@@ -22,7 +23,7 @@ export default class ClientService {
   }
 
   static getClients(page = 1): any {
-    return $api.get(`/clients?page=${page}`);
+    return $api.get(`${API_VERSION}/clients?page=${page}`);
   }
 
   static deleteClient(id: any): Promise<AxiosResponse<any>> {

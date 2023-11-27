@@ -36,6 +36,24 @@ class TokenService implements ITokenService {
         const tokenData = await TokenModel.deleteOne({ refreshToken });
         return tokenData;
     }
+
+    // async updateAccessToken(refreshToken: string) {
+    //     try {
+    //         const decodedRefreshToken: any = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    //         console.log('decodedRefreshToken', decodedRefreshToken)
+    //
+    //         const newAccessToken = jwt.sign({ userId: decodedRefreshToken.userId }, process.env.JWT_ACCESS_SECRET, {
+    //             expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN
+    //         });
+    //
+    //         await this.saveToken(decodedRefreshToken.userId, newAccessToken);
+    //
+    //         return newAccessToken;
+    //     } catch (error) {
+    //         console.error(error);
+    //         return null;
+    //     }
+    // }
 }
 
 export default new TokenService();
