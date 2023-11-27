@@ -10,6 +10,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import ErrorPage from "./pages/ErrorPage";
 import {PrimeReactProvider} from "primereact/api";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/index.css'
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

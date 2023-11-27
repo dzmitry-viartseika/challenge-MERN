@@ -8,7 +8,8 @@ const GithubLogin = () => {
     return (
         <div className="py-10">
             <div onClick={onGithubLogin}>
-                login with github
+                login with
+                <i className="mx-2 pi pi-github" style={{ fontSize: '1rem' }}></i>
             </div>
         </div>
     )

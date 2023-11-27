@@ -4,6 +4,7 @@ import {Button} from "primereact/button";
 import { useToast } from "../context/ToastContext";
 import {useRegisterUser} from "../hooks/mutations/useRegisterUser";
 import {useForgotPassword} from "../hooks/mutations/useForgotPassword";
+import Logo from "../components/Logo/Logo";
 
 interface IFormInput {
     email: string
@@ -19,7 +20,6 @@ const ForgetPasswordPage = () => {
     })
 
     const showToastMessage = () => {
-        console.log('showToastMessage')
         toast.showToast({
             id: new Date().getTime(),
             severity: 'error',
@@ -37,8 +37,9 @@ const ForgetPasswordPage = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <form onSubmit={handleSubmit(onSubmit)} className="min-w-1/4 flex flex-col border border-gray-200 rounded-sm p-4">
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <form onSubmit={handleSubmit(onSubmit)} className="col-3 d-flex flex-column border border-secondary rounded-sm p-4">
+                <Logo />
                 <h1 className="text-center mb-4">Forgot Password?</h1>
                 <div className="mb-4 w-full">
                     <Controller
@@ -47,6 +48,7 @@ const ForgetPasswordPage = () => {
                         render={({ field }) =>
                             <>
                                 <InputText
+                                    className="w-100"
                                     autoFocus={true}
                                     {...field}
                                     placeholder="Text your email"

@@ -5,6 +5,8 @@ import { useToast } from "../context/ToastContext";
 import {useRegisterUser} from "../hooks/mutations/useRegisterUser";
 import {Link} from "react-router-dom";
 import {routes} from "../constants/routes";
+import {Password} from "primereact/password";
+import Logo from "../components/Logo/Logo";
 
 interface IFormInput {
     email: string
@@ -39,8 +41,9 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <form onSubmit={handleSubmit(onSubmit)} className="min-w-1/4 flex flex-col border border-gray-200 rounded-sm p-4">
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <form onSubmit={handleSubmit(onSubmit)} className="col-3 d-flex flex-column border border-secondary rounded-sm p-4">
+                <Logo />
                 <h1 className="text-center mb-4">Register</h1>
                 <div className="mb-4 w-full">
                     <Controller
@@ -49,6 +52,7 @@ const RegisterPage = () => {
                         render={({ field }) =>
                             <>
                                 <InputText
+                                    className="w-100"
                                     autoFocus={true}
                                     {...field}
                                     placeholder="Text your email"
@@ -60,7 +64,15 @@ const RegisterPage = () => {
                     <Controller
                         name="password"
                         control={control}
-                        render={({ field }) => <InputText {...field}  placeholder="Text your password" />}
+                        className="w-100"
+                        render={({ field }) =>
+                            <Password
+                                style={{width: '100%'}}
+                                {...field}
+                                placeholder="Text your password"
+                                toggleMask
+                                feedback={false}
+                            />}
                     />
                 </div>
                 <div>

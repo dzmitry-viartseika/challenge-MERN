@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {routes} from "./constants/routes";
 import {useIdleTimer} from "react-idle-timer";
 
+
 const queryClient = new QueryClient();
 const App = () => {
     const navigate = useNavigate();

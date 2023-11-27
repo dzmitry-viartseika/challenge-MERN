@@ -6,7 +6,8 @@ const GoogleLogin = () => {
     return (
         <div className="py-10">
             <div onClick={onGoogleLogin}>
-                Continue with Google
+                Continue with
+                <i className="mx-2 pi pi-google" style={{ fontSize: '1rem' }}></i>
             </div>
         </div>
     )

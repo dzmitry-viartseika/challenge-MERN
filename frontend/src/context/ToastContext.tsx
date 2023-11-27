@@ -27,7 +27,7 @@ function ToastProvider({ children }: IToastProviderProps) {
     const showToast = (toastData: IToastData) => {
         setToasts([...toasts, toastData]);
         toast.current?.show({    severity: validateSeverity(toastData.severity)
-            , summary: toastData.summary, detail:'Message Content', life: 3000});
+            , summary: toastData.summary, life: 3000});
     };
 
     const removeToast = (id: number) => {

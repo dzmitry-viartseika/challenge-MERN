@@ -8,6 +8,7 @@ import GithubLogin from "../components/LoginStrategy/GithubLogin/GithubLogin";
 import GoogleLogin from "../components/LoginStrategy/GoogleLogin/GoogleLogin";
 import ButtonBase from "../components/Buttons/ButtonBase";
 import {Password} from "primereact/password";
+import Logo from "../components/Logo/Logo";
 
 interface IFormInput {
     email: string
@@ -24,7 +25,6 @@ const LoginPage = () => {
     })
 
     const showToastMessage = () => {
-        console.log('showToastMessage')
         toast.showToast({
             id: new Date().getTime(),
             severity: 'error',
@@ -44,7 +44,7 @@ const LoginPage = () => {
     return (
         <div className="d-flex justify-content-center align-items-center vh-100">
             <form onSubmit={handleSubmit(onSubmit)} className="col-3 d-flex flex-column border border-secondary rounded-sm p-4">
-                {/*LOGO*/}
+                <Logo />
                 <h1 className="text-center mb-4">Login</h1>
                 <div className="mb-4 w-100">
                     <Controller
