@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import validator from 'validator';
+import { Roles } from '../ts/enums/Roles'
 
 const userSchema = new Schema({
         email: {
@@ -32,12 +33,11 @@ const userSchema = new Schema({
         resetLink: {
             type: String,
         },
-        roles: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Role"
-            }
-        ],
+        role: {
+            type: String,
+            // enum: [Roles.ADMIN, Roles.MODERATOR, Roles.CLIENT],
+            default: Roles.CLIENT,
+        },
         createdAt: {
             type: Date,
             default: new Date(),
