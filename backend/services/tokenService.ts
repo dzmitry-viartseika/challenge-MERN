@@ -9,7 +9,7 @@ interface ITokenService {
 class TokenService implements ITokenService {
     generateTokens(payload: string): { accessToken: string; refreshToken: string } {
         const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, {
-            expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN
+            expiresIn: '25s'
         });
         const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
             expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN
@@ -33,9 +33,36 @@ class TokenService implements ITokenService {
     }
 
     async removeToken(refreshToken: string) {
-        const tokenData = await TokenModel.deleteOne({ refreshToken });
+        const tokenData = await TokenModel.delete({ refreshToken });
         console.log('tokenData', tokenData)
         return tokenData;
+    }
+
+    validateAccessToken(token: string) {
+        try {
+            const userData: any = jwt.verify(token, JWT_ACCESS_SECRET);
+            return userData;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    validateRefreshToken(token: string) {
+        try {
+            const userData: any = jwt.verify(token, JWT_REFRESH_SECRET);
+            return userData;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async findRefreshToken(refreshToken: string) {
+        try {
+            const userData = await TokenModel.find({refreshToken});
+            return userData;
+        } catch (e) {
+            return null;
+        }
     }
 
     // async updateAccessToken(refreshToken: string) {

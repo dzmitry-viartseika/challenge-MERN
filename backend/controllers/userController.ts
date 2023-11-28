@@ -59,6 +59,7 @@ class UserController {
                     message: 'The user is not created',
                 })
             }
+            response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true})
             loggerAdapter.info('POST request to "https://localhost:4000/api/v1/register/". Response code: "200"');
             response.status(200).send({
                 message: 'The user is created successfully',
@@ -80,21 +81,22 @@ class UserController {
         console.log('refreshToken', refreshToken)
         const result = await UserService.logout(refreshToken);
         console.log('result', result)
+        response.clearCookie('refreshToken')
         response.status(200).send({
             message: 'The user is logout successfully'
         })
     }
 
-    // RefreshToken = async (request: Request, response: Response) => {
-    //     try {
-    //         const { refreshToken } = request.cookies;
-    //         const userData = await UserService.refresh(refreshToken);
-    //         // request.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-    //         // return request.json(userData);
-    //     } catch (e) {
-    //         // next(e);
-    //     }
-    // }
+    RefreshToken = async (request: Request, response: Response) => {
+        try {
+            const { refreshToken } = request.cookies;
+            const userData: any = await UserService.refreshToken(refreshToken);
+            response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return response.json(userData);
+        } catch (e) {
+            // next(e);
+        }
+    }
 
     ActivateUser = async (request: Request, response: Response) => {
         try {

@@ -18,6 +18,7 @@ import databaseAdapter, { DatabaseAdapter } from './config/database';
 import notFoundMiddleWare from "./middleware/notFound";
 import errorHandlerMiddleWare from "./middleware/errorHandlerMiddleWare";
 import passportRoutes from "./routes/passportRoutes";
+import errorMiddleWare from "./middleware/errorMiddleWare";
 const MongoStore = require('connect-mongo');
 
 const key = fs.readFileSync('./config/key.pem');
@@ -50,6 +51,7 @@ class App {
         this.dbAdapter = databaseAdapter;
         this.expressApp.use(corsMiddleware);
         this.expressApp.use(helmetMiddleware);
+        this.expressApp.use(errorMiddleWare);
         this.expressApp.use(compressionMiddleware);
         this.expressApp.use(cookieParser());
         this.expressApp.disable('x-powered-by');

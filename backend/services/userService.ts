@@ -8,6 +8,7 @@ import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL} from "../config/config";
 import bcrypt from "bcrypt";
 import TokenModel from "../models/tokenModel";
 import jwt from "jsonwebtoken";
+import {ApiError} from "../exceptions/apiError";
 interface IUserService {
     login(email: string, password: string): Promise<any>;
     registration(email: string, password: string,): Promise<any>;
@@ -65,6 +66,31 @@ class UserService implements IUserService {
     async logout(refreshToken: string) {
         const token = await tokenService.removeToken(refreshToken);
         return token;
+    }
+
+    async refreshToken(refreshToken: string) {
+        if (!refreshToken) {
+            throw ApiError.UnAuthorizedError()
+        }
+
+        const userData: any = tokenService.validateRefreshToken(refreshToken);
+        console.log('userData', userData)
+        console.log('userData._doc._id', userData._doc._id)
+        const tokenFromDB = await tokenService.findRefreshToken(refreshToken);
+        console.log('tokenFromDB', tokenFromDB)
+        if (!userData || !tokenFromDB) {
+            throw ApiError.UnAuthorizedError()
+        }
+
+        const user: any = await UserModel.findById(userData._doc._id)
+        console.log('user', user)
+        const userDto: any = new UserDto(user);
+        const tokens = tokenService.generateTokens({...userDto});
+        await tokenService.saveToken(user._id, tokens.refreshToken);
+
+        return {
+            ...tokens, user: userDto
+        }
     }
 
     async forgotPassword(email: string) {
@@ -128,10 +154,8 @@ class UserService implements IUserService {
         try {
             // Verify and decode the token using your secret key
             const decoded: any = jwt.verify(token, JWT_ACCESS_SECRET);
-            console.log('decoded', decoded)
             // The current user is available in the decoded payload
             const currentUser = decoded._doc
-            console.log('currentUser', currentUser)
             const userDto: any = new UserDto(decoded._doc);
             return userDto
         } catch (error) {
