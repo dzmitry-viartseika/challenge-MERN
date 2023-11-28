@@ -25,7 +25,13 @@ const queryClient = new QueryClient();
 export const routerConfig: RouteObject[] = [
   {
     path: routes.LANDING,
-    element: <App />,
+    element: (
+        <QueryClientProvider client={queryClient}>
+        <ToastProvider>
+        <App />
+    </ToastProvider>
+        </QueryClientProvider>
+            ),
     children: [
       {
         path: routes.LANDING,

@@ -5,22 +5,20 @@ import { ToastProvider } from './context/ToastContext';
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import React from "react";
-import {useNavigate} from "react-router-dom";
-import {routes} from "./constants/routes";
 import {useIdleTimer} from "react-idle-timer";
+import {useLogOut} from "./hooks/mutations/useLogOut";
 
 
 const queryClient = new QueryClient();
 const App = () => {
-    const navigate = useNavigate();
-
+    const { logOutUser } = useLogOut()
     const onIdle = () => {
-        navigate(routes.LOGIN)
+        logOutUser()
     }
 
     useIdleTimer({
         onIdle,
-        timeout: 900_000,
+        timeout: 10000,
         throttle: 500
     })
     return (

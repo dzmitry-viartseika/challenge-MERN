@@ -49,6 +49,6 @@ export default class UserService {
   }
 
   static logOutUser(): any {
-    // return $api.delete(`/clients/${id}`);
+    return $api.get(`${API_VERSION}/logout`);
   }
 }

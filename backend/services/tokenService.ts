@@ -32,8 +32,9 @@ class TokenService implements ITokenService {
         return token;
     }
 
-    async removeToken(refreshToken: any) {
+    async removeToken(refreshToken: string) {
         const tokenData = await TokenModel.deleteOne({ refreshToken });
+        console.log('tokenData', tokenData)
         return tokenData;
     }
 
