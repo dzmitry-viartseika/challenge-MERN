@@ -51,4 +51,8 @@ export default class UserService {
   static logOutUser(): any {
     return $api.post(`${API_VERSION}/logout`);
   }
+
+  static refreshAccessToken(): any {
+    return $api.post(`${API_VERSION}/refresh-token`);
+  }
 }

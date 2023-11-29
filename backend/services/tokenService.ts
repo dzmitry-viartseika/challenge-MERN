@@ -58,17 +58,20 @@ class TokenService implements ITokenService {
     }
 
     validateAccessToken(token: string) {
+        console.log('token', JWT_ACCESS_SECRET)
         try {
             const userData: any = jwt.verify(token, JWT_ACCESS_SECRET);
+            console.log('userDatauserDatauserData', userData)
             return userData;
         } catch (e) {
+            console.log('validateAccessToken')
             return null;
         }
     }
 
-    validateRefreshToken(token: string) {
+    validateRefreshToken(refreshToken: string) {
         try {
-            const userData: any = jwt.verify(token, JWT_REFRESH_SECRET);
+            const userData: any = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
             return userData;
         } catch (e) {
             return null;

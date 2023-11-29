@@ -8,8 +8,8 @@ import {Button} from "react-bootstrap";
 const DashboardPage = () => {
     const [userData, setUserData] = useState(null);
     const { logOutUser } = useLogOut()
-    // const {clientList = []} = useGetClients();
-    // console.log('clientList', clientList)
+    const {clientList = []} = useGetClients();
+    console.log('clientList', clientList)
     const userContext = useUser();
 
     const logOut = () => {
@@ -66,7 +66,7 @@ const DashboardPage = () => {
         <div>
             <NavBar />
             <h1 className="text-3xl font-bold underline">
-                Hello world!
+                {JSON.stringify(clientList)}
             </h1>
             <Button onClick={logOut}>LogOut</Button>
             {userData ? (

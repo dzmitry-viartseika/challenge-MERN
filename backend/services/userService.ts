@@ -74,10 +74,7 @@ class UserService implements IUserService {
         }
 
         const userData: any = tokenService.validateRefreshToken(refreshToken);
-        console.log('userData', userData)
-        console.log('userData._doc._id', userData._doc._id)
         const tokenFromDB = await tokenService.findRefreshToken(refreshToken);
-        console.log('tokenFromDB', tokenFromDB)
         if (!userData || !tokenFromDB) {
             throw ApiError.UnAuthorizedError()
         }

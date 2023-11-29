@@ -74,13 +74,12 @@ import tokenService from "../../services/tokenService";
 export const authenticateToken = (req: any, res: any, next: any) => {
     try {
         const token =  req.header('Authorization').split(' ')[1];
-
         if (!token) {
             return next(ApiError.UnAuthorizedError())
         }
 
         const userData = tokenService.validateAccessToken(token);
-
+        console.log('userData', userData)
         if (!userData) {
             return next(ApiError.UnAuthorizedError())
         }
