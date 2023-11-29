@@ -9,7 +9,7 @@ interface ITokenService {
 class TokenService implements ITokenService {
     generateTokens(payload: string): { accessToken: string; refreshToken: string } {
         const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, {
-            expiresIn: '25s'
+            expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN
         });
         const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
             expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN
@@ -33,9 +33,28 @@ class TokenService implements ITokenService {
     }
 
     async removeToken(refreshToken: string) {
-        const tokenData = await TokenModel.delete({ refreshToken });
-        console.log('tokenData', tokenData)
-        return tokenData;
+        console.log('removeToken', refreshToken);
+
+        try {
+            const result = await TokenModel.findOneAndDelete({ refreshToken: refreshToken });
+
+            if (!result) {
+                return {
+                    message: 'The File was not found',
+                };
+            }
+
+            return {
+                message: 'File was deleted',
+                code: 200
+            };
+        } catch (error) {
+            console.error('Error removing token:', error);
+            return {
+                message: 'An error occurred while removing the token',
+                code: 500
+            };
+        }
     }
 
     validateAccessToken(token: string) {

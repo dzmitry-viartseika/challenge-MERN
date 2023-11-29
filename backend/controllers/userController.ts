@@ -18,7 +18,6 @@ class UserController {
             }
 
             const loginResult: any = await UserService.login(email, password);
-            console.log('loginResult', loginResult)
             if (loginResult === null) {
                 const error = new HttpError(
                     'The User is not registered',
@@ -30,6 +29,8 @@ class UserController {
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
                 response.status(loginResult.code).send(loginResult.message);
             } else {
+                console.log('loginResult', loginResult)
+                response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true})
                 response.status(ResponseStatus.SUCCESS).send(loginResult);
                 loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
             }
@@ -78,9 +79,7 @@ class UserController {
 
     LogoutUser = async (request: Request, response: Response) => {
         const { refreshToken } =  request.cookies;
-        console.log('refreshToken', refreshToken)
-        const result = await UserService.logout(refreshToken);
-        console.log('result', result)
+        await UserService.logout(refreshToken);
         response.clearCookie('refreshToken')
         response.status(200).send({
             message: 'The user is logout successfully'

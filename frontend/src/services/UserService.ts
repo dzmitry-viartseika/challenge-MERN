@@ -49,6 +49,6 @@ export default class UserService {
   }
 
   static logOutUser(): any {
-    return $api.get(`${API_VERSION}/logout`);
+    return $api.post(`${API_VERSION}/logout`);
   }
 }
