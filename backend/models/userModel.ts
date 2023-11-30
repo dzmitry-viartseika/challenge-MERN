@@ -33,6 +33,12 @@ const userSchema = new Schema({
         resetLink: {
             type: String,
         },
+        timeZone: {
+            type: String,
+        },
+        language: {
+            type: String,
+        },
         role: {
             type: String,
             // enum: [Roles.ADMIN, Roles.MODERATOR, Roles.CLIENT],
