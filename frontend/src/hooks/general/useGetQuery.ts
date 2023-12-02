@@ -35,9 +35,9 @@ export const useGetQuery = <T>(
 
   const { isError, data, isLoading } = queryResult;
 
-  // if (isError) {
-  //   navigate(routes.ERROR_BAD_REQUEST);
-  // }
+  if (isError) {
+    navigate(routes.ERROR_BAD_REQUEST);
+  }
 
   return { data, isLoading };
 };

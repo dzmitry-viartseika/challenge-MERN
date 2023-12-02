@@ -5,6 +5,7 @@ export const routes = {
   LOGIN: '/login',
   REGISTER: '/register',
   RESET: '/reset-password',
-  FORGET_PASSWORD: '/forgot-password/',
+  FORGET_PASSWORD: '/forgot-password',
+  ERROR_BAD_REQUEST: '/bad-request',
   NOT_FOUND: '*',
 } as const;

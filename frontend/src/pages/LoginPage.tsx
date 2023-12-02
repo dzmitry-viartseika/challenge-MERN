@@ -18,6 +18,7 @@ interface IFormInput {
 const LoginPage = () => {
     const { loginUser } = useLoginUser();
     const toast = useToast();
+    const currentUser = useUser();
     const { control, handleSubmit } = useForm({
         defaultValues: {
             email: "",
@@ -38,6 +39,7 @@ const LoginPage = () => {
         if (!email || !password) {
             showToastMessage()
         } else {
+            currentUser.updateUser(data)
             loginUser(data as any)
         }
     }
