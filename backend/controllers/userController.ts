@@ -87,8 +87,10 @@ class UserController {
     }
 
     RefreshToken = async (request: Request, response: Response) => {
+        console.log('request', request)
         try {
             const { refreshToken } = request.cookies;
+            console.log('refreshToken', refreshToken)
             const userData: any = await UserService.refreshToken(refreshToken);
             console.log('userData', userData)
             response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})

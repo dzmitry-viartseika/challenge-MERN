@@ -80,7 +80,8 @@ class TokenService implements ITokenService {
 
     async findRefreshToken(refreshToken: string) {
         try {
-            const userData = await TokenModel.find({refreshToken});
+            console.log('refreshToken', refreshToken)
+            const userData = await TokenModel.findOne({ refreshToken: refreshToken });
             return userData;
         } catch (e) {
             return null;

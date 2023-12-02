@@ -51,7 +51,6 @@ class App {
         this.dbAdapter = databaseAdapter;
         this.expressApp.use(corsMiddleware);
         this.expressApp.use(helmetMiddleware);
-        this.expressApp.use(errorMiddleWare);
         this.expressApp.use(compressionMiddleware);
         this.expressApp.use(cookieParser());
         this.expressApp.disable('x-powered-by');
@@ -60,7 +59,7 @@ class App {
         this.expressApp.use(API_VERSION, passportRoutes);
         this.expressApp.use(API_VERSION, clientRoutes);
         this.expressApp.use(notFoundMiddleWare);
-        this.expressApp.use(errorHandlerMiddleWare);
+        this.expressApp.use(errorMiddleWare);
 
         this.expressApp.use(
             '/api-docs/v1',

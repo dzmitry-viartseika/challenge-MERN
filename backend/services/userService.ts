@@ -79,8 +79,7 @@ class UserService implements IUserService {
             throw ApiError.UnAuthorizedError()
         }
 
-        const user: any = await UserModel.findById(userData._doc._id)
-        console.log('user', user)
+        const user: any = await UserModel.findById(userData._id)
         const userDto: any = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await tokenService.saveToken(user._id, tokens.refreshToken);
