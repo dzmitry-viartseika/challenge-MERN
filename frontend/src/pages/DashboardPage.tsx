@@ -7,14 +7,9 @@ import {Button} from "react-bootstrap";
 
 const DashboardPage = () => {
     const [userData, setUserData] = useState(null);
-    const { logOutUser } = useLogOut()
     const {clientList = []} = useGetClients();
     console.log('clientList', clientList)
     const userContext = useUser();
-
-    const logOut = () => {
-        logOutUser()
-    }
 
     useEffect(() => {
         // Make a GET request to the /api/v1/userdata endpoint on your server
@@ -68,7 +63,6 @@ const DashboardPage = () => {
             <h1 className="text-3xl font-bold underline">
                 {JSON.stringify(clientList)}
             </h1>
-            <Button onClick={logOut}>LogOut</Button>
             {userData ? (
                 <div>
                     <h2>User Profile</h2>

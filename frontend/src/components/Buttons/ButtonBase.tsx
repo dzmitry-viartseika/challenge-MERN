@@ -1,17 +1,17 @@
 import { Button } from 'primereact/button';
 
 interface IProps {
-    text: string,
-    size: "small" | "large",
-    type: string,
-    severity: "success" | "help" | "warning" | "secondary" | "info" | "danger",
-    disabled: boolean
+    text: string;
+    size: "small" | "large";
+    type: string;
+    severity: "success" | "help" | "warning" | "secondary" | "info" | "danger";
+    disabled: boolean;
+    handleClickEvent: () => void;
 }
 
-const ButtonBase = ({ type = 'submit', text, size = 'small', severity = 'secondary', disabled = false }: IProps) => {
-    console.log('label', text)
+const ButtonBase = ({ type = 'submit', text, size = 'small', severity = 'secondary', disabled = false, handleClickEvent }: IProps) => {
     return (
-        <Button type={type}  label={text} size={size} severity={severity} disabled={disabled} />
+        <Button type={type}  label={text} size={size} severity={severity} disabled={disabled} onClick={handleClickEvent}/>
     )
 }
 

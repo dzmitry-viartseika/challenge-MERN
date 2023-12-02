@@ -1,3 +1,3 @@
 export const queryKeys = {
-    GET_CLIENTS: 'useGetClients',
+    GET_CLIENTS: 'getClients',
 } as const;

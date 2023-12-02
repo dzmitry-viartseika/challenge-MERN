@@ -2,7 +2,20 @@ import { Schema, model } from 'mongoose';
 import validator from 'validator';
 import { Roles } from '../ts/enums/Roles'
 
-const userSchema = new Schema({
+interface IUser {
+    email: string;
+    password: string;
+    isVerified: boolean;
+    activationLink?: string;
+    resetLink?: string;
+    timeZone?: string;
+    language?: string;
+    role: Roles;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+const userSchema = new Schema<IUser>({
         email: {
             type: String,
             required: [true, 'Please provide the email address'],
@@ -41,7 +54,7 @@ const userSchema = new Schema({
         },
         role: {
             type: String,
-            // enum: [Roles.ADMIN, Roles.MODERATOR, Roles.CLIENT],
+            enum: [Roles.ADMIN, Roles.MODERATOR, Roles.CLIENT, Roles.SUPER_ADMIN],
             default: Roles.CLIENT,
         },
         createdAt: {
