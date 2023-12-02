@@ -29,7 +29,6 @@ class UserController {
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
                 response.status(loginResult.code).send(loginResult.message);
             } else {
-                console.log('loginResult', loginResult)
                 response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true})
                 response.status(ResponseStatus.SUCCESS).send(loginResult);
                 loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
@@ -87,12 +86,9 @@ class UserController {
     }
 
     RefreshToken = async (request: Request, response: Response) => {
-        console.log('request', request)
         try {
             const { refreshToken } = request.cookies;
-            console.log('refreshToken', refreshToken)
             const userData: any = await UserService.refreshToken(refreshToken);
-            console.log('userData', userData)
             response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return response.json(userData);
         } catch (e) {
