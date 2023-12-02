@@ -22,7 +22,6 @@ $api.interceptors.response.use( (config) => {
     originalRequest._isRetry = true;
     try {
       const response: any = await UserService.refreshAccessToken({withCredentials: true});
-      console.log('response. 401401401401', response)
       localStorage.setItem('token', response.data.accessToken);
       return $api.request(originalRequest);
     } catch (e) {
