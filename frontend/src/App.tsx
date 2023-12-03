@@ -7,11 +7,15 @@ import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import React from "react";
 import {useIdleTimer} from "react-idle-timer";
 import {useLogOut} from "./hooks/mutations/useLogOut";
+import {useUserRole} from "./hooks/useUserRole";
 
 
 const queryClient = new QueryClient();
 const App = () => {
     const { logOutUser } = useLogOut()
+    const { isClient } = useUserRole();
+
+    console.log('isClient', isClient)
     const onIdle = () => {
         logOutUser()
     }

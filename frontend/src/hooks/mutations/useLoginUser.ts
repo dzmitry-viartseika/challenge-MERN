@@ -35,10 +35,11 @@ export const useLoginUser = () => {
       navigate('/dashboard');
     },
     onError: (error: any) => {
+      console.log('error.response.status', error.response.status)
       toast.showToast({
         id: new Date().getTime(),
         severity: 'error',
-        summary: error.response.data,
+        summary: error.message,
       });
       navigate('/login');
     },

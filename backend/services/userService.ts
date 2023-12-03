@@ -19,7 +19,6 @@ class UserService implements IUserService {
     async login(email: string, password: string) {
         try {
             const user: any = await UserModel.findOne({email});
-            console.log('user', user)
             if (!user) {
                 return null
             }
@@ -139,19 +138,10 @@ class UserService implements IUserService {
     }
 
     async getCurrentUser(token: string) {
-
-        // if (!token || !token.startsWith('Bearer ')) {
-        //     return res.status(401).json({ message: 'Invalid token format' });
-        // }
-
-        // Extract the token without the "Bearer " prefix
-        // const tokenValue = token.split(' ')[1];
-
         try {
-            // Verify and decode the token using your secret key
             const currentUser: any = jwt.verify(token, JWT_ACCESS_SECRET);
-            // The current user is available in the decoded payload
             const userDto: any = new UserDto(currentUser);
+            console.log('userDto', userDto)
             return userDto
         } catch (error) {
             // If the token is invalid or has expired, catch the error here
