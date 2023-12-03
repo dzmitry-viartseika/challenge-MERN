@@ -8,16 +8,36 @@ export class UserDto {
     timeZone: string;
     createdAt: Date;
     updatedAt: Date;
-    _id: ObjectId
+    _id: ObjectId;
 
-    constructor(model: { email: string, isVerified: boolean, role: string, timeZone: string, language: string, createdAt: Date, updatedAt: Date, _id: ObjectId}) {
-        this.email = model.email;
-        this.timeZone = model.timeZone;
-        this.language = model.language;
-        this.isVerified = model.isVerified;
-        this.role = model.role;
-        this.createdAt = model.createdAt;
-        this.updatedAt = model.updatedAt;
-        this._id = model._id
+    constructor(model: {
+        email: string;
+        isVerified: boolean;
+        role: string;
+        timeZone: string;
+        language: string;
+        createdAt: Date;
+        updatedAt: Date;
+        _id: ObjectId;
+    }) {
+        const {
+            email,
+            isVerified,
+            role,
+            timeZone,
+            language,
+            createdAt,
+            updatedAt,
+            _id,
+        } = model;
+
+        this.email = email;
+        this.isVerified = isVerified;
+        this.role = role;
+        this.timeZone = timeZone;
+        this.language = language;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this._id = _id;
     }
 }

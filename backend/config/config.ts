@@ -5,6 +5,8 @@ export const HOST = process.env.HOST ?? 'localhost'
 export const SERVER_URL = `https://${HOST}:${PORT}`
 
 export const MONGODB_URI = process.env.MONGODB_URL
+
+export const CACHE_TIME = 10;
 export const ALLOWED_BASE_URLS = ['http://localhost:3000', 'http://localhost:4000', 'https://localhost:3000', 'https://localhost:4000']
 
 export const API_VERSION = '/api/v1';
@@ -19,6 +21,7 @@ export const JWT_REFRESH_TOKEN_EXPIRES_IN = process.env.JWT_REFRESH_TOKEN_EXPIRE
 export const SUCCESS_REDIRECT = `https://localhost:3000/dashboard`;
 export const FAILURE_REDIRECT = `https://localhost:3000/login`;
 
+export const BAD_REQUEST_PAGE = process.env.CLIENT_ERROR_PAGE_URL || '';
 export default {
     PORT,
     HOST,
@@ -28,4 +31,6 @@ export default {
     JWT_ACCESS_SECRET,
     JWT_REFRESH_SECRET,
     JWT_ACCESS_TOKEN_EXPIRES_IN,
+    CACHE_TIME,
+    BAD_REQUEST_PAGE,
 }

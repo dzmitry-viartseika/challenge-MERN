@@ -3,6 +3,8 @@ import loggerAdapter from "../logger/logger";
 import UserService from "../services/userService";
 import HttpError from "../helpers/httpError";
 import {ResponseStatus} from "../ts/enums/ResponseStatus";
+import {UserDto} from "../dto/userDto";
+import {BAD_REQUEST_PAGE} from "../config/config";
 class UserController {
     LoginUser = async (request: Request, response: Response) => {
         const { email, password } = request.body;
@@ -77,12 +79,22 @@ class UserController {
     }
 
     LogoutUser = async (request: Request, response: Response) => {
-        const { refreshToken } =  request.cookies;
-        await UserService.logout(refreshToken);
-        response.clearCookie('refreshToken')
-        response.status(200).send({
-            message: 'The user is logout successfully'
-        })
+        try {
+            const { refreshToken } =  request.cookies;
+            await UserService.logout(refreshToken);
+            response.clearCookie('refreshToken')
+            response.status(200).send({
+                message: 'The user is logout successfully'
+            })
+        } catch (err: unknown) {
+        if (err instanceof Error) {
+            const errorMessage = err.message;
+            loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/logout/" failed. Response code: "500", response message: ${errorMessage}`);
+        }
+            response.status(500).send({
+                message: 'Internal Server Error',
+            });
+        }
     }
 
     RefreshToken = async (request: Request, response: Response) => {
@@ -90,20 +102,31 @@ class UserController {
             const { refreshToken } = request.cookies;
             const userData: any = await UserService.refreshToken(refreshToken);
             response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return response.json(userData);
-        } catch (e) {
-            // next(e);
+            response.status(200).json(userData);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                const errorMessage = err.message;
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/refresh-token/" failed. Response code: "500", response message: ${errorMessage}`);
+            }
+                response.status(500).send({
+                    message: 'Internal Server Error',
+                });
+            }
         }
-    }
 
     ActivateUser = async (request: Request, response: Response) => {
         try {
             const activationLink = request.params.link;
             await UserService.activate(activationLink);
-            return response.redirect('https://localhost:3000/dashboard');
-        } catch (e) {
-            // next(e);
-            console.log(e);
+            response.redirect('https://localhost:3000/dashboard');
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                const errorMessage = err.message;
+                loggerAdapter.error(`GET request to "https://localhost:4000/api/v1/activate/:link" failed. Response code: "500", response message: ${errorMessage}`);
+            }
+            response.status(500).send({
+                message: 'Internal Server Error',
+            });
         }
     }
 
@@ -113,12 +136,17 @@ class UserController {
             const result = await UserService.forgotPassword(email);
             if (result) {
                 response.status(200).send({
-                    message: 'Проверьте почту',
+                    message: 'Check your email out',
                 })
             }
-
-        } catch (e) {
-            console.log(e);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                const errorMessage = err.message;
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/forgot-password" failed. Response code: "500", response message: ${errorMessage}`);
+            }
+            response.status(500).send({
+                message: 'Internal Server Error',
+            });
         }
     }
 
@@ -131,27 +159,38 @@ class UserController {
                 if (clientResetPasswordUrl) {
                     return response.redirect(clientResetPasswordUrl)
                 }
-            } catch (e) {
-                console.log(e);
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    const errorMessage = err.message;
+                    loggerAdapter.error(`GET request to "https://localhost:4000/api/v1/forgot-password/:link" failed. Response code: "500", response message: ${errorMessage}`);
+                }
+                response.status(500).send({
+                    message: 'Internal Server Error',
+                });
             }
         } else {
-            // Handle the case where resetLink is undefined, for example, return an error response or redirect to an error page.
+            response.redirect(BAD_REQUEST_PAGE)
         }
     }
 
     ChangeUserPassword = async (request: Request, response: Response) => {
         const { email, password } = request.body;
         try {
-            const user = await UserService.changePassword(email, password);
-            // return res.json(user);
+            const user: any = await UserService.changePassword(email, password);
+            const userDto: any = new UserDto(user);
             response.status(200).send({
                 message: 'The password is changed successfully',
-                user: user,
+                user: userDto,
                 // user: userData, // return userDTO
             })
-        } catch (e) {
-            // next(e);
-            console.log(e);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                const errorMessage = err.message;
+                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/change-password" failed. Response code: "500", response message: ${errorMessage}`);
+            }
+            response.status(500).send({
+                message: 'Internal Server Error',
+            });
         }
     }
 

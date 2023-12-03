@@ -1,7 +1,8 @@
 import ExpressRedisCache from 'express-redis-cache';
+import {CACHE_TIME} from "./config";
 
 const cache = ExpressRedisCache({
-    expire: 10,
+    expire: CACHE_TIME,
 })
 
 export default cache;
