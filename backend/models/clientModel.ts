@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose'
+import {IClientModel} from "../ts/interfaces/IClientModel";
+import {Roles} from "../ts/enums/Roles";
 
-const ClientSchema = new Schema(
+const ClientSchema = new Schema<IClientModel>(
     {
         firstName: {
             type: String,
@@ -22,10 +24,11 @@ const ClientSchema = new Schema(
         },
         role: {
             type: String,
-            default: 'User',
+            enum: [Roles.ADMIN, Roles.MODERATOR, Roles.CLIENT, Roles.SUPER_ADMIN],
+            default: Roles.CLIENT,
         },
-        createdAt: Number,
-        updatedAt: Number,
+        createdAt: Date,
+        updatedAt: Date,
         name: String,
     },
     {

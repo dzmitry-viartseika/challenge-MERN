@@ -1,21 +1,9 @@
 import { Schema, model } from 'mongoose';
 import validator from 'validator';
 import { Roles } from '../ts/enums/Roles'
+import {IUserModel} from "../ts/interfaces/IUserModel";
 
-interface IUser {
-    email: string;
-    password: string;
-    isVerified: boolean;
-    activationLink?: string;
-    resetLink?: string;
-    timeZone?: string;
-    language?: string;
-    role: Roles;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUserModel>({
         email: {
             type: String,
             required: [true, 'Please provide the email address'],
