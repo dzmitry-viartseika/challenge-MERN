@@ -31,7 +31,7 @@ class UserController {
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
                 response.status(loginResult.code).send(loginResult.message);
             } else {
-                response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true})
+                response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
                 response.status(ResponseStatus.SUCCESS).send(loginResult);
                 loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
             }
@@ -61,7 +61,7 @@ class UserController {
                     message: 'The user is not created',
                 })
             }
-            response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true})
+            response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
             loggerAdapter.info('POST request to "https://localhost:4000/api/v1/register/". Response code: "200"');
             response.status(200).send({
                 message: 'The user is created successfully',
@@ -101,7 +101,7 @@ class UserController {
         try {
             const { refreshToken } = request.cookies;
             const userData: any = await UserService.refreshToken(refreshToken);
-            response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true})
             response.status(200).json(userData);
         } catch (err: unknown) {
             if (err instanceof Error) {
