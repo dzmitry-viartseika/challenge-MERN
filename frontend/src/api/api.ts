@@ -16,7 +16,7 @@ $api.interceptors.request.use((config) => {
 
 $api.interceptors.response.use( (config) => {
   return config;
-}, async (error: any) => {
+}, async (error: unknown) => {
   const originalRequest = error.config
   if (error.response.status === 401 && error.config && !error.config._isRetry) {
     originalRequest._isRetry = true;
@@ -24,8 +24,8 @@ $api.interceptors.response.use( (config) => {
       const response: any = await UserService.refreshAccessToken({withCredentials: true});
       localStorage.setItem('token', response.data.accessToken);
       return $api.request(originalRequest);
-    } catch (e) {
-      console.log('e', e)
+    } catch (err: unknown) {
+      console.log('e', err)
     }
   }
 });
