@@ -100,8 +100,7 @@ class UserController {
         try {
             const activationLink = request.params.link;
             await UserService.activate(activationLink);
-            // TODO: env route
-            // return res.redirect('http://localhost:8080/crm/dashboard');
+            return response.redirect('https://localhost:3000/dashboard');
         } catch (e) {
             // next(e);
             console.log(e);

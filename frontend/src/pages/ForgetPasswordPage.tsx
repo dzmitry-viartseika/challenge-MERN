@@ -5,6 +5,8 @@ import { useToast } from "../context/ToastContext";
 import {useRegisterUser} from "../hooks/mutations/useRegisterUser";
 import {useForgotPassword} from "../hooks/mutations/useForgotPassword";
 import Logo from "../components/Logo/Logo";
+import {useNavigate} from "react-router-dom";
+import {routes} from "../constants/routes";
 
 interface IFormInput {
     email: string
@@ -12,6 +14,7 @@ interface IFormInput {
 }
 const ForgetPasswordPage = () => {
     const { forgotPassword } = useForgotPassword();
+    const navigate = useNavigate();
     const toast = useToast(); // Use the useToast hook
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -32,7 +35,13 @@ const ForgetPasswordPage = () => {
             showToastMessage()
             return ''
         } else {
-            forgotPassword(data)
+            forgotPassword(data);
+            toast.showToast({
+                id: new Date().getTime(),
+                severity: 'info',
+                summary: 'Check your email out',
+            });
+            navigate(routes.LOGIN)
         }
     }
 
