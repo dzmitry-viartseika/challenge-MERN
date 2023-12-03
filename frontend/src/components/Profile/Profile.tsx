@@ -1,24 +1,24 @@
 import {Avatar} from "primereact/avatar";
-import {useUser} from "../../context/userContext";
+import {useCurrentUser, useUser} from "../../context/userContext";
 import {useLogOut} from "../../hooks/mutations/useLogOut";
 import ButtonBase from "../Buttons/ButtonBase";
+import {Skeleton} from "primereact/skeleton";
 
 const Profile = () => {
-    const userContext = useUser();
+    // const {currentUser} = useCurrentUser();
     const { logOutUser } = useLogOut()
-    const { user } = userContext;
-    console.log('user', user)
-
+    // console.log('currentUser', currentUser)
+    //
     const logOut = () => {
         logOutUser()
     }
     return (
-        <div>
+        <div className="d-flex">
             <ButtonBase severity="info" text="LogOut" handleClickEvent={logOut} />
-            <div className="d-flex flex-column justify-content-center align-items-center">
-                {user && <Avatar image={user.user.avatarUrl} size="xlarge" shape="circle" />}
-                {user && <div>{user.user.displayName}</div>}
-            </div>
+            {/*<div className="d-flex flex-column justify-content-center align-items-center">*/}
+            {/*    {currentUser && currentUser.user.avatarUrl ? <Avatar image={currentUser.user.avatarUrl} size="xlarge" shape="circle" /> : <Skeleton animation="none" shape="circle" size="4rem" className="mr-2"></Skeleton>}*/}
+            {/*    {currentUser.user?.displayName ? <div>{currentUser.user?.displayName}</div> : <Skeleton width="10rem" className="mb-2"></Skeleton>}*/}
+            {/*</div>*/}
         </div>
     )
 }

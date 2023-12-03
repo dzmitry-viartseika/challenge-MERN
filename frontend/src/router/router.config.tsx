@@ -29,7 +29,9 @@ export const routerConfig: RouteObject[] = [
     element: (
         <QueryClientProvider client={queryClient}>
         <ToastProvider>
-        <App />
+            <UserProvider>
+                <App />
+            </UserProvider>
     </ToastProvider>
         </QueryClientProvider>
             ),
@@ -42,9 +44,7 @@ export const routerConfig: RouteObject[] = [
       },
       {
         path: routes.DASHBOARD,
-        element: (<UserProvider>
-            <DashboardPage />
-        </UserProvider>),
+        element: <DashboardPage />
       },
       {
         path: routes.NO_PERMISSION,

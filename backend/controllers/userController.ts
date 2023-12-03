@@ -158,7 +158,9 @@ class UserController {
 
     CurrentUser = async (request: Request, response: Response) => {
         if (request.headers && request.headers.authorization) {
+            console.log('CurrentUser request.headers', request.headers)
             const token = request.headers.authorization.split(' ')[1];
+            console.log('token', token)
             const userData = await UserService.getCurrentUser(token);
             response.status(200).send({
                 user: userData,

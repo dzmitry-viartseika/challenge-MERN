@@ -3,16 +3,15 @@ import React, { createContext, useContext, useState } from 'react';
 const UserContext = createContext<any | undefined>(undefined);
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
-    const updateUser = (newUserData) => {
-        console.log('newUserData', newUserData)
-        setUser(newUserData);
+    const updateCurrentUser = (newUserData) => {
+        setCurrentUser(newUserData);
     };
 
     const contextValue = {
-        user,
-        updateUser,
+        currentUser,
+        updateCurrentUser,
     };
 
     return (
@@ -22,12 +21,12 @@ const UserProvider = ({ children }) => {
     );
 };
 
-const useUser = () => {
+const useCurrentUser = () => {
     const context = useContext(UserContext);
     if (!context) {
-        throw new Error('useUser must be used within a UserProvider');
+        throw new Error('useCurrentUser must be used within a UserProvider');
     }
     return context;
 };
 
-export { UserProvider, useUser };
+export { UserProvider, useCurrentUser };

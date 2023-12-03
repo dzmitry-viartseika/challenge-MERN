@@ -3,7 +3,7 @@ import {Roles} from "../ts/enums/Roles";
 
 const GithubUserSchema = new Schema(
     {
-        githubId: { type: String, unique: true },
+        githubId: { type: String, unique: true, required: true },
         provider: String,
         avatarUrl: String,
         displayName: String,

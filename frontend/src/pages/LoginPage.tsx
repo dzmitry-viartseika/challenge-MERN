@@ -9,7 +9,7 @@ import GoogleLogin from "../components/LoginStrategy/GoogleLogin/GoogleLogin";
 import ButtonBase from "../components/Buttons/ButtonBase";
 import {Password} from "primereact/password";
 import Logo from "../components/Logo/Logo";
-import {useUser} from "../context/userContext";
+import {useCurrentUser, useUser} from "../context/userContext";
 
 interface IFormInput {
     email: string
@@ -18,7 +18,6 @@ interface IFormInput {
 const LoginPage = () => {
     const { loginUser } = useLoginUser();
     const toast = useToast();
-    const currentUser = useUser();
     const { control, handleSubmit } = useForm({
         defaultValues: {
             email: "",
@@ -39,7 +38,6 @@ const LoginPage = () => {
         if (!email || !password) {
             showToastMessage()
         } else {
-            currentUser.updateUser(data)
             loginUser(data as any)
         }
     }

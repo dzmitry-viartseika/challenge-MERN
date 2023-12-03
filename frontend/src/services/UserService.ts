@@ -31,7 +31,6 @@ export default class UserService {
   }
 
   static resetUserPassword(data: any): any {
-    console.log('data', data)
     return $api.post(`${API_VERSION}/forgot-password`, data);
   }
 
@@ -54,5 +53,9 @@ export default class UserService {
 
   static refreshAccessToken(): any {
     return $api.post(`${API_VERSION}/refresh-token`);
+  }
+
+  static currentUser(): any {
+    return $api.get(`${API_VERSION}/me`)
   }
 }

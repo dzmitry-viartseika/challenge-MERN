@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import UserService from "../../services/UserService";
 import {useMutation} from "@tanstack/react-query";
 import {useToast} from "../../context/ToastContext";
-import {useUser} from "../../context/userContext";
+import {useCurrentUser} from "../../context/userContext";
 
 interface IProps {
   // reset: UseFormReset<FutureTenderGroupSaveDto>;
@@ -12,7 +12,7 @@ export const useLoginUser = () => {
   // const { showMessageTopLevel, showMessageBottomLevel } = useMessage();
 
   const navigate = useNavigate();
-  const userContext = useUser();
+  const currentUser = useCurrentUser();
   const toast = useToast();
 
   // NoticeViewDto[],
@@ -28,9 +28,10 @@ export const useLoginUser = () => {
         severity: 'success',
         summary: 'You are logged in successfully',
       });
+      console.log('wertey')
       const { accessToken } = data;
       localStorage.setItem('token', accessToken);
-      userContext.updateUser(data)
+      currentUser.updateCurrentUser(data)
       navigate('/dashboard');
     },
     onError: (error: any) => {
@@ -39,7 +40,6 @@ export const useLoginUser = () => {
         severity: 'error',
         summary: error.response.data,
       });
-      console.log('xxx')
       navigate('/login');
     },
   });

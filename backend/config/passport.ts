@@ -11,7 +11,6 @@ passport.use(new GitHubStrategy({
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
 }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
-    console.log('profile', profile)
     const mappedUser = {
         provider: profile.provider,
         avatarUrl: profile.photos[0].value,
@@ -23,10 +22,12 @@ passport.use(new GitHubStrategy({
 
     if (!currentUser) {
         const result: any = await GithubUserModel.create(mappedUser);
-        await tokenService.saveToken(profile.id, refreshToken);
+        const tokens = tokenService.generateTokens({...result});
+        await tokenService.saveToken(profile.id, tokens.refreshToken);
         return done(null, {
             ...result,
-            accessToken,
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
         });
     }
 

@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const tokenSchema = new Schema({
     refreshToken: {
@@ -6,9 +6,17 @@ const tokenSchema = new Schema({
         required: true,
     },
     user: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'User'
-    }
+    },
+    githubUser: {
+        type: Types.ObjectId,
+        ref: 'GithubUserModel',
+    },
+    googleUser: {
+        type: Types.ObjectId,
+        ref: 'GoogleUserModel',
+    },
 })
 
 const TokenModel = model('Token', tokenSchema)

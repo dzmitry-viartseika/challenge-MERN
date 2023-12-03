@@ -149,10 +149,9 @@ class UserService implements IUserService {
 
         try {
             // Verify and decode the token using your secret key
-            const decoded: any = jwt.verify(token, JWT_ACCESS_SECRET);
+            const currentUser: any = jwt.verify(token, JWT_ACCESS_SECRET);
             // The current user is available in the decoded payload
-            const currentUser = decoded._doc
-            const userDto: any = new UserDto(decoded._doc);
+            const userDto: any = new UserDto(currentUser);
             return userDto
         } catch (error) {
             // If the token is invalid or has expired, catch the error here
