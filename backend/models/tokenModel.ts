@@ -10,13 +10,16 @@ const tokenSchema = new Schema({
         ref: 'User'
     },
     githubUser: {
-        type: Types.ObjectId,
+        type: String,
         ref: 'GithubUserModel',
     },
     googleUser: {
-        type: Types.ObjectId,
+        type: String,
         ref: 'GoogleUserModel',
     },
+    provider: {
+        type: String
+    }
 })
 
 const TokenModel = model('Token', tokenSchema)

@@ -5,12 +5,16 @@ import GithubUserModel from "../models/GitHubUserModel";
 import tokenService from "../services/tokenService";
 const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+import { v4 as uuidv4 } from 'uuid';
 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
 }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
+    console.log('accessToken', accessToken);
+    console.log('refreshToken', refreshToken);
+    console.log('profile', profile);
     const mappedUser = {
         provider: profile.provider,
         avatarUrl: profile.photos[0].value,
@@ -21,11 +25,11 @@ passport.use(new GitHubStrategy({
     const currentUser: any = await GithubUserModel.findOne({githubId: profile.id});
 
     if (!currentUser) {
-        const result: any = await GithubUserModel.create(mappedUser);
-        const tokens = tokenService.generateTokens({...result});
-        await tokenService.saveToken(profile.id, tokens.refreshToken);
+        const user: any = await GithubUserModel.create(mappedUser);
+        const tokens = tokenService.generateTokens({...user});
+        await tokenService.saveToken(user._id, tokens.refreshToken, profile.provider);
         return done(null, {
-            ...result,
+            ...user,
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
         });
@@ -55,10 +59,11 @@ passport.use(new GoogleStrategy({
     const currentUser: any = await GoogleUserModel.findOne({googleId: profile.id});
 
     if (!currentUser) {
-        const result: any = await GoogleUserModel.create(mappedUser);
-        await tokenService.saveToken(profile.id, refreshToken);
+        const user: any = await GoogleUserModel.create(mappedUser);
+        const tokens = tokenService.generateTokens({...user});
+        await tokenService.saveToken(user._id, tokens.refreshToken, profile.provider);
         return done(null, {
-            ...result,
+            ...user,
             accessToken,
         });
     }

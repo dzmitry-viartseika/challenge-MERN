@@ -21,8 +21,22 @@ class TokenService implements ITokenService {
         };
     }
 
-    async saveToken(userId: string, refreshToken: string): Promise<any> {
-        const tokenData = await TokenModel.findOne({ user: userId });
+    async saveToken(userId: string, refreshToken: string, provider: string = 'application'): Promise<any> {
+        console.log('userId', userId)
+        let tokenData: any = {}
+
+        if (provider === 'github') {
+            tokenData = await TokenModel.findOne({ githubUser: userId });
+        }
+
+        if (provider === 'google') {
+            tokenData = await TokenModel.findOne({ googleUser: userId });
+        }
+
+        if (provider === 'application') {
+            tokenData = await TokenModel.findOne({ user: userId });
+        }
+
         if (tokenData) {
             tokenData.refreshToken = refreshToken;
             return tokenData.save();
