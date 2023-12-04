@@ -8,6 +8,7 @@ export interface IUserModel {
     resetLink?: string;
     timeZone?: string;
     language?: string;
+    provider: string;
     role: Roles;
     createdAt?: Date;
     updatedAt?: Date;

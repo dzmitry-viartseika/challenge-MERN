@@ -16,6 +16,10 @@ const userSchema = new Schema<IUserModel>({
             required: [true, 'Please provide the password'],
             trim: true,
         },
+        provider: {
+            type: String,
+            default: 'application',
+        },
         isVerified: {
             type: Boolean,
             default: false,
