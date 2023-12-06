@@ -13,9 +13,8 @@ import {useUserRole} from "./hooks/useUserRole";
 const queryClient = new QueryClient();
 const App = () => {
     const { logOutUser } = useLogOut()
-    const { isClient } = useUserRole();
+    // const { isClient } = useUserRole();
 
-    console.log('isClient', isClient)
     const onIdle = () => {
         logOutUser()
     }
