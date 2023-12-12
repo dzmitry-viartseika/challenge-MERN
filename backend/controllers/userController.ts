@@ -15,7 +15,9 @@ class UserController {
                     ResponseStatus.BAD_REQUEST
                 );
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                response.status(error.code).send(error.message);
+                response.status(error.code).send({
+                    error,
+                });
                 return;
             }
 
@@ -23,13 +25,37 @@ class UserController {
             if (loginResult === null) {
                 const error = new HttpError(
                     'The User is not registered',
-                    ResponseStatus.NOT_FOUND
+                    ResponseStatus.BAD_REQUEST
                 );
+
+                // errorCode
+                //     :
+                //     "INVALID_LOGIN_OR_PASSWORD"
+                // errorMessage
+                //     :
+                //     "Log in exception"
+                // exception
+                //     :
+                //     "You entered not valid login or password. Check it and try once again"
+                // status
+                //     :
+                //     400
+                // timestamp
+                //     :
+                //     "2023-12-12T20:39:48.832911858Z"
+
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                response.status(error.code).send(error.message);
+                response.send({
+                    message: error.message,
+                    status: error.code,
+                });
             } else if (loginResult.code === 400) {
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
-                response.status(loginResult.code).send(loginResult.message);
+                const error = new HttpError(
+                    loginResult.message,
+                    ResponseStatus.BAD_REQUEST
+                );
+                response.status(error.code).send(error.message);
             } else {
                 response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
                 response.status(ResponseStatus.SUCCESS).send(loginResult);

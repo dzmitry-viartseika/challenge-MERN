@@ -4,38 +4,38 @@ import {useMutation} from "@tanstack/react-query";
 import {useToast} from "../../context/ToastContext";
 import {useCurrentUser} from "../../context/userContext";
 
-interface IProps {
-  // reset: UseFormReset<FutureTenderGroupSaveDto>;
-}
-
 export const useLoginUser = () => {
-  // const { showMessageTopLevel, showMessageBottomLevel } = useMessage();
-
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
   const toast = useToast();
-
-  // NoticeViewDto[],
-  // ApiError,
-  // FutureTenderGroupSaveDto
   const mutationResult = useMutation({
     mutationFn: (userData) =>
       UserService.loginUser(userData),
 
     onSuccess: ({data}) => {
+      console.log('data', data);
+      // const { data } = response;
+      // console.log('data', data)
+      if (data.status === 400) {
+        toast.showToast({
+          id: new Date().getTime(),
+          severity: 'error',
+          summary: data.message,
+        });
+        return;
+      }
+
       toast.showToast({
         id: new Date().getTime(),
         severity: 'success',
         summary: 'You are logged in successfully',
       });
-      console.log('wertey')
       const { accessToken } = data;
       localStorage.setItem('token', accessToken);
       currentUser.updateCurrentUser(data)
       navigate('/dashboard');
     },
     onError: (error: any) => {
-      console.log('error.response.status', error.response.status)
       toast.showToast({
         id: new Date().getTime(),
         severity: 'error',
