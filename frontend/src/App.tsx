@@ -10,7 +10,13 @@ import {useLogOut} from "./hooks/mutations/useLogOut";
 import {useUserRole} from "./hooks/useUserRole";
 
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
 const App = () => {
     const { logOutUser } = useLogOut()
     // const { isClient } = useUserRole();
