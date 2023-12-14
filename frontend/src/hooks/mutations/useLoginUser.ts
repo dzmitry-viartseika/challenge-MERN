@@ -9,21 +9,26 @@ export const useLoginUser = () => {
   const currentUser = useCurrentUser();
   const toast = useToast();
   const mutationResult = useMutation({
-    mutationFn: (userData) =>
-      UserService.loginUser(userData),
+    mutationFn: async (userData) => {
+      const response = await UserService.loginUser(userData);
+      console.log('response', response)
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.exception || 'Login failed');
+      }
+
+      return response.json();
+    },
 
     onSuccess: ({data}) => {
-      console.log('data', data);
-      // const { data } = response;
-      // console.log('data', data)
-      if (data.status === 400) {
-        toast.showToast({
-          id: new Date().getTime(),
-          severity: 'error',
-          summary: data.message,
-        });
-        return;
-      }
+      // if (data.status === 400) {
+      //   toast.showToast({
+      //     id: new Date().getTime(),
+      //     severity: 'error',
+      //     summary: data.exception,
+      //   });
+      //   return;
+      // }
 
       toast.showToast({
         id: new Date().getTime(),

@@ -10,14 +10,14 @@ class UserController {
         const { email, password } = request.body;
         try {
             if (!email || !password) {
-                const error = new HttpError(
-                    'Fill in all required fields',
-                    ResponseStatus.BAD_REQUEST
-                );
-                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                response.status(error.code).send({
-                    error,
-                });
+                // const error = new HttpError(
+                //     'Fill in all required fields',
+                //     ResponseStatus.BAD_REQUEST
+                // );
+                // loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
+                // response.status(error.code).send({
+                //     error,
+                // });
                 return;
             }
 
@@ -25,7 +25,11 @@ class UserController {
             if (loginResult === null) {
                 const error = new HttpError(
                     'The User is not registered',
-                    ResponseStatus.BAD_REQUEST
+                    ResponseStatus.BAD_REQUEST,
+                    'USER_IS_NOT_REGISTERED',
+                    'Register exception',
+                    'You entered is not correct data. Check it and try once again',
+                    new Date(),
                 );
 
                 // errorCode
@@ -44,21 +48,25 @@ class UserController {
                 //     :
                 //     "2023-12-12T20:39:48.832911858Z"
 
-                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                response.send({
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.status}", Message: ${error.exception}`);
+                response.status(400).send({
                     message: error.message,
-                    status: error.code,
+                    errorCode: error.errorCode,
+                    errorMessage: error.errorMessage,
+                    exception: error.exception,
+                    status: error.status,
+                    timestamp: error.timestamp,
                 });
             } else if (loginResult.code === 400) {
-                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
-                const error = new HttpError(
-                    loginResult.message,
-                    ResponseStatus.BAD_REQUEST
-                );
-                response.send({
-                    message: error.message,
-                    status: error.code,
-                });
+                // loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
+                // const error = new HttpError(
+                //     loginResult.message,
+                //     ResponseStatus.BAD_REQUEST
+                // );
+                // response.send({
+                //     message: error.message,
+                //     status: error.code,
+                // });
             } else {
                 response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
                 response.status(ResponseStatus.SUCCESS).send(loginResult);

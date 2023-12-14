@@ -33,14 +33,14 @@ jobs:
     - name: Run Prettier
       run: npm run format:write
 
-#    - name: Check Super Linter
-#      uses: github/super-linter@v4
-#      env:
-#        VALIDATE_ALL_CODEBASE: true
-#        VALIDATE_JAVASCRIPT_ES: true
-#
-#    - name: Lint
-#      run: npm run lint:check
+    - name: Check Super Linter
+      uses: github/super-linter@v4
+      env:
+        VALIDATE_ALL_CODEBASE: true
+        VALIDATE_JAVASCRIPT_ES: true
 
-    - name: Run test
-      run: npm run test
+    - name: Lint
+      run: npm run lint:check
+
+#    - name: Run test
+#      run: npm run test

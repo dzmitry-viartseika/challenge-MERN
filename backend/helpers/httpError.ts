@@ -1,9 +1,18 @@
 class HttpError extends Error {
-    code: number;
+    status: number;
+    errorCode: string;
+    errorMessage: string;
+    exception: string;
+    timestamp: string;
 
-    constructor(message: string, code: number) {
+    constructor(message: string, status: number, errorCode: string, errorMessage: string, exception: string, timestamp: Date) {
         super(message);
-        this.code = code;
+        this.message = message;
+        this.status = status;
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+        this.exception = exception;
+        this.timestamp = timestamp.toISOString();
     }
 }
 
