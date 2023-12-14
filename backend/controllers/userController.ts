@@ -55,7 +55,10 @@ class UserController {
                     loginResult.message,
                     ResponseStatus.BAD_REQUEST
                 );
-                response.status(error.code).send(error.message);
+                response.send({
+                    message: error.message,
+                    status: error.code,
+                });
             } else {
                 response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
                 response.status(ResponseStatus.SUCCESS).send(loginResult);
