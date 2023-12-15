@@ -25,9 +25,10 @@ $api.interceptors.response.use( (config) => {
       localStorage.setItem('token', response.data.accessToken);
       return $api.request(originalRequest);
     } catch (err: unknown) {
-      console.log('e', err)
+      return Promise.reject(err);
     }
   }
+  return Promise.reject(error);
 });
 
 export default $api;

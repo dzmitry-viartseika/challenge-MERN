@@ -32,22 +32,6 @@ class UserController {
                     new Date(),
                 );
 
-                // errorCode
-                //     :
-                //     "INVALID_LOGIN_OR_PASSWORD"
-                // errorMessage
-                //     :
-                //     "Log in exception"
-                // exception
-                //     :
-                //     "You entered not valid login or password. Check it and try once again"
-                // status
-                //     :
-                //     400
-                // timestamp
-                //     :
-                //     "2023-12-12T20:39:48.832911858Z"
-
                 loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.status}", Message: ${error.exception}`);
                 response.status(400).send({
                     message: error.message,
