@@ -9,7 +9,7 @@ import clientRoutes from './routes/clientRoutes';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
 import loggerAdapter from './logger/logger';
-import { swaggerSpec } from './swagger/swaggerSpec';
+import {swaggerSpec} from './swagger/swaggerSpec';
 import corsMiddleware from './middleware/cors/corsMiddleware';
 import { helmetMiddleware } from './middleware/security/helmetMiddleware';
 import { compressionMiddleware } from './middleware/security/compressionMiddleware';
@@ -57,14 +57,13 @@ class App {
         this.expressApp.use(API_VERSION, authRoutes);
         this.expressApp.use(API_VERSION, passportRoutes);
         this.expressApp.use(API_VERSION, clientRoutes);
-        this.expressApp.use(notFoundMiddleWare);
-        this.expressApp.use(errorMiddleWare);
-
         this.expressApp.use(
             '/api-docs/v1',
             swaggerUI.serve,
             swaggerUI.setup(swaggerJSdoc(swaggerSpec))
         );
+        this.expressApp.use(notFoundMiddleWare);
+        this.expressApp.use(errorMiddleWare);
     }
 
     public static getInstance(): App {

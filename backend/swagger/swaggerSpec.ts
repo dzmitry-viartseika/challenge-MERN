@@ -1,4 +1,5 @@
-import { PORT } from '../config/config'
+import { PORT } from '../config/config';
+
 export const swaggerSpec = {
     definition: {
         openapi: '3.0.0',
@@ -8,9 +9,9 @@ export const swaggerSpec = {
         },
         servers: [
             {
-                url: `http://localhost:${PORT}`,
+                url: `https://localhost:${PORT}`,
             }
         ]
     },
-    apis: ['./swagger/swagger.yaml']
+    apis: ['../routes/authRoutes'],
 };
