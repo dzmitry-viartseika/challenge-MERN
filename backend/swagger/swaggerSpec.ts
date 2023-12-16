@@ -1,17 +1,34 @@
-import { PORT } from '../config/config';
 
-export const swaggerSpec = {
+const options = {
     definition: {
-        openapi: '3.0.0',
+        openapi: "3.1.0",
         info: {
-            title: 'Backend API',
-            version: '1.0.0',
+            title: "Express API with Swagger",
+            version: "0.1.0",
+            description:
+                "This is a simple CRUD API application made with Express and documented with Swagger",
+            license: {
+                name: "MIT",
+                url: "",
+            },
+            contact: {
+                name: "Dzmitry Viartseika",
+                url: "",
+                email: "",
+            },
         },
         servers: [
             {
-                url: `https://localhost:${PORT}`,
-            }
-        ]
+                url: "https://localhost:4000",
+                description: 'Local dev'
+            },
+            {
+                url: "production",
+                description: 'Production'
+            },
+        ],
     },
-    apis: ['../routes/authRoutes'],
+    apis: ["./routes/*.ts"],
 };
+
+export default options;

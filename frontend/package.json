@@ -15,6 +15,7 @@
     "@types/recoil": "^0.0.9",
     "axios": "^1.5.0",
     "bootstrap": "^5.3.2",
+    "openapi-typescript-codegen": "^0.25.0",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.3",
     "react": "^18.2.0",
@@ -38,7 +39,8 @@
     "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json,scss} --config",
     "lint-staged": "lint-staged",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit && echo"
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit && echo",
+    "generate-type:local": "openapi --input https://localhost:4000/api-docs/#/ --output ./src/api/generated --exportCore false --client axios"
   },
   "eslintConfig": {
     "extends": [

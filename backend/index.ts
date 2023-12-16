@@ -9,7 +9,7 @@ import clientRoutes from './routes/clientRoutes';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJSdoc from 'swagger-jsdoc';
 import loggerAdapter from './logger/logger';
-import {swaggerSpec} from './swagger/swaggerSpec';
+import options from './swagger/swaggerSpec';
 import corsMiddleware from './middleware/cors/corsMiddleware';
 import { helmetMiddleware } from './middleware/security/helmetMiddleware';
 import { compressionMiddleware } from './middleware/security/compressionMiddleware';
@@ -22,6 +22,35 @@ const MongoStore = require('connect-mongo');
 
 const key = fs.readFileSync('./config/key.pem');
 const cert = fs.readFileSync('./config/cert.pem');
+
+// const options = {
+//     definition: {
+//         openapi: "3.1.0",
+//         info: {
+//             title: "LogRocket Express API with Swagger",
+//             version: "0.1.0",
+//             description:
+//                 "This is a simple CRUD API application made with Express and documented with Swagger",
+//             license: {
+//                 name: "MIT",
+//                 url: "https://spdx.org/licenses/MIT.html",
+//             },
+//             contact: {
+//                 name: "LogRocket",
+//                 url: "https://logrocket.com",
+//                 email: "info@email.com",
+//             },
+//         },
+//         servers: [
+//             {
+//                 url: "https://localhost:4000",
+//             },
+//         ],
+//     },
+//     apis: ["./routes/*.ts"],
+// };
+//
+const specs = swaggerJSdoc(options);
 
 class App {
     private static instance: App | null = null;
@@ -58,10 +87,11 @@ class App {
         this.expressApp.use(API_VERSION, passportRoutes);
         this.expressApp.use(API_VERSION, clientRoutes);
         this.expressApp.use(
-            '/api-docs/v1',
+            "/api-docs",
             swaggerUI.serve,
-            swaggerUI.setup(swaggerJSdoc(swaggerSpec))
+            swaggerUI.setup(specs)
         );
+        // this.expressApp.use('/api-docs',  swaggerUI.serve, swaggerUI.setup(swaggerFile))
         this.expressApp.use(notFoundMiddleWare);
         this.expressApp.use(errorMiddleWare);
     }
