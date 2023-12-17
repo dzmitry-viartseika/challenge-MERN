@@ -10,15 +10,24 @@ class UserController {
         const { email, password } = request.body;
         try {
             if (!email || !password) {
-                // const error = new HttpError(
-                //     'Fill in all required fields',
-                //     ResponseStatus.BAD_REQUEST
-                // );
-                // loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.code}", Message: ${error.message}`);
-                // response.status(error.code).send({
-                //     error,
-                // });
-                return;
+                const error = new HttpError(
+                    'The User is not registered',
+                    ResponseStatus.BAD_REQUEST,
+                    'USER_IS_NOT_REGISTERED',
+                    'Login exception',
+                    'Fill in all required fields',
+                    new Date(),
+                );
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.errorCode}", Message: ${error.message}`);
+                response.status(ResponseStatus.BAD_REQUEST).send({
+                    message: error.message,
+                    errorCode: error.errorCode,
+                    errorMessage: error.errorMessage,
+                    exception: error.exception,
+                    status: error.status,
+                    timestamp: error.timestamp,
+                });
+                return
             }
 
             const loginResult: any = await UserService.login(email, password);
@@ -27,13 +36,13 @@ class UserController {
                     'The User is not registered',
                     ResponseStatus.BAD_REQUEST,
                     'USER_IS_NOT_REGISTERED',
-                    'Register exception',
+                    'Login exception',
                     'You entered is not correct data. Check it and try once again',
                     new Date(),
                 );
 
-                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.status}", Message: ${error.exception}`);
-                response.status(400).send({
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${error.errorCode}", Message: ${error.exception}`);
+                response.status(ResponseStatus.BAD_REQUEST).send({
                     message: error.message,
                     errorCode: error.errorCode,
                     errorMessage: error.errorMessage,
