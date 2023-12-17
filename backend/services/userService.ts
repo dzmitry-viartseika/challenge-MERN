@@ -1,7 +1,6 @@
 import UserModel from "../models/userModel";
 import {UserDto} from "../dto/userDto";
 import tokenService from "./tokenService";
-import Authentication from "../utils/auth/Authentication";
 import { v4 as uuidv4 } from 'uuid';
 import mailService from "./mailService";
 import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL, PASSWORD_SALT} from "../config/config";
@@ -9,8 +8,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {ApiError} from "../exceptions/apiError";
 import {facadeService} from "../facades/AuthFacadeService";
-import HttpError from "../helpers/httpError";
-import {ResponseStatus} from "../ts/enums/ResponseStatus";
 interface IUserService {
     login(email: string, password: string): Promise<any>;
     registration(email: string, password: string,): Promise<any>;
@@ -112,4 +109,4 @@ class UserService implements IUserService {
     }
 }
 
-export default new UserService()
+export default new UserService();
