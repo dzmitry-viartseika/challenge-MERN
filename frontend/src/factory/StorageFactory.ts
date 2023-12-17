@@ -36,4 +36,6 @@ class StorageFactory {
     }
 }
 
-export default StorageFactory;
+export default function FactoryStorageData(namespace: string, storage: string) {
+    return new StorageFactory(namespace, storage);
+};

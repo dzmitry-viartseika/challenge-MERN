@@ -1,6 +1,6 @@
 import axios from 'axios';
 import UserService from "../services/UserService";
-import StorageFactory from "../factory/StorageFactory";
+import FactoryStorageData from "../factory/StorageFactory";
 
 const API_URL = 'https://localhost:4000/';
 export const API_VERSION = '/api/v1'
@@ -23,7 +23,7 @@ $api.interceptors.response.use( (config) => {
     originalRequest._isRetry = true;
     try {
       const response: any = await UserService.refreshAccessToken({withCredentials: true});
-      const localStorageFactory = new StorageFactory('token', 'localStorage');
+      const localStorageFactory = FactoryStorageData('token', 'localStorage');
       localStorageFactory.setStorage('token', response.data.accessToken);
       return $api.request(originalRequest);
     } catch (err: unknown) {

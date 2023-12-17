@@ -6,6 +6,7 @@ import {useMutation} from "@tanstack/react-query";
 import {useCurrentUser} from "../../context/userContext";
 import {useNavigate} from "react-router-dom";
 import StorageFactory from "../../factory/StorageFactory";
+import FactoryStorageData from "../../factory/StorageFactory";
 
 export const useGetCurrentUser = () => {
     const { currentUser } = useCurrentUser();
@@ -17,7 +18,7 @@ export const useGetCurrentUser = () => {
 
         onSuccess: ({data}) => {
             const { accessToken } = data;
-            const localStorageFactory = new StorageFactory('token', 'localStorage');
+            const localStorageFactory = FactoryStorageData('token', 'localStorage');
             localStorageFactory.setStorage('token', accessToken);
             currentUser.updateCurrentUser(data)
             navigate('/dashboard');
