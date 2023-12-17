@@ -19,7 +19,7 @@ export class ApiError extends Error {
     }
 
 
-    static InternalRequestError(message: string, errors: any[]) {
-        return new ApiError(ResponseStatus.INTERNAL_ERROR, message, errors)
+    static InternalRequestError() {
+        return new ApiError(ResponseStatus.INTERNAL_ERROR, 'Internal Server Error', '')
     }
 }

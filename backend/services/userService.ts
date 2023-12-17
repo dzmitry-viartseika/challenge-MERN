@@ -19,43 +19,8 @@ interface IUserService {
 
 class UserService implements IUserService {
     async login(email: string, password: string) {
-        try {
-            const user: any = await UserModel.findOne({email});
-            if (!user) {
-                return null
-            }
-            const isPassEquals = await Authentication.passwordCompare(password, user.password);
-            if (!isPassEquals) {
-                const error = new HttpError(
-                    'The email or password are wrong',
-                    ResponseStatus.BAD_REQUEST,
-                    'USER_IS_NOT_REGISTERED',
-                    'Login exception',
-                    'Check your data again',
-                    new Date(),
-                );
-
-                return{
-                    message: error.message,
-                    errorCode: error.errorCode,
-                    errorMessage: error.errorMessage,
-                    exception: error.exception,
-                    status: error.status,
-                    timestamp: error.timestamp,
-                }
-            }
-
-            const userDto: any = new UserDto(user);
-            const tokens = tokenService.generateTokens({...userDto});
-            await tokenService.saveToken(user._id, tokens.refreshToken);
-
-            return {
-                ...tokens,
-                user: userDto,
-            }
-        } catch (error: unknown) {
-            throw new Error('Internal Server Error')
-        }
+        const loginResult = await facadeService.loginUser(email, password);
+        return loginResult;
     }
 
     async registration(email: string, password: string) {
@@ -122,8 +87,7 @@ class UserService implements IUserService {
     async activate(activationLink: string) {
         const user: any = await UserModel.findOne({ activationLink });
         if(!user) {
-            return null;
-            // throw ApiError.badRequest('Некорректная активация ссылки')
+            throw ApiError.BadRequest('Wrong activated link')
         }
         user.isVerified = true;
         await user.save();
@@ -132,8 +96,7 @@ class UserService implements IUserService {
     async refreshPassword(resetLink: string) {
         const user: any = await UserModel.findOne({ resetLink });
         if(!user) {
-            return null;
-            // throw ApiError.badRequest('Некорректная активация ссылки')
+            throw ApiError.BadRequest('Wrong activated link')
         }
         return true;
     }
@@ -142,11 +105,9 @@ class UserService implements IUserService {
         try {
             const currentUser: any = jwt.verify(token, JWT_ACCESS_SECRET);
             const userDto: any = new UserDto(currentUser);
-            console.log('userDto', userDto)
             return userDto
         } catch (error) {
-            // If the token is invalid or has expired, catch the error here
-            // res.status(401).json({ message: 'Invalid token' });
+            throw ApiError.UnAuthorizedError();
         }
     }
 }
