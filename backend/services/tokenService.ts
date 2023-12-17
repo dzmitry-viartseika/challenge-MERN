@@ -22,7 +22,6 @@ class TokenService implements ITokenService {
     }
 
     async saveToken(userId: string, refreshToken: string, provider: string = 'application'): Promise<any> {
-        console.log('userId', userId)
         let tokenData: any = {}
 
         if (provider === 'github') {
@@ -75,10 +74,8 @@ class TokenService implements ITokenService {
         console.log('token', JWT_ACCESS_SECRET)
         try {
             const userData: any = jwt.verify(token, JWT_ACCESS_SECRET);
-            console.log('userDatauserDatauserData', userData)
             return userData;
         } catch (e) {
-            console.log('validateAccessToken')
             return null;
         }
     }
@@ -94,7 +91,6 @@ class TokenService implements ITokenService {
 
     async findRefreshToken(refreshToken: string) {
         try {
-            console.log('refreshToken', refreshToken)
             const userData = await TokenModel.findOne({ refreshToken: refreshToken });
             return userData;
         } catch (e) {

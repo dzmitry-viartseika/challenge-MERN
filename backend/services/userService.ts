@@ -9,6 +9,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {ApiError} from "../exceptions/apiError";
 import {facadeService} from "../facades/AuthFacadeService";
+import HttpError from "../helpers/httpError";
+import {ResponseStatus} from "../ts/enums/ResponseStatus";
 interface IUserService {
     login(email: string, password: string): Promise<any>;
     registration(email: string, password: string,): Promise<any>;
@@ -24,9 +26,22 @@ class UserService implements IUserService {
             }
             const isPassEquals = await Authentication.passwordCompare(password, user.password);
             if (!isPassEquals) {
-                return {
-                    code: 400,
-                    message: 'The email or password are wrong'
+                const error = new HttpError(
+                    'The email or password are wrong',
+                    ResponseStatus.BAD_REQUEST,
+                    'USER_IS_NOT_REGISTERED',
+                    'Login exception',
+                    'Check your data again',
+                    new Date(),
+                );
+
+                return{
+                    message: error.message,
+                    errorCode: error.errorCode,
+                    errorMessage: error.errorMessage,
+                    exception: error.exception,
+                    status: error.status,
+                    timestamp: error.timestamp,
                 }
             }
 

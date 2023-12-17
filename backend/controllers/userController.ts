@@ -50,29 +50,35 @@ class UserController {
                     status: error.status,
                     timestamp: error.timestamp,
                 });
-            } else if (loginResult.code === 400) {
-                // loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.code}", Message: ${loginResult.message}`);
-                // const error = new HttpError(
-                //     loginResult.message,
-                //     ResponseStatus.BAD_REQUEST
-                // );
-                // response.send({
-                //     message: error.message,
-                //     status: error.code,
-                // });
-            } else {
-                response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
-                response.status(ResponseStatus.SUCCESS).send(loginResult);
-                loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
+
+                return;
             }
+
+            if (loginResult.errorCode === ResponseStatus.BAD_REQUEST) {
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} Code: ${loginResult.errorCode}", Message: ${loginResult.message}`);
+                response.status(ResponseStatus.BAD_REQUEST).send({
+                    message: loginResult.message,
+                    errorCode: loginResult.errorCode,
+                    errorMessage: loginResult.errorMessage,
+                    exception: loginResult.exception,
+                    status: loginResult.status,
+                    timestamp: loginResult.timestamp,
+                });
+                return;
+            }
+
+            response.cookie('refreshToken', loginResult.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
+            response.status(ResponseStatus.SUCCESS).send(loginResult);
+            loggerAdapter.info(`${request.method} request to ${request.originalUrl} Code: ${ResponseStatus.SUCCESS}`);
+
         } catch (err: unknown) {
             if (err instanceof Error) {
                 const errorMessage = err.message;
-                loggerAdapter.error(`POST request to "https://localhost:4000/api/v1/login/" failed. Response code: "500", response message: ${errorMessage}`);
+                loggerAdapter.error(`${request.method} request to ${request.originalUrl} failed. Response code: "500", response message: ${errorMessage}`);
+                response.status(500).send({
+                    message: 'Internal Server Error',
+                });
             }
-            response.status(500).send({
-                message: 'Internal Server Error',
-            });
         }
     }
 
@@ -235,4 +241,4 @@ class UserController {
     }
 }
 
-export default new UserController()
+export default new UserController();
