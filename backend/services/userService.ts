@@ -4,7 +4,7 @@ import tokenService from "./tokenService";
 import Authentication from "../utils/auth/Authentication";
 import { v4 as uuidv4 } from 'uuid';
 import mailService from "./mailService";
-import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL} from "../config/config";
+import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL, PASSWORD_SALT} from "../config/config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {ApiError} from "../exceptions/apiError";
@@ -110,7 +110,7 @@ class UserService implements IUserService {
             return false
         }
 
-        const hashPassword = await bcrypt.hash(password, 10);
+        const hashPassword = await bcrypt.hash(password, PASSWORD_SALT);
         user.password = hashPassword;
         user.save();
         const userDto = new UserDto(user);

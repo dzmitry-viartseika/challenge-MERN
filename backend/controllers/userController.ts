@@ -87,19 +87,19 @@ class UserController {
             const { email, password } = request.body;
 
             if (!email || !password) {
-                response.status(400).send({
+                response.status(ResponseStatus.BAD_REQUEST).send({
                     message: 'Fill in all required fields',
                 })
             }
             const userData = await UserService.registration(email, password);
             if (!userData) {
-                return response.status(400).send({
+                return response.status(ResponseStatus.BAD_REQUEST).send({
                     message: 'The user is not created',
                 })
             }
             response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60, httpOnly: true, secure: true})
             loggerAdapter.info('POST request to "https://localhost:4000/api/v1/register/". Response code: "200"');
-            response.status(200).send({
+            response.status(ResponseStatus.SUCCESS).send({
                 message: 'The user is created successfully',
                 user: userData,
             })
@@ -119,7 +119,7 @@ class UserController {
             const { refreshToken } =  request.cookies;
             await UserService.logout(refreshToken);
             response.clearCookie('refreshToken')
-            response.status(200).send({
+            response.status(ResponseStatus.SUCCESS).send({
                 message: 'The user is logout successfully'
             })
         } catch (err: unknown) {
@@ -138,7 +138,7 @@ class UserController {
             const { refreshToken } = request.cookies;
             const userData: any = await UserService.refreshToken(refreshToken);
             response.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true})
-            response.status(200).json(userData);
+            response.status(ResponseStatus.SUCCESS).json(userData);
         } catch (err: unknown) {
             if (err instanceof Error) {
                 const errorMessage = err.message;
@@ -171,7 +171,7 @@ class UserController {
         try {
             const result = await UserService.forgotPassword(email);
             if (result) {
-                response.status(200).send({
+                response.status(ResponseStatus.SUCCESS).send({
                     message: 'Check your email out',
                 })
             }
@@ -214,7 +214,7 @@ class UserController {
         try {
             const user: any = await UserService.changePassword(email, password);
             const userDto: any = new UserDto(user);
-            response.status(200).send({
+            response.status(ResponseStatus.SUCCESS).send({
                 message: 'The password is changed successfully',
                 user: userDto,
                 // user: userData, // return userDTO
@@ -234,7 +234,7 @@ class UserController {
         if (request.headers && request.headers.authorization) {
             const token = request.headers.authorization.split(' ')[1];
             const userData = await UserService.getCurrentUser(token);
-            response.status(200).send({
+            response.status(ResponseStatus.SUCCESS).send({
                 user: userData,
             });
         }

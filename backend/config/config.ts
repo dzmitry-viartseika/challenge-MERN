@@ -10,6 +10,8 @@ export const CACHE_TIME = 10;
 export const ALLOWED_BASE_URLS = ['http://localhost:3000', 'http://localhost:4000', 'https://localhost:3000', 'https://localhost:4000']
 
 export const API_VERSION = '/api/v1';
+
+export const PASSWORD_SALT = Number(process.env.PASSWORD_SALT) || 10;
 export const COOKIE_KEY = process.env.COOKIE_KEY || '';
 
 export const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || '';

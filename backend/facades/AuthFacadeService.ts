@@ -4,6 +4,7 @@ import UserModel from "../models/userModel";
 import Authentication from "../utils/auth/Authentication";
 import mailService from "../services/mailService";
 import { v4 as uuidv4 } from 'uuid';
+import {API_VERSION, SERVER_URL} from "../config/config";
 
 class AuthFacadeService {
     async registerUser(email: string, password: string) {
@@ -15,7 +16,7 @@ class AuthFacadeService {
         const activationLink = uuidv4();
         const hashPassword = await Authentication.passwordHash(password);
 
-        await mailService.sendActivationMail(email, `https://localhost:4000/api/v1/activate/${activationLink}`);
+        await mailService.sendActivationMail(email, `${SERVER_URL}${API_VERSION}/activate/${activationLink}`);
 
         const user: any = await UserModel.create({ email, password: hashPassword, activationLink });
         const userDto = new UserDto(user);

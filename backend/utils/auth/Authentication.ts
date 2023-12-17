@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import {PASSWORD_SALT} from "../../config/config";
 
 interface IAuthentication {
     passwordHash(password: string): Promise<string>;
@@ -7,7 +8,7 @@ interface IAuthentication {
 
 class Authentication implements IAuthentication {
     public async passwordHash(password: string): Promise<string> {
-        return bcrypt.hash(password, 10);
+        return bcrypt.hash(password, PASSWORD_SALT);
     }
 
     public async passwordCompare(
