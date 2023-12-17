@@ -3,6 +3,7 @@ import UserService from "../../services/UserService";
 import {useMutation} from "@tanstack/react-query";
 import {useToast} from "../../context/ToastContext";
 import {routes} from "../../constants/routes";
+import StorageFactory from "../../factory/StorageFactory";
 
 export const useLogOut = () => {
     const navigate = useNavigate();
@@ -18,7 +19,8 @@ export const useLogOut = () => {
                 severity: 'success',
                 summary: 'You are logged out successfully',
             });
-            localStorage.removeItem('token');
+            const localStorageFactory = new StorageFactory('token', 'localStorage');
+            localStorageFactory.removeStorage('token');
             navigate(routes.LOGIN);
         },
         onError: (error: any) => {

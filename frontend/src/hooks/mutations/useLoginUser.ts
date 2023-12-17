@@ -3,6 +3,7 @@ import UserService from "../../services/UserService";
 import {useMutation} from "@tanstack/react-query";
 import {useToast} from "../../context/ToastContext";
 import {useCurrentUser} from "../../context/userContext";
+import StorageFactory from "../../factory/StorageFactory";
 
 export const useLoginUser = () => {
   const navigate = useNavigate();
@@ -31,7 +32,8 @@ export const useLoginUser = () => {
         summary: 'You are logged in successfully',
       });
       const { accessToken } = data;
-      localStorage.setItem('token', accessToken);
+      const localStorageFactory = new StorageFactory('token', 'localStorage');
+      localStorageFactory.setStorage('token', accessToken);
       currentUser.updateCurrentUser(data)
       navigate('/dashboard');
     },
