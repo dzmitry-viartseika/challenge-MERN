@@ -3,7 +3,10 @@ import UserService from "../services/UserService";
 import FactoryStorageData from "../factory/StorageFactory";
 
 const API_URL = 'https://localhost:4000/';
-export const API_VERSION = '/api/v1'
+export const API_VERSION = '/api/v1';
+
+const localStorageFactory = FactoryStorageData('token', 'localStorage');
+
 
 const $api = axios.create({
   withCredentials: true,
@@ -11,7 +14,8 @@ const $api = axios.create({
 });
 
 $api.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+  const token = localStorageFactory.getStorage('token');
+  config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
@@ -23,7 +27,6 @@ $api.interceptors.response.use( (config) => {
     originalRequest._isRetry = true;
     try {
       const response: any = await UserService.refreshAccessToken({withCredentials: true});
-      const localStorageFactory = FactoryStorageData('token', 'localStorage');
       localStorageFactory.setStorage('token', response.data.accessToken);
       return $api.request(originalRequest);
     } catch (err: unknown) {
