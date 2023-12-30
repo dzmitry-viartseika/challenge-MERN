@@ -4,14 +4,11 @@ import tokenService from "./tokenService";
 import { v4 as uuidv4 } from 'uuid';
 import mailService from "./mailService";
 import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL, PASSWORD_SALT} from "../config/config";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
 import {ApiError} from "../exceptions/apiError";
 import {facadeService} from "../facades/AuthFacadeService";
-interface IUserService {
-    login(email: string, password: string): Promise<any>;
-    registration(email: string, password: string,): Promise<any>;
-}
+import {IUserService} from "../ts/interfaces/IUserService";
 
 
 class UserService implements IUserService {

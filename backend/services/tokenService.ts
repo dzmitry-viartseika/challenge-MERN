@@ -1,11 +1,10 @@
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import TokenModel from '../models/tokenModel'
 import {JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, JWT_ACCESS_TOKEN_EXPIRES_IN, JWT_REFRESH_TOKEN_EXPIRES_IN} from "../config/config";
+import {ITokenService} from "../ts/interfaces/ITokenService";
+import {AuthProviders} from "../ts/enums/AuthProviders";
 
-interface ITokenService {
-    generateTokens(payload: string): any;
-    saveToken(payload: string, refreshToken: string): Promise<any>;
-}
+
 class TokenService implements ITokenService {
     generateTokens(payload: string): { accessToken: string; refreshToken: string } {
         const accessToken = jwt.sign(payload, JWT_ACCESS_SECRET, {
@@ -24,15 +23,15 @@ class TokenService implements ITokenService {
     async saveToken(userId: string, refreshToken: string, provider: string = 'application'): Promise<any> {
         let tokenData: any = {}
 
-        if (provider === 'github') {
+        if (provider === AuthProviders.GITHUB) {
             tokenData = await TokenModel.findOne({ githubUser: userId });
         }
 
-        if (provider === 'google') {
+        if (provider === AuthProviders.GITHUB) {
             tokenData = await TokenModel.findOne({ googleUser: userId });
         }
 
-        if (provider === 'application') {
+        if (provider === AuthProviders.APPLICATION) {
             tokenData = await TokenModel.findOne({ user: userId });
         }
 
@@ -46,8 +45,6 @@ class TokenService implements ITokenService {
     }
 
     async removeToken(refreshToken: string) {
-        console.log('removeToken', refreshToken);
-
         try {
             const result = await TokenModel.findOneAndDelete({ refreshToken: refreshToken });
 
@@ -71,7 +68,6 @@ class TokenService implements ITokenService {
     }
 
     validateAccessToken(token: string) {
-        console.log('token', JWT_ACCESS_SECRET)
         try {
             const userData: any = jwt.verify(token, JWT_ACCESS_SECRET);
             return userData;

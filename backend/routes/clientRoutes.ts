@@ -1,4 +1,4 @@
-import express from 'express'
+import * as express from 'express'
 import ClientController from '../controllers/clientController'
 import {authenticateToken} from "../middleware/auth/authenticateToken";
 import cache from "../config/cache";

@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express';
+import * as express from 'express';
 import passport from '../config/passport';
 import {FAILURE_REDIRECT, SUCCESS_REDIRECT} from "../config/config";
 
@@ -13,7 +13,7 @@ router.get('/auth/google/callback',
         res.redirect('/');
     });
 
-router.get('/github/user', (req: Request, res: Response) => {
+router.get('/github/user', (req: express.Request, res: express.Response) => {
     if (req.isAuthenticated()) {
         res.json({ user: req.user });
     } else {
@@ -21,7 +21,7 @@ router.get('/github/user', (req: Request, res: Response) => {
     }
 });
 
-router.get('/google/user', (req: Request, res: Response) => {
+router.get('/google/user', (req: express.Request, res: express.Response) => {
     if (req.isAuthenticated()) {
         res.json({ user: req.user });
     } else {

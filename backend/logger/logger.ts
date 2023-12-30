@@ -1,5 +1,5 @@
-import winston, {format, transports} from "winston";
-const { combine, timestamp, label, prettyPrint } = format;
+import * as winston from "winston";
+const { combine, timestamp, label, prettyPrint } = winston.format;
 const CUSTOM_LABEL_FORMAT = "Winston logger";
 const FORMAT_TIME_STAMP = 'MMM-DD-YYYY HH:mm:ss'
 const LEVEL = 'debug';
@@ -22,7 +22,7 @@ class WinstonLoggerAdapter extends LoggerAdapter {
                 }),
                 prettyPrint(),
             ),
-            transports: [new transports.Console()],
+            transports: [new winston.transports.Console()],
         });
     }
 

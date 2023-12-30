@@ -1,10 +1,6 @@
-import bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
 import {PASSWORD_SALT} from "../../config/config";
-
-interface IAuthentication {
-    passwordHash(password: string): Promise<string>;
-    passwordCompare(text: string, encryptedText: string): Promise<boolean>;
-}
+import {IAuthentication} from "../../ts/interfaces/IAuthentication";
 
 class Authentication implements IAuthentication {
     public async passwordHash(password: string): Promise<string> {

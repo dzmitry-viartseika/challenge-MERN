@@ -1,12 +1,8 @@
-import express from 'express';
-import nodemailer, { Transporter } from 'nodemailer';
-
-interface IMailService {
-    sendActivationMail(to: string, link: string): Promise<void>;
-}
+import * as nodemailer from 'nodemailer';
+import {IMailService} from "../ts/interfaces/IMailService";
 
 class MailService implements IMailService {
-    transporter: Transporter;
+    transporter: nodemailer.Transporter;
 
     constructor() {
         this.transporter = nodemailer.createTransport({
@@ -29,11 +25,11 @@ class MailService implements IMailService {
          await this.transporter.sendMail({
             from: `"Contact Support" <${process.env.SMTP_USER}>`,
             to,
-            subject: `Активация аккаунта ${link}`,
+            subject: `Activation account ${link}`,
             text: 'Test text',
             html: `
         <div>
-          <h1>Для активации перейдите по ссылке</h1>
+          <h1>For activation, you have to proceed the link</h1>
           <a href="${link}">${link}</a>
         </div>
       `,

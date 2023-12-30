@@ -1,4 +1,4 @@
-import express from 'express'
+import * as express from 'express'
 import userController from "../controllers/userController";
 import { limiter } from "../middleware/security/rateLimitMiddleWare";
 

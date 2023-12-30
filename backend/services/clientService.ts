@@ -1,12 +1,6 @@
 import ClientModel from '../models/clientModel'
+import {IClientService} from "../ts/interfaces/IClientService";
 
-interface IClientService {
-    getClients(page: any, limit: any): Promise<any>;
-    getClientById(id: string): Promise<any>;
-    updateClientById(data: any, id: string): Promise<any>;
-    createClient(data: any): Promise<any>
-    deleteClient(id: string): Promise<any>
-}
 class ClientService implements IClientService {
     async getClients({ page = 1, limit = 10 }) {
         try {
