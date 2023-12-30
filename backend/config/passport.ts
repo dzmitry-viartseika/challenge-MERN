@@ -1,20 +1,16 @@
 import passport from 'passport';
-import UserModel from "../models/userModel";
 import GoogleUserModel from "../models/GoogleUserModel";
 import GithubUserModel from "../models/GitHubUserModel";
 import tokenService from "../services/tokenService";
 const GitHubStrategy = require('passport-github2').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-import { v4 as uuidv4 } from 'uuid';
+import {API_VERSION, HOST, PORT} from "./config";
 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: 'http://localhost:4000/api/v1/auth/github/callback',
+    callbackURL: `http://${HOST}:${PORT}/${API_VERSION}/auth/github/callback`,
 }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
-    console.log('accessToken', accessToken);
-    console.log('refreshToken', refreshToken);
-    console.log('profile', profile);
     const mappedUser = {
         provider: profile.provider,
         avatarUrl: profile.photos[0].value,
@@ -44,7 +40,7 @@ passport.use(new GitHubStrategy({
 passport.use(new GoogleStrategy({
     clientID: process.env.OAUTH2_GOOGLE_CLIENT_ID,
     clientSecret: process.env.OAUTH2_GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:4000/api/v1/auth/google/callback',
+    callbackURL: `http://${HOST}:${PORT}/${API_VERSION}/auth/google/callback`,
     scope: ['profile'],
 }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
     const mappedUser = {

@@ -2,7 +2,7 @@ import {NextFunction, Request} from "express";
 import {ApiError} from "../../exceptions/apiError";
 import tokenService from "../../services/tokenService";
 
-export const authenticateToken = (req: Request, next: NextFunction) => {
+export const authenticateToken = (req: Request, next: any) => {
     try {
         const header = req.header('Authorization');
         const token =  header && header.split(' ')[1];

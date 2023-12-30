@@ -28,11 +28,11 @@ export const routerConfig: RouteObject[] = [
     path: routes.LANDING,
     element: (
         <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-            <UserProvider>
-                <App />
-            </UserProvider>
-    </ToastProvider>
+            <ToastProvider>
+                <UserProvider>
+                    <App />
+                </UserProvider>
+            </ToastProvider>
         </QueryClientProvider>
             ),
     children: [

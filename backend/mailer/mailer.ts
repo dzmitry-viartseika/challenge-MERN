@@ -1,14 +1,11 @@
 import nodemailer from "nodemailer"
+import {IEmailOptions} from "../ts/interfaces/IEmailOptions";
+import loggerAdapter from "../logger/logger";
 
 abstract class INodeMailerAdapter {
     abstract endEmail(options: IEmailOptions): Promise<void>
 }
-interface IEmailOptions {
-    to: string;
-    subject: string;
-    text: string;
-    html?: string;
-}
+
 
 export class NodeMailerAdapter implements INodeMailerAdapter {
     private transporter: nodemailer.Transports;
@@ -40,9 +37,10 @@ export class NodeMailerAdapter implements INodeMailerAdapter {
 
         try {
             const info = await this.transporter.sendMail(mailOptions);
-            console.log('Email sent:', info.response);
+            loggerAdapter.info(`Email sent: ${info.response} Response code: "200", response message: OK`);
+
         } catch (error) {
-            console.error('Error sending email:', error);
+            loggerAdapter.error(`Error sending email failed. Response code: "500", response message: ${error}`);
             throw error;
         }
     }

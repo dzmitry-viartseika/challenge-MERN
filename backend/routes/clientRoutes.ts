@@ -143,6 +143,7 @@ const router = express.Router()
  *       500:
  *         description: Internal Server Error
  */
+
 router.post('/clients', authenticateToken, ClientController.createClient)
 router.put('/clients/:id', authenticateToken, ClientController.updateClientById)
 router.delete('/clients/:id', authenticateToken, ClientController.deleteClient)

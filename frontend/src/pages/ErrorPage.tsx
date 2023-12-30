@@ -1,6 +1,6 @@
 import {routes} from "../constants/routes";
 import {Link} from "react-router-dom";
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 const ErrorPage = () => {
     return (
