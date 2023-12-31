@@ -1,18 +1,18 @@
-import nodemailer from "nodemailer"
+import { Transporter, createTransport } from "nodemailer"
 import {IEmailOptions} from "../ts/interfaces/IEmailOptions";
 import loggerAdapter from "../logger/logger";
 
 abstract class INodeMailerAdapter {
-    abstract endEmail(options: IEmailOptions): Promise<void>
+    abstract sendForgotMail(options: IEmailOptions): Promise<void>
+    abstract sendActivationMail(to: string, link: string): Promise<void>
 }
 
 
 export class NodeMailerAdapter implements INodeMailerAdapter {
-    private transporter: nodemailer.Transports;
+    private transporter: Transporter;
 
     constructor() {
-        super();
-        this.transporter = nodemailer.createTransport({
+        this.transporter = createTransport({
             host: process.env.SMTP_HOST,
             port: Number(process.env.SMTP_PORT),
             secure: true,
@@ -45,11 +45,11 @@ export class NodeMailerAdapter implements INodeMailerAdapter {
         }
     }
 
-    async sendActivationMail(to, link) {
+    async sendActivationMail(to: string, link: string) {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
-            subject: `Активация аккаунта ${process.env.API_URL}`,
+            subject: `Activation link ${process.env.API_URL}`,
             text: '',
             html: `
                 <div>
