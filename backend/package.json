@@ -10,6 +10,7 @@
         "lint:check": "eslint .",
         "lint:fix": "eslint --fix ./*.ts",
         "build": "webpack",
+        "prod": "node dist/final.js",
         "test": "jest --runInBand --detectOpenHandles",
         "test:watch": "mocha --watch tests/*.test.ts",
         "coverage": "nyc --reporter=text npm test",
