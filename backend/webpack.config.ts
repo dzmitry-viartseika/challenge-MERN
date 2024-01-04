@@ -1,4 +1,5 @@
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     mode: 'production',
@@ -6,7 +7,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/',
-        filename: 'final.js',
+        filename: 'index.js',
     },
     target: 'node',
     module: {
@@ -14,20 +15,22 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/,
+                // exclude: /node_modules/,
             },
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.ts', '.js'],
     },
     externals: [
+        nodeExternals(),
         {
             'nock': 'commonjs2 nock',
             'mock-aws-s3': 'commonjs2 mock-aws-s3',
             'aws-sdk': 'mapbox/node-pre-gyp',
             'hiredis': 'redis-parser',
-            'bcrypt': 'bcrypt'
+            'bcrypt': 'bcrypt',
+            'aws-crt': 'aws-sdk',
         }
     ],
 };

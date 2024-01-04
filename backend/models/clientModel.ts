@@ -1,8 +1,8 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose'
 import {IClientModel} from "../ts/interfaces/IClientModel";
 import {Roles} from "../ts/enums/Roles";
 
-const ClientSchema = new Schema<IClientModel>(
+const ClientSchema = new mongoose.Schema<IClientModel>(
     {
         firstName: {
             type: String,
@@ -36,6 +36,6 @@ const ClientSchema = new Schema<IClientModel>(
     }
 )
 
-const ClientModel = model('ClientModel', ClientSchema)
+const ClientModel = mongoose.model('ClientModel', ClientSchema)
 
 export default ClientModel

@@ -18,13 +18,20 @@ import databaseAdapter, { DatabaseAdapter } from './config/database';
 import notFoundMiddleWare from "./middleware/notFound";
 import passportRoutes from "./routes/passportRoutes";
 import errorMiddleWare from "./middleware/errorMiddleWare";
-const MongoStore = require('connect-mongo');
+import connectRedisLib from 'connect-redis';
+import Redis from 'ioredis';
 
 const key = fs.readFileSync('./config/key.pem');
 const cert = fs.readFileSync('./config/cert.pem');
 
 const specs = swaggerJSdoc(options);
+// const connectRedis = connectRedisLib(session);
 
+// const RedisStoreConstructor: any = connectRedis.default || connectRedis;
+
+// const sessionStore = new RedisStoreConstructor({
+//     url: 'redis://redis:6380',
+// });
 class App {
     private static instance: App | null = null;
     private readonly expressApp: express.Application;
@@ -34,16 +41,14 @@ class App {
     private constructor() {
         this.expressApp = express();
 
-        this.expressApp.use(
-            session({
-                secret: 'sessionKey',
-                resave: true,
-                saveUninitialized: false,
-                store: new MongoStore({
-                    mongoUrl: process.env.MONGODB_URL,
-                })
-            })
-        );
+        // this.expressApp.use(
+        //     session({
+        //         secret: 'sessionKey',
+        //         resave: true,
+        //         saveUninitialized: false,
+        //         store: sessionStore,
+        //     })
+        // );
 
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());

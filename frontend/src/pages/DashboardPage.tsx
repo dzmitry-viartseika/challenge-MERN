@@ -7,6 +7,7 @@ import {Button} from "react-bootstrap";
 import UserService from "../services/UserService";
 import {useGetCurrentUser} from "../hooks/mutations/useGetCurrentUser";
 import {useGetCurrentUserTest} from "../hooks/queries/useGetCurrentUserTest";
+import LoaderPR from "../components/Loaders/LoaderPR";
 
 const DashboardPage = () => {
     const [userData, setUserData] = useState(null);
@@ -69,6 +70,8 @@ const DashboardPage = () => {
     return (
         <div>
             <NavBar />
+            <h1>wertey</h1>
+            <LoaderPR />
             {/*{userData ? (*/}
             {/*    <div>*/}
             {/*        <h2>User Profile</h2>*/}

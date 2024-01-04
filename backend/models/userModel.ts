@@ -6,14 +6,16 @@ import {IUserModel} from "../ts/interfaces/IUserModel";
 const userSchema = new Schema<IUserModel>({
         email: {
             type: String,
-            required: [true, 'Please provide the email address'],
+            // required: [true, 'Please provide the email address'],
+            required: true,
             unique: true,
             lowercase: true,
             trim: true,
         },
         password: {
             type: String,
-            required: [true, 'Please provide the password'],
+            // required: [true, 'Please provide the password'],
+            required: true,
             trim: true,
         },
         provider: {
@@ -43,16 +45,17 @@ const userSchema = new Schema<IUserModel>({
         },
         createdAt: {
             type: Date,
-            default: new Date(),
+            default: Date.now,
         },
         updatedAt: {
             type: Date,
-            default: new Date(),
+            default: Date.now,
         },
     },
-    {
-        timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
-    });
+    // {
+    //     timestamps: { currentTime: () => Math.floor(Date.now / 1000) },
+    // }
+    );
 
 const UserModel = model('User', userSchema);
 

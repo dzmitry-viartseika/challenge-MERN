@@ -4,7 +4,7 @@ import tokenService from "./tokenService";
 import { v4 as uuidv4 } from 'uuid';
 import mailService from "./mailService";
 import {API_VERSION, JWT_ACCESS_SECRET, SERVER_URL, PASSWORD_SALT} from "../config/config";
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import {ApiError} from "../exceptions/apiError";
 import {facadeService} from "../facades/AuthFacadeService";

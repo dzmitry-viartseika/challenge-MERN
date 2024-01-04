@@ -1,14 +1,17 @@
-FROM node:18
+FROM node:18-alpine
 
 WORKDIR /usr/challenge-MERN/backend
 
 COPY package.json .
-COPY package-lock.json .
+#COPY package-lock.json .
 
-RUN npm install && npm cache clean --force
+RUN npm install
+#RUN npm ci
 
 COPY . .
 
-EXPOSE 4000
+#ENV PORT=4000
+#
+#EXPOSE $PORT
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]

@@ -148,6 +148,7 @@ router.post('/clients', authenticateToken, ClientController.createClient)
 router.put('/clients/:id', authenticateToken, ClientController.updateClientById)
 router.delete('/clients/:id', authenticateToken, ClientController.deleteClient)
 router.get('/clients/:id', authenticateToken, ClientController.getClientById)
-router.get('/clients', cache.route(), authenticateToken, ClientController.getClients)
+// router.get('/clients', cache.route(), authenticateToken, ClientController.getClients)
+router.get('/clients', authenticateToken, ClientController.getClients)
 
 export default router

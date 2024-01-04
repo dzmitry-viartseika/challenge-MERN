@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import {PASSWORD_SALT} from "../../config/config";
 import {IAuthentication} from "../../ts/interfaces/IAuthentication";
 
