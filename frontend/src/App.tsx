@@ -7,10 +7,16 @@ import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import React from "react";
 import {useIdleTimer} from "react-idle-timer";
 import {useLogOut} from "./hooks/mutations/useLogOut";
-import {useUserRole} from "./hooks/useUserRole";
 
+
+const logger = {
+    log: (...args: any[]) => console.log('[Query]', ...args),
+    warn: (...args: any[]) => console.warn('[Query]', ...args),
+    error: (...args: any[]) => console.error('[Query]', ...args),
+}
 
 const queryClient = new QueryClient({
+    logger,
     defaultOptions: {
         queries: {
             refetchOnWindowFocus: false,
