@@ -1,7 +1,5 @@
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { ProgressSpinner } from 'primereact/progressspinner'
 
-const LoaderPR = () => (
-    <ProgressSpinner />
-);
+const LoaderPR = () => <ProgressSpinner />
 
-export default LoaderPR;
+export default LoaderPR

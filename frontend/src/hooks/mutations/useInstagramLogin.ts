@@ -1,7 +1,7 @@
-import {useNavigate} from "react-router-dom";
-import UserService from "../../services/UserService";
-import {useMutation} from "@tanstack/react-query";
-import {useToast} from "../../context/ToastContext";
+import { useNavigate } from 'react-router-dom'
+import UserService from '../../services/UserService'
+import { useMutation } from '@tanstack/react-query'
+import { useToast } from '../../context/ToastContext'
 
 interface IProps {
   // reset: UseFormReset<FutureTenderGroupSaveDto>;
@@ -9,10 +9,9 @@ interface IProps {
 
 export const useInstagramLogin = () => {
   const mutationResult = useMutation({
-    mutationFn: () =>
-      UserService.instagramLogin(),
+    mutationFn: () => UserService.instagramLogin(),
 
-    onSuccess: ({data}) => {
+    onSuccess: ({ data }) => {
       console.log('useInstagramLogin', data.user)
       // localStorage.setItem('user', data.user);
       // console.log('wertey')
@@ -35,8 +34,8 @@ export const useInstagramLogin = () => {
       // console.log('xxx')
       // navigate('/login');
     },
-  });
-  const { mutate: instagramLogin } = mutationResult;
+  })
+  const { mutate: instagramLogin } = mutationResult
 
-  return { instagramLogin };
-};
+  return { instagramLogin }
+}

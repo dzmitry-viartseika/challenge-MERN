@@ -8,4 +8,4 @@ export const routes = {
   FORGET_PASSWORD: '/forgot-password',
   ERROR_BAD_REQUEST: '/bad-request',
   NOT_FOUND: '*',
-} as const;
+} as const

@@ -1,5 +1,5 @@
 describe('wertey', () => {
   it('wer', () => {
-    expect(true).toBeTruthy();
-  });
-});
+    expect(true).toBeTruthy()
+  })
+})

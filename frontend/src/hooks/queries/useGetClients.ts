@@ -1,12 +1,12 @@
-import { useGetQuery } from '../general/useGetQuery';
+import { useGetQuery } from '../general/useGetQuery'
 import ClientService from '../../services/ClientService'
-import {queryKeys} from "../../constants/queryKeys";
+import { queryKeys } from '../../constants/queryKeys'
 
 export const useGetClients = () => {
   const { data: clientList, isLoading } = useGetQuery<any>(
     [queryKeys.GET_CLIENTS],
-      ClientService.getClients(1)
-  );
+    ClientService.getClients(1),
+  )
 
-  return { clientList, isLoading };
-};
+  return { clientList, isLoading }
+}

@@ -1,12 +1,12 @@
-import React, { Suspense } from 'react';
-import { useRoutes } from 'react-router-dom';
+import React, { Suspense } from 'react'
+import { useRoutes } from 'react-router-dom'
 
-import { routerConfig } from '../router/router.config';
+import { routerConfig } from '../router/router.config'
 
 export const Router = () => {
-  const routes = useRoutes(routerConfig);
+  const routes = useRoutes(routerConfig)
 
-  return <Suspense fallback="Loading...">{routes}</Suspense>;
-};
+  return <Suspense fallback="Loading...">{routes}</Suspense>
+}
 
-export default Router;
+export default Router

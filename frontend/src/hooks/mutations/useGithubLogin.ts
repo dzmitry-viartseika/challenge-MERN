@@ -1,7 +1,7 @@
-import {useNavigate} from "react-router-dom";
-import UserService from "../../services/UserService";
-import {useMutation} from "@tanstack/react-query";
-import {useToast} from "../../context/ToastContext";
+import { useNavigate } from 'react-router-dom'
+import UserService from '../../services/UserService'
+import { useMutation } from '@tanstack/react-query'
+import { useToast } from '../../context/ToastContext'
 
 interface IProps {
   // reset: UseFormReset<FutureTenderGroupSaveDto>;
@@ -9,10 +9,9 @@ interface IProps {
 
 export const useGithubLogin = () => {
   const mutationResult = useMutation({
-    mutationFn: () =>
-      UserService.githubLogin(),
+    mutationFn: () => UserService.githubLogin(),
 
-    onSuccess: ({data}) => {
+    onSuccess: ({ data }) => {
       console.log('useGithubLogin', data.user)
       // localStorage.setItem('user', data.user);
       // console.log('wertey')
@@ -35,8 +34,8 @@ export const useGithubLogin = () => {
       // console.log('xxx')
       // navigate('/login');
     },
-  });
-  const { mutate: githubLogin } = mutationResult;
+  })
+  const { mutate: githubLogin } = mutationResult
 
-  return { githubLogin };
-};
+  return { githubLogin }
+}

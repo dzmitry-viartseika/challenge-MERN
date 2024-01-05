@@ -1,1 +1,1 @@
-export const LOCAL_BE = 'http://localhost:8080';
+export const LOCAL_BE = 'http://localhost:8080'

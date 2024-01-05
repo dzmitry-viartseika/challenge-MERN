@@ -6,8 +6,7 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended"
+    "plugin:jsx-a11y/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -20,10 +19,14 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "jsx-a11y", "prettier", "react-hooks"],
+  "plugins": ["react", "jsx-a11y", "react-hooks"],
   "rules": {
     "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "warn",
-    "prettier/prettier": "error"
+    "react-hooks/rules-of-hooks": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

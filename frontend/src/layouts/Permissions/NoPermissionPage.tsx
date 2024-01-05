@@ -1,9 +1,5 @@
 const NoPermission = () => {
-    return (
-        <div>
-            NoPermission
-        </div>
-    )
-};
+  return <div>NoPermission</div>
+}
 
-export default NoPermission;
+export default NoPermission

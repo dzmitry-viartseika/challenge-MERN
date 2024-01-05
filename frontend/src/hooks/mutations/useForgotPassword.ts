@@ -1,7 +1,7 @@
-import {useNavigate} from "react-router-dom";
-import UserService from "../../services/UserService";
-import {useMutation} from "@tanstack/react-query";
-import {useToast} from "../../context/ToastContext";
+import { useNavigate } from 'react-router-dom'
+import UserService from '../../services/UserService'
+import { useMutation } from '@tanstack/react-query'
+import { useToast } from '../../context/ToastContext'
 
 interface IProps {
   // reset: UseFormReset<FutureTenderGroupSaveDto>;
@@ -10,15 +10,14 @@ interface IProps {
 export const useForgotPassword = () => {
   // const { showMessageTopLevel, showMessageBottomLevel } = useMessage();
 
-  const navigate = useNavigate();
-  const toast = useToast();
+  const navigate = useNavigate()
+  const toast = useToast()
 
   // NoticeViewDto[],
   // ApiError,
   // FutureTenderGroupSaveDto
   const mutationResult = useMutation({
-    mutationFn: (data: any) =>
-      UserService.resetUserPassword(data),
+    mutationFn: (data: any) => UserService.resetUserPassword(data),
 
     // onSuccess: ({data}) => {
     //   console.log('wertey')
@@ -40,8 +39,8 @@ export const useForgotPassword = () => {
     //   console.log('xxx')
     //   navigate('/login');
     // },
-  });
-  const { mutate: forgotPassword } = mutationResult;
+  })
+  const { mutate: forgotPassword } = mutationResult
 
-  return { forgotPassword };
-};
+  return { forgotPassword }
+}
