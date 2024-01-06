@@ -1,8 +1,4 @@
-interface IStorageInterface {
-  getItem(key: string): string | null
-  setItem(key: string, value: any): void
-  removeItem(key: string): void
-}
+import {IStorageInterface} from "../ts/interfaces/IStorageInterface";
 
 class StorageFactory {
   private readonly storage: IStorageInterface
