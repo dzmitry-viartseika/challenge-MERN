@@ -1,6 +1,6 @@
 import { useGetQuery } from '../general/useGetQuery'
 import ClientService from '../../services/ClientService'
-import { queryKeys } from '../../constants/queryKeys'
+import { queryKeys } from '../../constants/QueryKeys'
 import UserService from '../../services/UserService'
 import { useMutation } from '@tanstack/react-query'
 import { useCurrentUser } from '../../context/userContext'
