@@ -1,12 +1,12 @@
-FROM node:18-alpine
+FROM node:18.16-buster-slim as backend
 
 WORKDIR /usr/challenge-MERN/backend
 
 COPY package.json .
-#COPY package-lock.json .
+COPY package-lock.json .
 
-RUN npm install
-#RUN npm ci
+RUN rm -rf /var/cache/apt
+RUN npm ci
 
 COPY . .
 
