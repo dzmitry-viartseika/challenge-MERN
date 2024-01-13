@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {API_VERSION, SERVER_URL} from "../config/config";
 import HttpError from "../helpers/httpError";
 import {ResponseStatus} from "../ts/enums/ResponseStatus";
-import {ApiError} from "../exceptions/apiError";
 
 class AuthFacadeService {
     async registerUser(email: string, password: string) {
