@@ -21,24 +21,32 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
+      with:
+        #        node-version: ${{ matrix.node-version }}
+        node-version: 16
 
     - name: Install dependencies
       run: npm install
 
     - name: Run Prettier
-      run: npm run format
-
-    - name: Check Super Linter
-      uses: github/super-linter@v4
-      env:
-        VALIDATE_ALL_CODEBASE: true
-        VALIDATE_JAVASCRIPT_ES: true
+      run: npm run format:check
 
     - name: Lint
       run: npm run lint
 
     - name: Run test
       run: npm run test
+
+    e2e:
+      name: E2E Tests
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - run: mv .env.example .env
+        - uses: cypress-io/github-actions@v4
+          with:
+            build: npm run build
+            start: npm run start

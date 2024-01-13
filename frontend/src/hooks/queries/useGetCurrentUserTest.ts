@@ -1,5 +1,4 @@
 import { useGetQuery } from '../general/useGetQuery'
-import ClientService from '../../services/ClientService'
 import { queryKeys } from '../../constants/QueryKeys'
 import UserService from '../../services/UserService'
 import { useCurrentUser } from '../../context/userContext'

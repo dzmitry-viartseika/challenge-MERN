@@ -15,13 +15,13 @@
   },
   "ts-node": {
     "compilerOptions": {
-      "module": "CommonJS",
+      "module": "CommonJS"
     }
   },
   "include": [
     "./config/jest/setupTests.ts",
     "global.d.ts",
     "./src/**/*.tsx",
-    "./src/**/*.ts",
+    "./src/**/*.ts"
   ]
 }

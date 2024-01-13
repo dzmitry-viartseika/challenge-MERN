@@ -1,4 +1,4 @@
-import {IStorageInterface} from "../ts/interfaces/IStorageInterface";
+import { IStorageInterface } from '../ts/interfaces/IStorageInterface'
 
 class StorageFactory {
   private readonly storage: IStorageInterface
