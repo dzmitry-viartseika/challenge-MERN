@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from 'axios'
 import $api from '../api'
 import { API_VERSION } from '../api/api'
 

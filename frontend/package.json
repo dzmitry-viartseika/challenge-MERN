@@ -47,15 +47,12 @@
     "format:fix": "npm run prettier -- --write",
     "lint-staged": "lint-staged",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit && echo",
-    "generate-type:local": "openapi --input https://localhost:4000/api-docs/#/ --output ./src/api/generated --exportCore false --client axios",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "generate-type:local": "openapi --input https://localhost:4000/api-docs/#/ --output ./src/api/generated --exportCore false --client axios"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest",
-      "plugin:storybook/recommended"
+      "react-app/jest"
     ]
   },
   "browserslist": {
@@ -73,21 +70,11 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@hookform/devtools": "^4.3.1",
-    "@storybook/addon-essentials": "^7.6.7",
-    "@storybook/addon-interactions": "^7.6.7",
-    "@storybook/addon-links": "^7.6.7",
-    "@storybook/addon-onboarding": "^1.0.10",
-    "@storybook/blocks": "^7.6.7",
-    "@storybook/preset-create-react-app": "^7.6.7",
-    "@storybook/react": "^7.6.7",
-    "@storybook/react-webpack5": "^7.6.7",
-    "@storybook/test": "^7.6.7",
     "@types/jest": "^29.5.4",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
-    "eslint-plugin-storybook": "^0.6.15",
     "husky": "^8.0.3",
     "jest": "^27.5.1",
     "lint-staged": "^14.0.1",
@@ -95,7 +82,6 @@
     "postcss-cli": "^10.1.0",
     "prettier": "^3.0.3",
     "prop-types": "^15.8.1",
-    "storybook": "^7.6.7",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   },

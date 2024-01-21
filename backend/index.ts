@@ -18,6 +18,7 @@ import databaseAdapter, { DatabaseAdapter } from './config/database';
 import notFoundMiddleWare from "./middleware/notFound";
 import passportRoutes from "./routes/passportRoutes";
 import errorMiddleWare from "./middleware/errorMiddleWare";
+import cron from 'node-cron';
 import connectRedisLib from 'connect-redis';
 import Redis from 'ioredis';
 
@@ -72,6 +73,10 @@ class App {
         // this.expressApp.use('/api-docs',  swaggerUI.serve, swaggerUI.setup(swaggerFile))
         this.expressApp.use(notFoundMiddleWare);
         this.expressApp.use(errorMiddleWare);
+
+        cron.schedule('* * * * *', () => {
+            console.log('Cron job executed!');
+        });
     }
 
     public static getInstance(): App {
