@@ -22,7 +22,7 @@ const UserProvider = ({ children }) => {
 const useCurrentUser = () => {
   const context = useContext(UserContext)
   if (!context) {
-    throw new Error('useCurrentUser must be used within a UserProvider')
+    throw new Error('userContext must be used within a UserProvider')
   }
   return context
 }
